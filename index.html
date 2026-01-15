@@ -1,1080 +1,294 @@
-<!DOCTYPE html><!--[if IE]>  <html class="pdf24_ie"> <![endif]-->
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<title>
-		</title>
-		
-	<STYLE> 
- .pdf24_ sup {
-	vertical-align: baseline;
-	position: relative;
-	top: -0.4em;
-}
-.pdf24_ sub {
-	vertical-align: baseline;
-	position: relative;
-	top: 0.4em;
-}
-.pdf24_ a:link {text-decoration:none;}
-.pdf24_ a:visited {text-decoration:none;}
-@media screen and (min-device-pixel-ratio:0), (-webkit-min-device-pixel-ratio:0), (min--moz-device-pixel-ratio: 0) {.pdf24_view{ font-size:10em; transform:scale(0.1); -moz-transform:scale(0.1); -webkit-transform:scale(0.1); -moz-transform-origin:top left; -webkit-transform-origin:top left; } }
-.pdf24_layer { }.pdf24_ie { font-size: 1pt; }
-.pdf24_ie body { font-size: 12em; }
-@media print{.pdf24_view {font-size:1em; transform:scale(1);}}
-.pdf24_grlink { position:relative;width:100%;height:100%;z-index:1000000; }
-.pdf24_01 {
-	position: absolute;
-	white-space: nowrap;
-}
-.pdf24_02 {
-	font-size: 1em;
-	line-height: 0.0em;
-	width: 49.58333em;
-	height: 70.08334em;
-	border-style: none;
-	display: block;
-	margin: 0em;
-}
-
-@supports(-ms-ime-align:auto) { .pdf24_02 {overflow: hidden;}}
-.pdf24_03 {
-	position: relative;
-	width: 49.58333em;
-}
-.pdf24_04 {
-	height: 7.008333em;
-}
-.pdf24_ie .pdf24_04 {
-	height: 70.08334em;
-}
-@font-face {
-	font-family:"PUSLDP+.SFUI-Regular_wdth_opsz110000_GRAD_wght24E0000";
-	src:url("data:application/octet-stream;base64,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") format("woff");
-}
-.pdf24_05 {
-	font-size: 1.416667em;
-	font-family: "PUSLDP+.SFUI-Regular_wdth_opsz110000_GRAD_wght24E0000", "Times New Roman";
-	color: #454545;
-}
-.pdf24_06 {
-	line-height: 1.193359em;
-}
-.pdf24_07 {
-	letter-spacing: -0.029em;
-}
-
-.pdf24_ie .pdf24_07 {
-	letter-spacing: -0.6575px;
-}
-@font-face {
-	font-family:"AVHTJB+.SFUI-Regular_wdth_opsz110000_GRAD_wght";
-	src:url("data:application/octet-stream;base64,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") format("woff");
-}
-.pdf24_08 {
-	font-size: 1em;
-	font-family: "AVHTJB+.SFUI-Regular_wdth_opsz110000_GRAD_wght";
-	color: #454545;
-}
-.pdf24_09 {
-	letter-spacing: 0.0001em;
-}
-
-.pdf24_ie .pdf24_09 {
-	letter-spacing: 0.0019px;
-}
-@font-face {
-	font-family:"ASKHTV+.SFUI-Regular_wdth_opsz110000_GRAD_wght";
-	src:url("data:application/octet-stream;base64,d09GRgABAAAAAAUQAAoAAAAACWAAAQABAAAAAAAAAAAAAAAAAAAAAAAAAABPUy8yAAAA9AAAAD8AAABkH5oZwWNtYXAAAAE0AAAATAAAAOYB+wSRZ2x5ZgAAAYAAAAHXAAAC90o7GBxoZWFkAAADWAAAADAAAAA2OrVSwGhoZWEAAAOIAAAAHAAAACQMEwMgaG10eAAAA6QAAAAQAAAAEA35AZRsb2NhAAADtAAAABQAAAAUAAAFqm1heHAAAAPIAAAAHwAAACAHAhEfbmFtZQAAA+gAAAEcAAADrnOTpkRwb3N0AAAFBAAAAAwAAAAgAAMAAHjaY2BmMWCcwMDKwME6i9WYgYFRGkIzX2RIYxJiYGACSuEBDgwKv5nY5/0TYjjLPo/xHUyYBUIpQCgA6M4JjAB42mNgYGBhYGBgBmIVBkYGEIgB8kCsKUCaA0ifAaqwANIcQMgEpBWBKu3//0dhQQAHFDIC1YFMpL8+KSDJBNbFAFIHVgvkAQACaBaAeNp1km1ojWEYx3/POTtn8oFPygdJUqKUQoQtEykxWt46kddYTpGWWk3TpHTy0iJFeYkkH+zQMUrYcZjaklrsi/igfFxt32SN8/d/Xght9/1cd/fzv67rf73dpPBK7ZgEaWohSFaMws+uVKPPEtiC75CB2m+hkm4NB/2ZO/abCg2x05+PIY3QpxEV9VqlkI1G6rw3hlc9Cr6ke+HHyuqURFPvM9SU9CrySNGpozUt2cUst44G4tyI2YP/jgm0wW9F6qzaNEMtGjNQtExmPec5wjEKIX0UelCXdF15ndZW3Ysx2hjkDB184BQ1tmmyjOqB2l3YTZ3Qi8RuAQfZzmUqDCRsrZqtkLnVMs2yh27anV6gqp6pU+XIrI5Djp9iKVtYxXTmMJO9XGCfseN0sTviuqFNKsjL6AYOsyxCK86232wDzuWlhvRZ79Wk/UZO2v6uctk3MLrCPps1nL6fKTKXReGo/mnTeK2Lsb/GGRSibOeTY40Hso5ZSZW9uqjH3q5HY468zWCWA/RwztWWySd273TbOVb0VF+j/ycTPIsedrLaXjnmuRdraWKJ86939+Ka+3TFHHEn8jykOUJvaZeuOnpJHbqmj/qk576/Vbm6cPzn9QszKuMRAHjaY2BkAAN95zt34vltvjIwc4D5T/tYNGD0n5N/zwjvYl8B5LIxMDEAdQAAQPoMJ3jaY2BkYGCf90+IgYGViwEIWIoZ0AELAD5wAkECWAAAAn0AtAUKAJAEGgBQAAAAAAAAADgAAACYAAAB4wAAAvd42mNgZGBgYBFgYGFg+A+ETAwg8J+BAUrLAQA4tQQ2AHjatZDPasJAEIe/xGipBY89S69iyIItXgPBP3hLNCchaA2JQYzEiOBbFHrsM/QxeuhTOdqlh57qIb9hl29nfzPDLtDiE4OLDOzrfpHJnZx+uCb0rNkSftVc54E3zQ3Jf2hu8sK3VBnWvWTmBppNWsZcc03ymWZL+EtznUfzSXODudnX3GRjvrvBZDQNO3YwmI27fpwcNosiOq7KNMp3+5NSjiga+q4XHZO01Ibbim5zh3GxX+fbtrKVe5H37zE3uVXPcfJl1sclYMKIKSEd+fGAATPGdPGJSTiwYUFBxJEVJalQzo49J5SEoyNiKBUu3tWZiK/806HKSVX2DqVDIc61VGxpi9uW5f6GV8Frquut6F3vcpZk9M8HvrNUeNpjYGbACwAAfQAE") format("woff");
-}
-.pdf24_10 {
-	font-size: 1em;
-	font-family: "ASKHTV+.SFUI-Regular_wdth_opsz110000_GRAD_wght", "Times New Roman";
-	color: #454545;
-}
-.pdf24_11 {
-	letter-spacing: 0em;
-}
-
-.pdf24_ie .pdf24_11 {
-	letter-spacing: -0.0006px;
-}
-.pdf24_12 {
-	letter-spacing: -0.0025em;
-}
-
-.pdf24_ie .pdf24_12 {
-	letter-spacing: -0.0398px;
-}
-.pdf24_13 {
-	letter-spacing: -0.0013em;
-}
-
-.pdf24_ie .pdf24_13 {
-	letter-spacing: -0.0208px;
-}
-.pdf24_14 {
-	letter-spacing: -0.0017em;
-}
-
-.pdf24_ie .pdf24_14 {
-	letter-spacing: -0.0271px;
-}
-.pdf24_15 {
-	font-size: 1em;
-	font-family: "AVHTJB+.SFUI-Regular_wdth_opsz110000_GRAD_wght";
-	color: #0A84FF;
-}
-.pdf24_16 {
-	letter-spacing: -0.0014em;
-}
-
-.pdf24_ie .pdf24_16 {
-	letter-spacing: -0.0225px;
-}
-.pdf24_17 {
-	font-size: 1em;
-	font-family: "AVHTJB+.SFUI-Regular_wdth_opsz110000_GRAD_wght";
-	color: #444444;
-}
-.pdf24_18 {
-	letter-spacing: -0.0001em;
-}
-
-.pdf24_ie .pdf24_18 {
-	letter-spacing: -0.0009px;
-}
-.pdf24_19 {
-	letter-spacing: -0.0008em;
-}
-
-.pdf24_ie .pdf24_19 {
-	letter-spacing: -0.0128px;
-}
-.pdf24_20 {
-	letter-spacing: -0.0045em;
-}
-
-.pdf24_ie .pdf24_20 {
-	letter-spacing: -0.0727px;
-}
-.pdf24_21 {
-	letter-spacing: -0.1018em;
-}
-
-.pdf24_ie .pdf24_21 {
-	letter-spacing: -1.6286px;
-}
-.pdf24_22 {
-	letter-spacing: 0.0002em;
-}
-
-.pdf24_ie .pdf24_22 {
-	letter-spacing: 0.0039px;
-}
-.pdf24_23 {
-	letter-spacing: -0.0018em;
-}
-
-.pdf24_ie .pdf24_23 {
-	letter-spacing: -0.0287px;
-}
-.pdf24_24 {
-	letter-spacing: -0.0023em;
-}
-
-.pdf24_ie .pdf24_24 {
-	letter-spacing: -0.0371px;
-}
-.pdf24_25 {
-	letter-spacing: -0.0016em;
-}
-
-.pdf24_ie .pdf24_25 {
-	letter-spacing: -0.026px;
-}
-.pdf24_26 {
-	letter-spacing: -0.004em;
-}
-
-.pdf24_ie .pdf24_26 {
-	letter-spacing: -0.0648px;
-}
-.pdf24_27 {
-	letter-spacing: -0.0027em;
-}
-
-.pdf24_ie .pdf24_27 {
-	letter-spacing: -0.0438px;
-}
-.pdf24_28 {
-	letter-spacing: -0.0022em;
-}
-
-.pdf24_ie .pdf24_28 {
-	letter-spacing: -0.0347px;
-}
-.pdf24_29 {
-	letter-spacing: -0.0028em;
-}
-
-.pdf24_ie .pdf24_29 {
-	letter-spacing: -0.0444px;
-}
-.pdf24_30 {
-	letter-spacing: -0.0026em;
-}
-
-.pdf24_ie .pdf24_30 {
-	letter-spacing: -0.0417px;
-}
-.pdf24_31 {
-	letter-spacing: -0.0021em;
-}
-
-.pdf24_ie .pdf24_31 {
-	letter-spacing: -0.0329px;
-}
-.pdf24_32 {
-	letter-spacing: -0.0019em;
-}
-
-.pdf24_ie .pdf24_32 {
-	letter-spacing: -0.0309px;
-}
-.pdf24_33 {
-	letter-spacing: -0.0032em;
-}
-
-.pdf24_ie .pdf24_33 {
-	letter-spacing: -0.0515px;
-}
-.pdf24_34 {
-	letter-spacing: -0.005em;
-}
-
-.pdf24_ie .pdf24_34 {
-	letter-spacing: -0.0802px;
-}
-.pdf24_35 {
-	letter-spacing: -0.0035em;
-}
-
-.pdf24_ie .pdf24_35 {
-	letter-spacing: -0.0566px;
-}
-.pdf24_36 {
-	letter-spacing: -0.0036em;
-}
-
-.pdf24_ie .pdf24_36 {
-	letter-spacing: -0.0575px;
-}
-.pdf24_37 {
-	letter-spacing: -0.0051em;
-}
-
-.pdf24_ie .pdf24_37 {
-	letter-spacing: -0.0816px;
-}
-.pdf24_38 {
-	letter-spacing: -0.0029em;
-}
-
-.pdf24_ie .pdf24_38 {
-	letter-spacing: -0.0462px;
-}
-.pdf24_39 {
-	letter-spacing: -0.0006em;
-}
-
-.pdf24_ie .pdf24_39 {
-	letter-spacing: -0.0102px;
-}
-.pdf24_40 {
-	letter-spacing: -0.0015em;
-}
-
-.pdf24_ie .pdf24_40 {
-	letter-spacing: -0.0246px;
-}
-.pdf24_41 {
-	position: relative;
-}
-.pdf24_42 {
-	position: absolute;
-	pointer-events: none;
-	clip: rect(21.49655em,12.79167em,22.82989em,11.45833em);
-	width: 100%;
-}
-.pdf24_43 {
-	letter-spacing: 0.0013em;
-}
-
-.pdf24_ie .pdf24_43 {
-	letter-spacing: 0.0201px;
-}
-.pdf24_44 {
-	letter-spacing: -0.0005em;
-}
-
-.pdf24_ie .pdf24_44 {
-	letter-spacing: -0.0078px;
-}
-.pdf24_45 {
-	letter-spacing: -0.0007em;
-}
-
-.pdf24_ie .pdf24_45 {
-	letter-spacing: -0.0105px;
-}
-.pdf24_46 {
-	letter-spacing: -0.0038em;
-}
-
-.pdf24_ie .pdf24_46 {
-	letter-spacing: -0.0606px;
-}
-.pdf24_47 {
-	letter-spacing: -0.0047em;
-}
-
-.pdf24_ie .pdf24_47 {
-	letter-spacing: -0.0748px;
-}
-.pdf24_48 {
-	font-size: 1em;
-	font-family: "AVHTJB+.SFUI-Regular_wdth_opsz110000_GRAD_wght";
-	color: #0983FE;
-}
-.pdf24_49 {
-	letter-spacing: -0.0034em;
-}
-
-.pdf24_ie .pdf24_49 {
-	letter-spacing: -0.0541px;
-}
-.pdf24_50 {
-	letter-spacing: -0.0033em;
-}
-
-.pdf24_ie .pdf24_50 {
-	letter-spacing: -0.0533px;
-}
-.pdf24_51 {
-	letter-spacing: -0.0009em;
-}
-
-.pdf24_ie .pdf24_51 {
-	letter-spacing: -0.015px;
-}
-.pdf24_52 {
-	letter-spacing: -0.0975em;
-}
-
-.pdf24_ie .pdf24_52 {
-	letter-spacing: -1.5598px;
-}
-.pdf24_53 {
-	letter-spacing: -0.0059em;
-}
-
-.pdf24_ie .pdf24_53 {
-	letter-spacing: -0.0944px;
-}
-.pdf24_54 {
-	letter-spacing: -0.0064em;
-}
-
-.pdf24_ie .pdf24_54 {
-	letter-spacing: -0.1016px;
-}
-.pdf24_55 {
-	letter-spacing: -0.0046em;
-}
-
-.pdf24_ie .pdf24_55 {
-	letter-spacing: -0.0732px;
-}
-.pdf24_56 {
-	letter-spacing: -0.0076em;
-}
-
-.pdf24_ie .pdf24_56 {
-	letter-spacing: -0.1216px;
-}
-.pdf24_57 {
-	letter-spacing: -0.0031em;
-}
-
-.pdf24_ie .pdf24_57 {
-	letter-spacing: -0.0496px;
-}
-.pdf24_58 {
-	letter-spacing: -0.0054em;
-}
-
-.pdf24_ie .pdf24_58 {
-	letter-spacing: -0.0859px;
-}
-.pdf24_59 {
-	letter-spacing: -0.0052em;
-}
-
-.pdf24_ie .pdf24_59 {
-	letter-spacing: -0.0825px;
-}
-.pdf24_60 {
-	letter-spacing: -0.001em;
-}
-
-.pdf24_ie .pdf24_60 {
-	letter-spacing: -0.0156px;
-}
-.pdf24_61 {
-	font-size: 1em;
-	font-family: "ASKHTV+.SFUI-Regular_wdth_opsz110000_GRAD_wght", "Times New Roman";
-	color: #444444;
-}
-.pdf24_62 {
-	letter-spacing: -0.0148em;
-}
-
-.pdf24_ie .pdf24_62 {
-	letter-spacing: -0.2367px;
-}
-.pdf24_63 {
-	letter-spacing: -0.0039em;
-}
-
-.pdf24_ie .pdf24_63 {
-	letter-spacing: -0.0621px;
-}
-.pdf24_64 {
-	letter-spacing: -0.0105em;
-}
-
-.pdf24_ie .pdf24_64 {
-	letter-spacing: -0.1686px;
-}
-.pdf24_65 {
-	letter-spacing: -0.0043em;
-}
-
-.pdf24_ie .pdf24_65 {
-	letter-spacing: -0.0689px;
-}
-.pdf24_66 {
-	letter-spacing: 0.0009em;
-}
-
-.pdf24_ie .pdf24_66 {
-	letter-spacing: 0.0151px;
-}
-.pdf24_67 {
-	letter-spacing: -0.0049em;
-}
-
-.pdf24_ie .pdf24_67 {
-	letter-spacing: -0.0786px;
-}
-.pdf24_68 {
-	letter-spacing: -0.0012em;
-}
-
-.pdf24_ie .pdf24_68 {
-	letter-spacing: -0.0187px;
-}
-.pdf24_69 {
-	letter-spacing: -0.0002em;
-}
-
-.pdf24_ie .pdf24_69 {
-	letter-spacing: -0.0025px;
-}
-.pdf24_70 {
-	letter-spacing: -0.0068em;
-}
-
-.pdf24_ie .pdf24_70 {
-	letter-spacing: -0.1083px;
-}
-.pdf24_71 {
-	letter-spacing: -0.0024em;
-}
-
-.pdf24_ie .pdf24_71 {
-	letter-spacing: -0.0382px;
-}
-.pdf24_72 {
-	letter-spacing: -0.0091em;
-}
-
-.pdf24_ie .pdf24_72 {
-	letter-spacing: -0.1451px;
-}
-.pdf24_73 {
-	letter-spacing: 0.0004em;
-}
-
-.pdf24_ie .pdf24_73 {
-	letter-spacing: 0.0061px;
-}
-.pdf24_74 {
-	position: absolute;
-	pointer-events: none;
-	clip: rect(21.52976em,29.04167em,22.86309em,27.70833em);
-	width: 100%;
-}
-.pdf24_75 {
-	letter-spacing: -0.0044em;
-}
-
-.pdf24_ie .pdf24_75 {
-	letter-spacing: -0.071px;
-}
-.pdf24_76 {
-	letter-spacing: -0.002em;
-}
-
-.pdf24_ie .pdf24_76 {
-	letter-spacing: -0.0315px;
-}
-.pdf24_77 {
-	letter-spacing: -0.0011em;
-}
-
-.pdf24_ie .pdf24_77 {
-	letter-spacing: -0.0178px;
-}
-.pdf24_78 {
-	letter-spacing: -0.003em;
-}
-
-.pdf24_ie .pdf24_78 {
-	letter-spacing: -0.0474px;
-}
-.pdf24_79 {
-	letter-spacing: -0.0086em;
-}
-
-.pdf24_ie .pdf24_79 {
-	letter-spacing: -0.1374px;
-}
-.pdf24_80 {
-	letter-spacing: -0.0072em;
-}
-
-.pdf24_ie .pdf24_80 {
-	letter-spacing: -0.1146px;
-}
-.pdf24_81 {
-	position: absolute;
-	pointer-events: none;
-	clip: rect(44.42494em,32.45833em,54.91191em,29.95833em);
-	width: 100%;
-}
-.pdf24_82 {
-	letter-spacing: -0.0037em;
-}
-
-.pdf24_ie .pdf24_82 {
-	letter-spacing: -0.0599px;
-}
-.pdf24_83 {
-	letter-spacing: -0.0056em;
-}
-
-.pdf24_ie .pdf24_83 {
-	letter-spacing: -0.0891px;
-}
-.pdf24_84 {
-	letter-spacing: -0.0062em;
-}
-
-.pdf24_ie .pdf24_84 {
-	letter-spacing: -0.0985px;
-}
-.pdf24_85 {
-	letter-spacing: -0.0109em;
-}
-
-.pdf24_ie .pdf24_85 {
-	letter-spacing: -0.1747px;
-}
-.pdf24_86 {
-	letter-spacing: -0.0041em;
-}
-
-.pdf24_ie .pdf24_86 {
-	letter-spacing: -0.0657px;
-}
-.pdf24_87 {
-	letter-spacing: -0.007em;
-}
-
-.pdf24_ie .pdf24_87 {
-	letter-spacing: -0.112px;
-}
-.pdf24_88 {
-	letter-spacing: -0.0042em;
-}
-
-.pdf24_ie .pdf24_88 {
-	letter-spacing: -0.0669px;
-}
-.pdf24_89 {
-	letter-spacing: -0.0079em;
-}
-
-.pdf24_ie .pdf24_89 {
-	letter-spacing: -0.1262px;
-}
-.pdf24_90 {
-	letter-spacing: -0.0925em;
-}
-
-.pdf24_ie .pdf24_90 {
-	letter-spacing: -1.4806px;
-}
-.pdf24_91 {
-	letter-spacing: 0.0005em;
-}
-
-.pdf24_ie .pdf24_91 {
-	letter-spacing: 0.0074px;
-}
-.pdf24_92 {
-	letter-spacing: -0.0132em;
-}
-
-.pdf24_ie .pdf24_92 {
-	letter-spacing: -0.2112px;
-}
-.pdf24_93 {
-	letter-spacing: -0.0048em;
-}
-
-.pdf24_ie .pdf24_93 {
-	letter-spacing: -0.0772px;
-}
-.pdf24_94 {
-	letter-spacing: -0.1025em;
-}
-
-.pdf24_ie .pdf24_94 {
-	letter-spacing: -1.6398px;
-}
-.pdf24_95 {
-	letter-spacing: -0.0122em;
-}
-
-.pdf24_ie .pdf24_95 {
-	letter-spacing: -0.1959px;
-}
-.pdf24_96 {
-	letter-spacing: -0.1073em;
-}
-
-.pdf24_ie .pdf24_96 {
-	letter-spacing: -1.7174px;
-}
-.pdf24_97 {
-	letter-spacing: -0.0145em;
-}
-
-.pdf24_ie .pdf24_97 {
-	letter-spacing: -0.2326px;
-}
-.pdf24_98 {
-	letter-spacing: -0.0073em;
-}
-
-.pdf24_ie .pdf24_98 {
-	letter-spacing: -0.1168px;
-}
-.pdf24_99 {
-	letter-spacing: -0.0067em;
-}
-
-.pdf24_ie .pdf24_99 {
-	letter-spacing: -0.1078px;
-}
-.pdf24_100 {
-	letter-spacing: -0.0004em;
-}
-
-.pdf24_ie .pdf24_100 {
-	letter-spacing: -0.0069px;
-}
-.pdf24_101 {
-	letter-spacing: -0.006em;
-}
-
-.pdf24_ie .pdf24_101 {
-	letter-spacing: -0.0955px;
-}
-.pdf24_102 {
-	letter-spacing: -0.0075em;
-}
-
-.pdf24_ie .pdf24_102 {
-	letter-spacing: -0.1195px;
-}
-
- body > div {
-	box-shadow: 0 0 5px rgba(0,0,0,0.3) !important;
-	margin: 20px auto !important;
-}
-
-</STYLE> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Minesweeper Online - Global Leaderboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+    body { background:#c0c0c0; font-family:Tahoma, sans-serif; text-align:center; }
+    #wrapper { display:inline-block; background:#c0c0c0; border:4px solid #808080; padding:6px; }
+    #topbar { display:flex; justify-content:space-between; align-items:center; background:#c0c0c0; border:3px solid #808080; margin-bottom:6px; padding:4px; }
+    .digits { background:black; color:red; font-family:'Courier New', monospace; font-weight:bold; font-size:22px; width:80px; text-align:right; padding:2px; border:inset 2px #808080; }
+    #smiley { width:32px; height:32px; border:2px solid #808080; background:#c0c0c0; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; }
+    canvas { display:block; background:#c0c0c0; margin:5px 0; border: 3px inset #fff; }
+    button { margin:2px; font-family: Tahoma; background: #c0c0c0; border: 2px outset #fff; cursor: pointer; padding: 4px 8px; }
+    button:active { border: 2px inset #fff; }
+    #settings { margin:10px; border:2px solid #808080; background:#c0c0c0; padding:10px; display:inline-block; text-align:left; vertical-align: top; width: 320px; }
+    .leaderboard-entry { cursor:pointer; font-size:12px; text-align:left; padding:4px; border-bottom:1px solid #808080; display: flex; justify-content: space-between; }
+    .leaderboard-entry:hover { background: #000080; color: white; }
+    .auth-box { border: 2px inset #808080; padding: 8px; margin-bottom: 10px; background: #d0d0d0; }
+    input { font-family: Tahoma; font-size: 12px; margin: 2px; border: 2px inset #fff; padding: 4px; width: calc(100% - 15px); }
+    h4 { margin: 5px 0; font-size: 14px; text-decoration: underline; }
+    #user-status { font-size: 11px; margin-top: 4px; font-weight: bold; }
+    #leaderboard { max-height: 200px; overflow-y: auto; background: #fff; border: 2px inset #808080; margin-bottom: 5px; min-height: 50px; }
+</style>
 </head>
-	<body>
-		<div class="pdf24_ pdf24_02">
-			<div class="pdf24_view">
-				<div class="pdf24_03 pdf24_04">
-					<div class="pdf24_01" style="left:1.9167em;top:3.2589em;"><span class="pdf24_05 pdf24_06 pdf24_07">Minesweeper &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:6.869em;"><span class="pdf24_08 pdf24_06 pdf24_09">&lt;</span><span class="pdf24_10 pdf24_06 pdf24_11">!</span><span class="pdf24_08 pdf24_06 pdf24_12" style="word-spacing:0.005em;">DOCTYPE html&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:8.3956em;"><span class="pdf24_08 pdf24_06 pdf24_09" style="word-spacing:-0.0006em;">&lt;html lang="en"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:9.9223em;"><span class="pdf24_08 pdf24_06 pdf24_11">&lt;head&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:11.449em;"><span class="pdf24_08 pdf24_06 pdf24_13" style="word-spacing:0.0024em;">&lt;meta charset="UTF-8"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:12.9757em;"><span class="pdf24_08 pdf24_06 pdf24_14" style="word-spacing:0.0032em;">&lt;title&gt;Minesweeper Online - Global Leaderboard&lt;/title&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:14.5024em;"><span class="pdf24_08 pdf24_06 pdf24_13" style="word-spacing:0.0018em;">&lt;script src="</span><a href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" target="_blank"><span class="pdf24_15 pdf24_06 pdf24_16">https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2</span></a><span class="pdf24_17 pdf24_06 pdf24_18">"&gt;&lt;/script&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:16.0291em;"><span class="pdf24_17 pdf24_06 pdf24_19">&lt;style&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:17.5558em;"><span class="pdf24_17 pdf24_06 pdf24_20" style="word-spacing:0.0089em;">body { background:#c0c0c0; font-family:</span><span class="pdf24_17 pdf24_06 pdf24_21">T</span><span class="pdf24_17 pdf24_06 pdf24_22">a</span><span class="pdf24_17 pdf24_06 pdf24_23" style="word-spacing:0.0035em;">homa, sans-serif; text-align:center; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:19.0825em;"><span class="pdf24_17 pdf24_06 pdf24_14" style="word-spacing:0.0031em;">#wrapper { display:inline-block; background:#c0c0c0; border:4px solid #808080; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:20.6092em;"><span class="pdf24_17 pdf24_06 pdf24_24" style="word-spacing:0.0043em;">padding:6px; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:22.1359em;"><span class="pdf24_17 pdf24_06 pdf24_25" style="word-spacing:0.0031em;">#topbar { display:flex; justify-content:space-between; align-items:center; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:23.6626em;"><span class="pdf24_17 pdf24_06 pdf24_12" style="word-spacing:0.0047em;">background:#c0c0c0; border:3px solid #808080; margin-bottom:6px; padding:4px; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:25.1893em;"><span class="pdf24_17 pdf24_06 pdf24_26" style="word-spacing:0.0079em;">.digits { background:black; color:red; font-family:'Courier New', monospace; font-weight:bold; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:26.716em;"><span class="pdf24_17 pdf24_06 pdf24_27" style="word-spacing:0.0061em;">font-size:22px; width:80px; text-align:right; padding:2px; border:inset 2px #808080; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:28.2427em;"><span class="pdf24_17 pdf24_06 pdf24_28" style="word-spacing:0.0041em;">#smiley { width:32px; height:32px; border:2px solid #808080; background:#c0c0c0; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:29.7694em;"><span class="pdf24_17 pdf24_06 pdf24_28" style="word-spacing:0.0043em;">display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:31.296em;"><span class="pdf24_17 pdf24_06 pdf24_29" style="word-spacing:0.0052em;">canvas { display:block; background:#c0c0c0; margin:5px 0; border: 3px inset #fff; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:32.8227em;"><span class="pdf24_17 pdf24_06 pdf24_20" style="word-spacing:0.0087em;">button { margin:2px; font-family: </span><span class="pdf24_17 pdf24_06 pdf24_21">T</span><span class="pdf24_17 pdf24_06 pdf24_22">a</span><span class="pdf24_17 pdf24_06 pdf24_28" style="word-spacing:0.0042em;">homa; background: #c0c0c0; border: 2px outset #fff; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:34.3494em;"><span class="pdf24_17 pdf24_06 pdf24_30" style="word-spacing:0.0054em;">cursor: pointer; padding: 4px 8px; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:35.8761em;"><span class="pdf24_17 pdf24_06 pdf24_31" style="word-spacing:0.0042em;">button:active { border: 2px inset #fff; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:37.4028em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.004em;">#settings { margin:10px; border:2px solid #808080; background:#c0c0c0; padding:10px; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:38.9295em;"><span class="pdf24_17 pdf24_06 pdf24_23" style="word-spacing:0.0034em;">display:inline-block; text-align:left; vertical-align: top; width: 320px; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:40.4562em;"><span class="pdf24_17 pdf24_06 pdf24_33" style="word-spacing:0.0063em;">.leaderboard-entry { cursor:pointer; font-size:12px; text-align:left; padding:4px; border- &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:41.9829em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0036em;">bottom:1px solid #808080; display: flex; justify-content: space-between; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:43.5096em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0037em;">.leaderboard-entry:hover { background: #000080; color: white; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:45.0363em;"><span class="pdf24_17 pdf24_06 pdf24_27" style="word-spacing:0.0057em;">.auth-box { border: 2px inset #808080; padding: 8px; margin-bottom: 10px; background: &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:46.563em;"><span class="pdf24_17 pdf24_06 pdf24_18" style="word-spacing:0em;">#d0d0d0; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:48.0897em;"><span class="pdf24_17 pdf24_06 pdf24_34" style="word-spacing:0.0098em;">input { font-family: </span><span class="pdf24_17 pdf24_06 pdf24_21">T</span><span class="pdf24_17 pdf24_06 pdf24_22">a</span><span class="pdf24_17 pdf24_06 pdf24_35" style="word-spacing:0.0069em;">homa; font-size: 12px; margin: 2px; border: 2px inset #fff; padding: 4px; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:49.6163em;"><span class="pdf24_17 pdf24_06 pdf24_25" style="word-spacing:0.003em;">width: calc(100% - 15px); } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:51.1431em;"><span class="pdf24_17 pdf24_06 pdf24_36" style="word-spacing:0.0074em;">h4 { margin: 5px 0; font-size: 14px; text-decoration: underline; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:52.6697em;"><span class="pdf24_17 pdf24_06 pdf24_37" style="word-spacing:0.0105em;">#user-status { font-size: 11px; margin-top: 4px; font-weight: bold; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:54.1964em;"><span class="pdf24_17 pdf24_06 pdf24_38" style="word-spacing:0.0056em;">#leaderboard { max-height: 200px; overflow-y: auto; background: #fff; border: 2px inset &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:55.7231em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0034em;">#808080; margin-bottom: 5px; min-height: 50px; } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:57.2498em;"><span class="pdf24_17 pdf24_06 pdf24_39">&lt;/style&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:58.7765em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;/head&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:60.3032em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;body&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:63.3566em;"><span class="pdf24_17 pdf24_06 pdf24_40" style="word-spacing:0.003em;">&lt;h2&gt;Minesweeper Online&lt;/h2&gt; &nbsp;</span></div>
-				</div>
-			</div>
-		</div>
-		<div class="pdf24_ pdf24_02">
-			<div class="pdf24_41">
-				<img src="data:image/png;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMB/8w9Agth8WabsOwAAAABJRU5ErkJgggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="" class="pdf24_42" />
-			</div>
-			<div class="pdf24_view">
-				<div class="pdf24_03 pdf24_04">
-					<div class="pdf24_01" style="left:1.9167em;top:3.259em;"><span class="pdf24_17 pdf24_06 pdf24_14" style="word-spacing:0.0033em;">&lt;div style="margin-bottom: 10px;"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4787em;top:4.7857em;"><span class="pdf24_17 pdf24_06 pdf24_11">Difficulty: &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4787em;top:6.3123em;"><span class="pdf24_17 pdf24_06 pdf24_23" style="word-spacing:0.0035em;">&lt;select id="difficulty" style="font-family: </span><span class="pdf24_17 pdf24_06 pdf24_21">T</span><span class="pdf24_17 pdf24_06 pdf24_22">a</span><span class="pdf24_17 pdf24_06 pdf24_09">homa;"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:7.839em;"><span class="pdf24_17 pdf24_06 pdf24_25" style="word-spacing:0.0028em;">&lt;option value="easy"&gt;Easy (9x9)&lt;/option&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:9.3657em;"><span class="pdf24_17 pdf24_06 pdf24_39" style="word-spacing:0.0012em;">&lt;option value="intermediate"&gt;Intermediate (16x16)&lt;/option&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:10.8924em;"><span class="pdf24_17 pdf24_06 pdf24_40" style="word-spacing:0.0024em;">&lt;option value="hard"&gt;Hard (30x16)&lt;/option&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4793em;top:12.4191em;"><span class="pdf24_17 pdf24_06 pdf24_43">&lt;/select&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:13.9458em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:16.9992em;"><span class="pdf24_17 pdf24_06 pdf24_11" style="word-spacing:-0.0002em;">&lt;div id="wrapper"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4787em;top:18.5259em;"><span class="pdf24_17 pdf24_06 pdf24_44" style="word-spacing:0.0007em;">&lt;div id="topbar"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:20.0526em;"><span class="pdf24_17 pdf24_06 pdf24_45" style="word-spacing:0.0013em;">&lt;div id="mineCounter" class="digits"&gt;000&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:21.5793em;"><span class="pdf24_17 pdf24_06 pdf24_45" style="word-spacing:0.0011em;">&lt;div id="smiley"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:12.847em;top:21.5793em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:23.1059em;"><span class="pdf24_17 pdf24_06 pdf24_12" style="word-spacing:0.0049em;">&lt;div id="timer" class="digits"&gt;000.000&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4787em;top:24.6327em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4793em;top:26.1594em;"><span class="pdf24_17 pdf24_06 pdf24_46" style="word-spacing:0.0075em;">&lt;canvas id="board"&gt;&lt;/canvas&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:27.686em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:30.7394em;"><span class="pdf24_17 pdf24_06 pdf24_18" style="word-spacing:0em;">&lt;div id="settings"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4793em;top:32.2661em;"><span class="pdf24_17 pdf24_06 pdf24_47" style="word-spacing:0.0098em;">&lt;h4&gt;Player Account&lt;/h4&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4787em;top:33.7929em;"><span class="pdf24_17 pdf24_06 pdf24_23" style="word-spacing:0.0033em;">&lt;div class="auth-box"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:35.3195em;"><span class="pdf24_17 pdf24_06 pdf24_11" style="word-spacing:-0.0001em;">&lt;input type="email" id="email" placeholder="Email (</span><a href="mailto:test@test.com" target="_blank"><span class="pdf24_48 pdf24_06 pdf24_49">test@test.com</span></a><span class="pdf24_17 pdf24_06 pdf24_09">)"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:36.8462em;"><span class="pdf24_17 pdf24_06 pdf24_50" style="word-spacing:0.0065em;">&lt;input type="password" id="password" placeholder="Password (6+ chars)"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:38.3729em;"><span class="pdf24_17 pdf24_06 pdf24_29" style="word-spacing:0.0054em;">&lt;div style="margin-top: 5px;"&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:39.8996em;"><span class="pdf24_17 pdf24_06 pdf24_23" style="word-spacing:0.0034em;">&lt;button onclick="handleLogin()"&gt;Login&lt;/button&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:41.4263em;"><span class="pdf24_17 pdf24_06 pdf24_51" style="word-spacing:0.0017em;">&lt;button onclick="handleSignUp()"&gt;Sign Up&lt;/button&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:42.9529em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:44.4797em;"><span class="pdf24_17 pdf24_06 pdf24_13" style="word-spacing:0.0022em;">&lt;div id="user-status"&gt;Not logged in.&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4787em;top:46.0064em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4793em;top:49.0598em;"><span class="pdf24_17 pdf24_06 pdf24_27" style="word-spacing:0.0054em;">&lt;h4&gt;Leaderboard (</span><span class="pdf24_17 pdf24_06 pdf24_52">T</span><span class="pdf24_17 pdf24_06 pdf24_44">o</span><span class="pdf24_17 pdf24_06 pdf24_11" style="word-spacing:0em;">p 10)&lt;/h4&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4787em;top:50.5864em;"><span class="pdf24_17 pdf24_06 pdf24_44" style="word-spacing:0.0008em;">&lt;div id="leaderboard"&gt;&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4787em;top:52.1131em;"><span class="pdf24_17 pdf24_06 pdf24_25" style="word-spacing:0.0031em;">&lt;button id="refreshScores" style="width: 100%;"&gt;Refresh&lt;/button&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:53.6399em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;/div&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:56.6932em;"><span class="pdf24_17 pdf24_06 pdf24_09">&lt;script&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:58.2199em;"><span class="pdf24_17 pdf24_06 pdf24_24" style="word-spacing:0.005em;">/* --- SUPABASE CONFIG --- */ &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:59.7466em;"><span class="pdf24_17 pdf24_06 pdf24_53" style="word-spacing:0.0123em;">const SUPABASE_URL = '</span><a href="https://truygcgalekdafoxqoau.supabase.co" target="_blank"><span class="pdf24_48 pdf24_06 pdf24_49">https://truygcgalekdafoxqoau.supabase.co</span></a><span class="pdf24_17 pdf24_06 pdf24_11">'; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:61.2733em;"><span class="pdf24_17 pdf24_06 pdf24_50" style="word-spacing:0.0074em;">const SUPABASE_KEY = &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:62.7999em;"><span class="pdf24_17 pdf24_06 pdf24_54">'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydXlnY2dhb- &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:64.3267em;"><span class="pdf24_17 pdf24_06 pdf24_55">GVrZGFmb3hxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0MjM0NjgsImV4cCI6Mj- &nbsp;</span></div>
-				</div>
-			</div>
-		</div>
-		<div class="pdf24_ pdf24_02">
-			<div class="pdf24_view">
-				<div class="pdf24_03 pdf24_04">
-					<div class="pdf24_01" style="left:1.9167em;top:3.2589em;"><span class="pdf24_17 pdf24_06 pdf24_56">A4Mzk5OTQ2OH0.S4_CjhbbDgDGWAGUnUmA1KmPJitI98IWHKMAbuRxq8A'; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:4.7856em;"><span class="pdf24_17 pdf24_06 pdf24_57" style="word-spacing:0.0067em;">const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:7.839em;"><span class="pdf24_17 pdf24_06 pdf24_51" style="word-spacing:0.0019em;">/* --- GAME CONFIG --- */ &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:9.3657em;"><span class="pdf24_17 pdf24_06 pdf24_18" style="word-spacing:-0.0001em;">let difficulties = { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4787em;top:10.8925em;"><span class="pdf24_17 pdf24_06 pdf24_58" style="word-spacing:0.0106em;">easy: {rows:9, cols:9, mines:10}, &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4793em;top:12.4191em;"><span class="pdf24_17 pdf24_06 pdf24_46" style="word-spacing:0.0081em;">intermediate: {rows:16, cols:16, mines:40}, &nbsp;</span></div>
-					<div class="pdf24_01" style="left:2.4787em;top:13.9458em;"><span class="pdf24_17 pdf24_06 pdf24_59" style="word-spacing:0.0102em;">hard: {rows:16, cols:30, mines:99} &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:15.4725em;"><span class="pdf24_17 pdf24_06 pdf24_11">}; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:18.5259em;"><span class="pdf24_17 pdf24_06 pdf24_16" style="word-spacing:0.0027em;">let ROWS, COLS, MINES, TILE = 30; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:20.0526em;"><span class="pdf24_17 pdf24_06 pdf24_25" style="word-spacing:0.0027em;">let grid, revealed, flagged, minesSet; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:21.5793em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0035em;">let firstClick = true, gameOver = false, win = false; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:23.106em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0033em;">let startTime = null, endTime = null, timerInterval; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:24.6326em;"><span class="pdf24_17 pdf24_06 pdf24_19" style="word-spacing:0.0013em;">let currentDifficulty = "easy"; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:26.1594em;"><span class="pdf24_17 pdf24_06 pdf24_54" style="word-spacing:0.0125em;">let moveLog = []; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:29.2127em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0033em;">const canvas = document.getElementById("board"); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:30.7394em;"><span class="pdf24_17 pdf24_06 pdf24_38" style="word-spacing:0.0063em;">const ctx = canvas.getContext("2d"); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:32.2661em;"><span class="pdf24_17 pdf24_06 pdf24_60" style="word-spacing:0.0016em;">const leaderboardDiv = document.getElementById("leaderboard"); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:33.7928em;"><span class="pdf24_17 pdf24_06 pdf24_16" style="word-spacing:0.0024em;">const userStatus = document.getElementById("user-status"); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:36.8462em;"><span class="pdf24_17 pdf24_06 pdf24_28" style="word-spacing:0.005em;">/* --- AUTH FUNCTIONS --- */ &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:38.3729em;"><span class="pdf24_17 pdf24_06 pdf24_60" style="word-spacing:0.0017em;">async function handleSignUp() { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:39.8996em;"><span class="pdf24_17 pdf24_06 pdf24_30" style="word-spacing:0.0049em;">const email = document.getElementById('email').value; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:41.4263em;"><span class="pdf24_17 pdf24_06 pdf24_20" style="word-spacing:0.0086em;">const password = document.getElementById('password').value; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:42.9529em;"><span class="pdf24_17 pdf24_06 pdf24_30" style="word-spacing:0.0052em;">const { data, error } = await supabase.auth.signUp({ email, password }); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:44.4797em;"><span class="pdf24_17 pdf24_06 pdf24_29" style="word-spacing:0.0055em;">if (error) alert("Error: " + error.message); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:46.0064em;"><span class="pdf24_17 pdf24_06 pdf24_18" style="word-spacing:-0.0004em;">else alert("Sign up successful</span><span class="pdf24_61 pdf24_06 pdf24_11" style="word-spacing:0.031em;">! </span><span class="pdf24_17 pdf24_06 pdf24_62" style="word-spacing:0.0289em;">You can now log in."); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:47.533em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:50.5864em;"><span class="pdf24_17 pdf24_06 pdf24_16" style="word-spacing:0.0025em;">async function handleLogin() { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:52.1131em;"><span class="pdf24_17 pdf24_06 pdf24_30" style="word-spacing:0.0049em;">const email = document.getElementById('email').value; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:53.6398em;"><span class="pdf24_17 pdf24_06 pdf24_20" style="word-spacing:0.0086em;">const password = document.getElementById('password').value; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:55.1665em;"><span class="pdf24_17 pdf24_06 pdf24_63" style="word-spacing:0.0078em;">const { data, error } = await supabase.auth.signInWithPassword({ email, password }); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:56.6932em;"><span class="pdf24_17 pdf24_06 pdf24_50" style="word-spacing:0.0065em;">if (error) alert("Login failed: " + error.message); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:58.2199em;"><span class="pdf24_17 pdf24_06 pdf24_09" style="word-spacing:-0.0001em;">else { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:59.7466em;"><span class="pdf24_17 pdf24_06 pdf24_29" style="word-spacing:0.0053em;">userStatus.textContent = "Logged in as: " + data.user.email.split('@')[0]; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:61.2733em;"><span class="pdf24_17 pdf24_06 pdf24_16" style="word-spacing:0.0027em;">userStatus.style.color = "green"; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:62.8em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:64.3267em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-				</div>
-			</div>
-		</div>
-		<div class="pdf24_ pdf24_02">
-			<div class="pdf24_view">
-				<div class="pdf24_03 pdf24_04">
-					<div class="pdf24_01" style="left:1.9167em;top:4.7856em;"><span class="pdf24_17 pdf24_06 pdf24_64" style="word-spacing:0.0216em;">/* --- DATABASE FUNCTIONS --- */ &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:6.3124em;"><span class="pdf24_17 pdf24_06 pdf24_28" style="word-spacing:0.0041em;">async function fetchScores() { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:7.839em;"><span class="pdf24_17 pdf24_06 pdf24_24" style="word-spacing:0.0048em;">const { data, error } = await supabase &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:9.3657em;"><span class="pdf24_17 pdf24_06 pdf24_65">.from('scores') &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:10.8924em;"><span class="pdf24_17 pdf24_06 pdf24_66">.select('*') &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:12.4191em;"><span class="pdf24_17 pdf24_06 pdf24_35" style="word-spacing:0.007em;">.eq('difficulty', currentDifficulty) &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:13.9458em;"><span class="pdf24_17 pdf24_06 pdf24_67" style="word-spacing:0.01em;">.order('time', { ascending: true }) &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:15.4724em;"><span class="pdf24_17 pdf24_06 pdf24_09">.limit(10); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:18.5259em;"><span class="pdf24_17 pdf24_06 pdf24_35" style="word-spacing:0.0068em;">leaderboardDiv.innerHTML = ""; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:20.0525em;"><span class="pdf24_17 pdf24_06 pdf24_14" style="word-spacing:0.0029em;">if (data) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:21.5793em;"><span class="pdf24_17 pdf24_06 pdf24_33" style="word-spacing:0.0066em;">data.forEach((s, i) =&gt; { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:23.1059em;"><span class="pdf24_17 pdf24_06 pdf24_68" style="word-spacing:0.002em;">const entry = document.createElement('div'); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:24.6326em;"><span class="pdf24_17 pdf24_06 pdf24_50" style="word-spacing:0.0062em;">entry.className = 'leaderboard-entry'; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:26.1594em;"><span class="pdf24_17 pdf24_06 pdf24_50" style="word-spacing:0.0064em;">entry.innerHTML = `&lt;span&gt;#</span><span class="pdf24_61 pdf24_06 pdf24_09">$</span><span class="pdf24_17 pdf24_06 pdf24_09" style="word-spacing:-0.0003em;">{i+1} </span><span class="pdf24_61 pdf24_06 pdf24_09">$</span><span class="pdf24_17 pdf24_06 pdf24_22" style="word-spacing:-0.0006em;">{s.username}&lt;/span&gt; &lt;span&gt;</span><span class="pdf24_61 pdf24_06 pdf24_09">$</span><span class="pdf24_17 pdf24_06 pdf24_49">{s.time.toFixed(2)}s&lt;/ &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:27.686em;"><span class="pdf24_17 pdf24_06 pdf24_69">span&gt;`; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:29.2127em;"><span class="pdf24_17 pdf24_06 pdf24_70" style="word-spacing:0.0134em;">entry.onclick = () =&gt; replay(s.replay_log); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:30.7394em;"><span class="pdf24_17 pdf24_06 pdf24_38">leaderboardDiv.appendChild(entry); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:32.2661em;"><span class="pdf24_17 pdf24_06 pdf24_44">}); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:33.7928em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:35.3194em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:38.3729em;"><span class="pdf24_17 pdf24_06 pdf24_29" style="word-spacing:0.0053em;">async function saveScore() { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:39.8995em;"><span class="pdf24_17 pdf24_06 pdf24_23" style="word-spacing:0.0036em;">const { data: { user } } = await supabase.auth.getUser(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:41.4263em;"><span class="pdf24_17 pdf24_06 pdf24_11" style="word-spacing:-0.0002em;">if (</span><span class="pdf24_61 pdf24_06 pdf24_11">!</span><span class="pdf24_17 pdf24_06 pdf24_45" style="word-spacing:0.0014em;">user) return; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:44.4796em;"><span class="pdf24_17 pdf24_06 pdf24_31" style="word-spacing:0.0041em;">const elapsed = (endTime - startTime) / 1000; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:46.0064em;"><span class="pdf24_17 pdf24_06 pdf24_71" style="word-spacing:0.0048em;">const { error } = await supabase.from('scores').insert([{ &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:47.533em;"><span class="pdf24_17 pdf24_06 pdf24_34" style="word-spacing:0.01em;">user_id: </span><span class="pdf24_48 pdf24_06 pdf24_72">user.id</span><span class="pdf24_17 pdf24_06 pdf24_72">, &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:49.0597em;"><span class="pdf24_17 pdf24_06 pdf24_71" style="word-spacing:0.0046em;">username: user.email.split('@')[0], &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:50.5864em;z-index:745;"><span class="pdf24_17 pdf24_06 pdf24_38" style="word-spacing:0.0057em;">difficulty: currentDifficulty, &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:52.1131em;"><span class="pdf24_17 pdf24_06 pdf24_11" style="word-spacing:0.0004em;">time: elapsed, &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:53.6398em;"><span class="pdf24_17 pdf24_06 pdf24_53" style="word-spacing:0.0114em;">replay_log: { mines: Array.from(minesSet), log: moveLog, win: true } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:55.1665em;"><span class="pdf24_17 pdf24_06 pdf24_44">}]); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:56.6932em;"><span class="pdf24_17 pdf24_06 pdf24_11" style="word-spacing:-0.0002em;">if (</span><span class="pdf24_61 pdf24_06 pdf24_11">!</span><span class="pdf24_17 pdf24_06 pdf24_27" style="word-spacing:0.0052em;">error) fetchScores(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:58.2199em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:61.2733em;"><span class="pdf24_17 pdf24_06 pdf24_33" style="word-spacing:0.0064em;">/* --- GAME LOGIC --- */ &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:62.8em;"><span class="pdf24_17 pdf24_06 pdf24_73" style="word-spacing:-0.0012em;">function setDifficulty() { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:64.3266em;"><span class="pdf24_17 pdf24_06 pdf24_39" style="word-spacing:0.0007em;">const d = difficulties[currentDifficulty]; &nbsp;</span></div>
-				</div>
-			</div>
-		</div>
-		<div class="pdf24_ pdf24_02">
-			<div class="pdf24_41">
-				<img src="data:image/png;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA/6m/APCw4Mmfo7dHAAAAAElFTkSuQmCCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==" alt="" class="pdf24_74" />
-			</div>
-			<div class="pdf24_view">
-				<div class="pdf24_03 pdf24_04">
-					<div class="pdf24_01" style="left:3.0407em;top:3.2589em;"><span class="pdf24_17 pdf24_06 pdf24_50" style="word-spacing:0.0064em;">ROWS = d.rows; COLS = d.cols; MINES = d.mines; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:4.7856em;"><span class="pdf24_17 pdf24_06 pdf24_34" style="word-spacing:0.0101em;">canvas.width = COLS * TILE; canvas.height = ROWS * TILE; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:6.3123em;"><span class="pdf24_17 pdf24_06 pdf24_18">init(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:7.839em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:10.8924em;"><span class="pdf24_17 pdf24_06 pdf24_66" style="word-spacing:-0.0012em;">function init() { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:12.4191em;"><span class="pdf24_17 pdf24_06 pdf24_26" style="word-spacing:0.0078em;">grid = Array.from({length: ROWS}, () =&gt; Array(COLS).fill(0)); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:13.9458em;"><span class="pdf24_17 pdf24_06 pdf24_75" style="word-spacing:0.0087em;">revealed = Array.from({length: ROWS}, () =&gt; Array(COLS).fill(false)); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:15.4724em;"><span class="pdf24_17 pdf24_06 pdf24_46" style="word-spacing:0.0073em;">flagged = Array.from({length: ROWS}, () =&gt; Array(COLS).fill(false)); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:16.9992em;"><span class="pdf24_17 pdf24_06 pdf24_18" style="word-spacing:0.0003em;">minesSet = new Set(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:18.5259em;"><span class="pdf24_17 pdf24_06 pdf24_76" style="word-spacing:0.0037em;">firstClick = true; gameOver = false; win = false; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:20.0525em;"><span class="pdf24_17 pdf24_06 pdf24_46" style="word-spacing:0.0078em;">startTime = null; endTime = null; moveLog = []; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:21.5792em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0035em;">document.getElementById("smiley").textContent = " &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:23.1059em;"><span class="pdf24_17 pdf24_06 pdf24_25">clearInterval(timerInterval); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:29.1297em;top:21.5792em;"><span class="pdf24_17 pdf24_06 pdf24_11">"; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:24.6326em;"><span class="pdf24_17 pdf24_06 pdf24_31" style="word-spacing:0.0047em;">updateUI(); draw(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:26.1593em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:29.2127em;"><span class="pdf24_17 pdf24_06 pdf24_16" style="word-spacing:0.0025em;">function placeMines(r0, c0) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:30.7394em;"><span class="pdf24_17 pdf24_06 pdf24_19" style="word-spacing:0.0012em;">while(minesSet.size &lt; MINES) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:32.2661em;"><span class="pdf24_17 pdf24_06 pdf24_40" style="word-spacing:0.0029em;">let r = Math.floor(Math.random() * ROWS), c = Math.floor(Math.random() * COLS); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:33.7928em;"><span class="pdf24_17 pdf24_06 pdf24_77" style="word-spacing:0.0021em;">if (Math.abs(r-r0) &gt; 1 || Math.abs(c-c0) &gt; 1) minesSet.add(`</span><span class="pdf24_61 pdf24_06 pdf24_09">$</span><span class="pdf24_17 pdf24_06 pdf24_09">{r},</span><span class="pdf24_61 pdf24_06 pdf24_09">$</span><span class="pdf24_17 pdf24_06 pdf24_25">{c}`); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:35.3194em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:36.8462em;"><span class="pdf24_17 pdf24_06 pdf24_78" style="word-spacing:0.0063em;">minesSet.forEach(m =&gt; { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:38.3728em;"><span class="pdf24_17 pdf24_06 pdf24_79" style="word-spacing:0.0173em;">let [r, c] = m.split(',').map(Number); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:39.8995em;"><span class="pdf24_17 pdf24_06 pdf24_51" style="word-spacing:0.0018em;">grid[r][c] = -1; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:41.4263em;"><span class="pdf24_17 pdf24_06 pdf24_44">}); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:42.9529em;"><span class="pdf24_17 pdf24_06 pdf24_80" style="word-spacing:0.0145em;">for(let r=0; r&lt;ROWS; r++) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:44.4796em;"><span class="pdf24_17 pdf24_06 pdf24_68" style="word-spacing:0.0025em;">for(let c=0; c&lt;COLS; c++) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:46.0063em;"><span class="pdf24_17 pdf24_06 pdf24_19" style="word-spacing:0.0014em;">if (grid[r][c] === -1) continue; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:47.533em;"><span class="pdf24_17 pdf24_06 pdf24_18" style="word-spacing:0.0003em;">let count = 0; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:49.0597em;"><span class="pdf24_17 pdf24_06 pdf24_68" style="word-spacing:0.0025em;">for(let i=-1; i&lt;=1; i++) for(let j=-1; j&lt;=1; j++) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:6.4175em;top:50.5864em;"><span class="pdf24_17 pdf24_06 pdf24_63" style="word-spacing:0.0081em;">let nr = r+i, nc = c+j; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:6.4175em;top:52.1131em;"><span class="pdf24_17 pdf24_06 pdf24_23" style="word-spacing:0.0036em;">if (nr&gt;=0 &amp;&amp; nr&lt;ROWS &amp;&amp; nc&gt;=0 &amp;&amp; nc&lt;COLS &amp;&amp; grid[nr][nc]===-1) count++; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:53.6398em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:55.1664em;"><span class="pdf24_17 pdf24_06 pdf24_19" style="word-spacing:0.0016em;">grid[r][c] = count; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:56.6932em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:58.2199em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:59.7465em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:62.7999em;"><span class="pdf24_17 pdf24_06 pdf24_53" style="word-spacing:0.0125em;">function reveal(r, c) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:64.3266em;"><span class="pdf24_17 pdf24_06 pdf24_30" style="word-spacing:0.005em;">if (r&lt;0 || r&gt;=ROWS || c&lt;0 || c&gt;=COLS || revealed[r][c] || flagged[r][c]) return; &nbsp;</span></div>
-				</div>
-			</div>
-		</div>
-		<div class="pdf24_ pdf24_02">
-			<div class="pdf24_41">
-				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxkAAARhCAYAAABONUjdAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAULUlEQVR4nO3ZWXDV5RnA4dhWsxGWSICCQNgEBEUBrVtb19pqrTOtOtBWqU7VFkvdUHBBYbCiIKKibIIgstgoKioUFFqRymAEWTSCRaMEUFlUQkK2c3LeBu6d6d052OeZeWf+8/6/i9/tN19WFgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADfff8FJDyKF/dv8MsAAAAASUVORK5CYIIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" alt="" class="pdf24_81" />
-			</div>
-			<div class="pdf24_view">
-				<div class="pdf24_03 pdf24_04">
-					<div class="pdf24_01" style="left:3.0419em;top:3.259em;"><span class="pdf24_17 pdf24_06 pdf24_33" style="word-spacing:0.0064em;">revealed[r][c] = true; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:4.7856em;"><span class="pdf24_17 pdf24_06 pdf24_13" style="word-spacing:0.0023em;">if (grid[r][c] === 0) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:6.3123em;"><span class="pdf24_17 pdf24_06 pdf24_30" style="word-spacing:0.0054em;">for(let i=-1; i&lt;=1; i++) for(let j=-1; j&lt;=1; j++) reveal(r+i, c+j); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:7.8389em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:9.3657em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:12.419em;"><span class="pdf24_17 pdf24_06 pdf24_65" style="word-spacing:0.0089em;">canvas.onmousedown = (e) =&gt; { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:13.9458em;"><span class="pdf24_17 pdf24_06 pdf24_28" style="word-spacing:0.0038em;">if (gameOver) return; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:15.4725em;"><span class="pdf24_17 pdf24_06 pdf24_31" style="word-spacing:0.0044em;">const rect = canvas.getBoundingClientRect(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:16.9991em;"><span class="pdf24_17 pdf24_06 pdf24_14" style="word-spacing:0.0034em;">const c = Math.floor((e.clientX - rect.left) / TILE); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:18.5259em;"><span class="pdf24_17 pdf24_06 pdf24_78" style="word-spacing:0.0058em;">const r = Math.floor((e.clientY - rect.top) / TILE); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:21.5792em;"><span class="pdf24_17 pdf24_06 pdf24_77" style="word-spacing:0.002em;">if (firstClick) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:23.106em;"><span class="pdf24_17 pdf24_06 pdf24_82" style="word-spacing:0.0077em;">startTime = Date.now(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:24.6326em;"><span class="pdf24_17 pdf24_06 pdf24_20" style="word-spacing:0.0089em;">placeMines(r, c); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:26.1593em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0037em;">firstClick = false; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:27.686em;"><span class="pdf24_17 pdf24_06 pdf24_40" style="word-spacing:0.0034em;">timerInterval = setInterval(updateUI, 100); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:29.2127em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:32.266em;"><span class="pdf24_17 pdf24_06 pdf24_19" style="word-spacing:0.0014em;">if (e.button === 2) { // Right Click &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:33.7928em;"><span class="pdf24_17 pdf24_06 pdf24_45" style="word-spacing:0.0013em;">flagged[r][c] = </span><span class="pdf24_61 pdf24_06 pdf24_11">!</span><span class="pdf24_17 pdf24_06 pdf24_45">flagged[r][c]; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:35.3195em;"><span class="pdf24_17 pdf24_06 pdf24_83" style="word-spacing:0.0111em;">moveLog.push({r, c, type:'flag', time: Date.now() - startTime}); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:36.8461em;"><span class="pdf24_17 pdf24_06 pdf24_24" style="word-spacing:0.0044em;">} else { // Left Click &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:38.3729em;"><span class="pdf24_17 pdf24_06 pdf24_19" style="word-spacing:0.0012em;">if (flagged[r][c]) return; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:39.8995em;"><span class="pdf24_17 pdf24_06 pdf24_84" style="word-spacing:0.0122em;">moveLog.push({r, c, type:'reveal', time: Date.now() - startTime}); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:41.4262em;"><span class="pdf24_17 pdf24_06 pdf24_68" style="word-spacing:0.0022em;">if (grid[r][c] === -1) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:42.953em;"><span class="pdf24_17 pdf24_06 pdf24_31" style="word-spacing:0.0046em;">gameOver = true; endTime = Date.now(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:44.4796em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0035em;">document.getElementById("smiley").textContent = " &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:46.0063em;"><span class="pdf24_17 pdf24_06 pdf24_25">clearInterval(timerInterval); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:31.3797em;top:44.4796em;"><span class="pdf24_17 pdf24_06 pdf24_11">"; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:47.533em;"><span class="pdf24_17 pdf24_06 pdf24_09" style="word-spacing:-0.0004em;">} else { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:49.0597em;"><span class="pdf24_17 pdf24_06 pdf24_85" style="word-spacing:0.0223em;">reveal(r, c); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:50.5864em;"><span class="pdf24_17 pdf24_06 pdf24_86" style="word-spacing:0.0079em;">if (revealed.flat().filter(x =&gt; </span><span class="pdf24_61 pdf24_06 pdf24_11">!</span><span class="pdf24_17 pdf24_06 pdf24_18" style="word-spacing:-0.0002em;">x).length === MINES) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:6.4175em;top:52.1131em;"><span class="pdf24_17 pdf24_06 pdf24_14" style="word-spacing:0.0038em;">gameOver = true; win = true; endTime = Date.now(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:6.4127em;top:53.6398em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0035em;">document.getElementById("smiley").textContent = " &nbsp;</span></div>
-					<div class="pdf24_01" style="left:6.4175em;top:55.1665em;"><span class="pdf24_17 pdf24_06 pdf24_25">clearInterval(timerInterval); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:32.5047em;top:53.6398em;"><span class="pdf24_17 pdf24_06 pdf24_11">"; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:6.4175em;top:56.6931em;"><span class="pdf24_17 pdf24_06 pdf24_37">saveScore(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:58.2199em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:59.7465em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:61.2732em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:62.8em;"><span class="pdf24_17 pdf24_06 pdf24_31" style="word-spacing:0.0047em;">draw(); updateUI(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:64.3266em;"><span class="pdf24_17 pdf24_06 pdf24_11">}; &nbsp;</span></div>
-				</div>
-			</div>
-		</div>
-		<div class="pdf24_ pdf24_02">
-			<div class="pdf24_view">
-				<div class="pdf24_03 pdf24_04">
-					<div class="pdf24_01" style="left:1.9167em;top:4.7857em;"><span class="pdf24_17 pdf24_06 pdf24_77" style="word-spacing:0.0029em;">function draw() { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:6.3123em;"><span class="pdf24_17 pdf24_06 pdf24_87" style="word-spacing:0.0145em;">ctx.clearRect(0,0,canvas.width, canvas.height); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:7.839em;"><span class="pdf24_17 pdf24_06 pdf24_88" style="word-spacing:0.0085em;">for(let r=0; r&lt;ROWS; r++) for(let c=0; c&lt;COLS; c++) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:9.3658em;"><span class="pdf24_17 pdf24_06 pdf24_22" style="word-spacing:-0.0007em;">let x = c*TILE, y = r*TILE; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1647em;top:10.8924em;"><span class="pdf24_17 pdf24_06 pdf24_76" style="word-spacing:0.0036em;">ctx.strokeStyle = "#808080"; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:12.4191em;"><span class="pdf24_17 pdf24_06 pdf24_35" style="word-spacing:0.0065em;">if (revealed[r][c]) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:13.9458em;"><span class="pdf24_17 pdf24_06 pdf24_89" style="word-spacing:0.0155em;">ctx.fillStyle = "#ddd"; ctx.fillRect(x,y,TILE,TILE); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:15.4725em;"><span class="pdf24_17 pdf24_06 pdf24_25" style="word-spacing:0.0029em;">if (grid[r][c] &gt; 0) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:6.4127em;top:16.9992em;z-index:263;"><span class="pdf24_17 pdf24_06 pdf24_16" style="word-spacing:0.0025em;">ctx.fillStyle = ["</span><span class="pdf24_17 pdf24_06 pdf24_90">"</span><span class="pdf24_17 pdf24_06 pdf24_11" style="word-spacing:-0.0001em;">, </span><span class="pdf24_17 pdf24_06 pdf24_91">"</span><span class="pdf24_17 pdf24_06 pdf24_69">blue</span><span class="pdf24_17 pdf24_06 pdf24_90">"</span><span class="pdf24_17 pdf24_06 pdf24_11" style="word-spacing:-0.0001em;">, </span><span class="pdf24_17 pdf24_06 pdf24_91">"</span><span class="pdf24_17 pdf24_06 pdf24_92" style="word-spacing:0.0263em;">green", "red", "darkblue", "maroon", "cyan", "black", "gray"] &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:18.5258em;"><span class="pdf24_17 pdf24_06 pdf24_40">[grid[r][c]]; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:6.4175em;top:20.0526em;"><span class="pdf24_17 pdf24_06 pdf24_93" style="word-spacing:0.0098em;">ctx.font = "bold 16px </span><span class="pdf24_17 pdf24_06 pdf24_94">T</span><span class="pdf24_17 pdf24_06 pdf24_44">a</span><span class="pdf24_17 pdf24_06 pdf24_25" style="word-spacing:0.0036em;">homa"; ctx.fill</span><span class="pdf24_17 pdf24_06 pdf24_52">T</span><span class="pdf24_17 pdf24_06 pdf24_47" style="word-spacing:0.0099em;">ext(grid[r][c], x+10, y+22); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:21.5793em;"><span class="pdf24_17 pdf24_06 pdf24_60" style="word-spacing:0.0018em;">} else if (grid[r][c] === -1) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:6.4127em;top:23.1059em;"><span class="pdf24_17 pdf24_06 pdf24_57" style="word-spacing:0.006em;">ctx.fillStyle = "black"; ctx.beginPath(); ctx.arc(x+15, y+15, 8, 0, Math.PI*2); ctx.fill(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:24.6327em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:26.1593em;"><span class="pdf24_17 pdf24_06 pdf24_09" style="word-spacing:-0.0004em;">} else { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:27.686em;"><span class="pdf24_17 pdf24_06 pdf24_89" style="word-spacing:0.0154em;">ctx.fillStyle = "#aaa"; ctx.fillRect(x,y,TILE,TILE); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:29.2128em;"><span class="pdf24_17 pdf24_06 pdf24_35" style="word-spacing:0.0068em;">if (flagged[r][c]) { ctx.fillStyle = "red"; ctx.fillRect(x+8, y+8, 14, 14); } &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:30.7394em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:32.2661em;"><span class="pdf24_17 pdf24_06 pdf24_95">ctx.strokeRect(x,y,TILE,TILE); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:33.7929em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:35.3195em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:38.3729em;"><span class="pdf24_17 pdf24_06 pdf24_73" style="word-spacing:-0.0001em;">function updateUI() { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:39.8996em;"><span class="pdf24_17 pdf24_06 pdf24_12" style="word-spacing:0.0052em;">const elapsed = startTime </span><span class="pdf24_61 pdf24_06 pdf24_11" style="word-spacing:0.0309em;">? </span><span class="pdf24_17 pdf24_06 pdf24_82" style="word-spacing:0.0079em;">(gameOver </span><span class="pdf24_61 pdf24_06 pdf24_11" style="word-spacing:0.0309em;">? </span><span class="pdf24_17 pdf24_06 pdf24_57" style="word-spacing:0.0062em;">(endTime-startTime) : (Date.now()-startTime)) : 0; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:41.4263em;z-index:836;"><span class="pdf24_17 pdf24_06 pdf24_25" style="word-spacing:0.0029em;">document.getElementById("timer").textContent = (elapsed/1000).toFixed(3).padStart(</span><span class="pdf24_17 pdf24_06 pdf24_96">7</span><span class="pdf24_17 pdf24_06 pdf24_11" style="word-spacing:-0.0001em;">, </span><span class="pdf24_17 pdf24_06 pdf24_97">"</span><span class="pdf24_17 pdf24_06 pdf24_75">0"); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:42.9529em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0039em;">const flags = flagged.flat().filter(x =&gt; x).length; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:44.4797em;"><span class="pdf24_17 pdf24_06 pdf24_16" style="word-spacing:0.0026em;">document.getElementById("mineCounter").textContent = String(MINES - flags).padStart(3, &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:46.0064em;"><span class="pdf24_17 pdf24_06 pdf24_98">"0"); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:47.533em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:50.5864em;"><span class="pdf24_17 pdf24_06 pdf24_99" style="word-spacing:0.014em;">/* --- REPLAY LOGIC --- */ &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:52.1131em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0033em;">function replay(data) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:53.6399em;"><span class="pdf24_17 pdf24_06 pdf24_18">init(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0407em;top:55.1665em;"><span class="pdf24_17 pdf24_06 pdf24_32" style="word-spacing:0.0037em;">firstClick = false; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:56.6932em;"><span class="pdf24_17 pdf24_06 pdf24_100" style="word-spacing:0.001em;">minesSet = new Set(data.mines); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:58.2199em;"><span class="pdf24_17 pdf24_06 pdf24_101" style="word-spacing:0.012em;">// Redraw grid for replay &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:59.7466em;"><span class="pdf24_17 pdf24_06 pdf24_59" style="word-spacing:0.0106em;">minesSet.forEach(m =&gt; { let [r, c] = m.split(',').map(Number); grid[r][c] = -1; }); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:61.2733em;"><span class="pdf24_17 pdf24_06 pdf24_88" style="word-spacing:0.0085em;">for(let r=0; r&lt;ROWS; r++) for(let c=0; c&lt;COLS; c++) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:62.8em;"><span class="pdf24_17 pdf24_06 pdf24_19" style="word-spacing:0.0014em;">if (grid[r][c] === -1) continue; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:64.3267em;"><span class="pdf24_17 pdf24_06 pdf24_18" style="word-spacing:0.0003em;">let count = 0; &nbsp;</span></div>
-				</div>
-			</div>
-		</div>
-		<div class="pdf24_ pdf24_02">
-			<div class="pdf24_view">
-				<div class="pdf24_03 pdf24_04">
-					<div class="pdf24_01" style="left:4.1671em;top:3.259em;"><span class="pdf24_17 pdf24_06 pdf24_68" style="word-spacing:0.0025em;">for(let i=-1; i&lt;=1; i++) for(let j=-1; j&lt;=1; j++) { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:4.7856em;"><span class="pdf24_17 pdf24_06 pdf24_63" style="word-spacing:0.0081em;">let nr = r+i, nc = c+j; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:6.3123em;"><span class="pdf24_17 pdf24_06 pdf24_23" style="word-spacing:0.0036em;">if (nr&gt;=0 &amp;&amp; nr&lt;ROWS &amp;&amp; nc&gt;=0 &amp;&amp; nc&lt;COLS &amp;&amp; grid[nr][nc]===-1) count++; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:7.839em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:9.3657em;"><span class="pdf24_17 pdf24_06 pdf24_19" style="word-spacing:0.0016em;">grid[r][c] = count; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:10.8925em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:12.4191em;"><span class="pdf24_17 pdf24_06 pdf24_75" style="word-spacing:0.0091em;">data.log.forEach(move =&gt; { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:13.9458em;"><span class="pdf24_17 pdf24_06 pdf24_49" style="word-spacing:0.0068em;">setTimeout(() =&gt; { &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:15.4725em;"><span class="pdf24_17 pdf24_06 pdf24_102" style="word-spacing:0.0147em;">if (move.type === 'reveal') reveal(move.r, move.c); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2887em;top:16.9992em;"><span class="pdf24_17 pdf24_06 pdf24_46" style="word-spacing:0.0074em;">else flagged[move.r][move.c] = </span><span class="pdf24_61 pdf24_06 pdf24_11">!</span><span class="pdf24_17 pdf24_06 pdf24_86">flagged[move.r][move.c]; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:5.2923em;top:18.5258em;"><span class="pdf24_17 pdf24_06 pdf24_88">draw(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:4.1671em;top:20.0526em;"><span class="pdf24_17 pdf24_06 pdf24_58" style="word-spacing:0.0112em;">}, move.time); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:3.0419em;top:21.5793em;"><span class="pdf24_17 pdf24_06 pdf24_44">}); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:23.106em;"><span class="pdf24_17 pdf24_06 pdf24_11">}</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:26.1593em;"><span class="pdf24_17 pdf24_06 pdf24_24" style="word-spacing:0.0045em;">document.getElementById("difficulty").onchange = (e) =&gt; { currentDifficulty = e.target.value; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:27.686em;"><span class="pdf24_17 pdf24_06 pdf24_40" style="word-spacing:0.0029em;">setDifficulty(); fetchScores(); }; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:29.2127em;"><span class="pdf24_17 pdf24_06 pdf24_60" style="word-spacing:0.0019em;">document.getElementById("smiley").onclick = () =&gt; init(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:30.7394em;"><span class="pdf24_17 pdf24_06 pdf24_76" style="word-spacing:0.0039em;">document.getElementById("refreshScores").onclick = () =&gt; fetchScores(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:32.2661em;"><span class="pdf24_17 pdf24_06 pdf24_46" style="word-spacing:0.0078em;">canvas.oncontextmenu = (e) =&gt; e.preventDefault(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:35.3195em;"><span class="pdf24_17 pdf24_06 pdf24_11">setDifficulty(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:36.8462em;"><span class="pdf24_17 pdf24_06 pdf24_50">fetchScores(); &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:38.3728em;"><span class="pdf24_17 pdf24_06 pdf24_09">&lt;/script&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:39.8996em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;/body&gt; &nbsp;</span></div>
-					<div class="pdf24_01" style="left:1.9167em;top:41.4263em;"><span class="pdf24_17 pdf24_06 pdf24_11">&lt;/html&gt; &nbsp;</span></div>
-				</div>
-			</div>
-		</div>
-	</body>
+<body>
+
+<h2>Minesweeper Online</h2>
+
+<div style="margin-bottom: 10px;">
+  Difficulty: 
+  <select id="difficulty" style="font-family: Tahoma;">
+    <option value="easy">Easy (9x9)</option>
+    <option value="intermediate">Intermediate (16x16)</option>
+    <option value="hard">Hard (30x16)</option>
+  </select>
+</div>
+
+<div id="wrapper">
+  <div id="topbar">
+    <div id="mineCounter" class="digits">000</div>
+    <div id="smiley">😊</div> 
+    <div id="timer" class="digits">000.000</div>
+  </div>
+  <canvas id="board"></canvas> 
+</div>
+
+<div id="settings">
+  <h4>Player Account</h4>
+  <div class="auth-box">
+    <input type="email" id="email" placeholder="Email (test@test.com)">
+    <input type="password" id="password" placeholder="Password (6+ chars)">
+    <div style="margin-top: 5px;">
+        <button onclick="handleLogin()">Login</button>
+        <button onclick="handleSignUp()">Sign Up</button>
+    </div>
+    <div id="user-status">Not logged in.</div>
+  </div>
+  
+  <h4>Leaderboard (Top 10)</h4>
+  <div id="leaderboard"></div>
+  <button id="refreshScores" style="width: 100%;">Refresh</button>
+</div>
+
+<script>
+/* --- SUPABASE CONFIG --- */
+const SUPABASE_URL = 'https://truygcgalekdafoxqoau.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydXlnY2dhbGVrZGFmb3hxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0MjM0NjgsImV4cCI6MjA4Mzk5OTQ2OH0.S4_CjhbbDgDGWAGUnUmA1KmPJitI98IWHKMAbuRxq8A';
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+/* --- GAME CONFIG --- */
+let difficulties = {
+  easy: {rows:9, cols:9, mines:10},
+  intermediate: {rows:16, cols:16, mines:40},
+  hard: {rows:16, cols:30, mines:99}
+};
+
+let ROWS, COLS, MINES, TILE = 30;
+let grid, revealed, flagged, minesSet;
+let firstClick = true, gameOver = false, win = false;
+let startTime = null, endTime = null, timerInterval;
+let currentDifficulty = "easy";
+let moveLog = [];
+
+const canvas = document.getElementById("board");
+const ctx = canvas.getContext("2d");
+const leaderboardDiv = document.getElementById("leaderboard");
+const userStatus = document.getElementById("user-status");
+
+/* --- AUTH FUNCTIONS --- */
+async function handleSignUp() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    if (error) alert("Error: " + error.message);
+    else alert("Sign up successful! You can now log in.");
+}
+
+async function handleLogin() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) alert("Login failed: " + error.message);
+    else {
+        userStatus.textContent = "Logged in as: " + data.user.email.split('@')[0];
+        userStatus.style.color = "green";
+    }
+}
+
+/* --- DATABASE FUNCTIONS --- */
+async function fetchScores() {
+    const { data, error } = await supabase
+        .from('scores')
+        .select('*')
+        .eq('difficulty', currentDifficulty)
+        .order('time', { ascending: true })
+        .limit(10);
+    
+    leaderboardDiv.innerHTML = "";
+    if (data) {
+        data.forEach((s, i) => {
+            const entry = document.createElement('div');
+            entry.className = 'leaderboard-entry';
+            entry.innerHTML = `<span>#${i+1} ${s.username}</span> <span>${s.time.toFixed(2)}s</span>`;
+            entry.onclick = () => replay(s.replay_log);
+            leaderboardDiv.appendChild(entry);
+        });
+    }
+}
+
+async function saveScore() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const elapsed = (endTime - startTime) / 1000;
+    const { error } = await supabase.from('scores').insert([{
+        user_id: user.id,
+        username: user.email.split('@')[0],
+        difficulty: currentDifficulty,
+        time: elapsed,
+        replay_log: { mines: Array.from(minesSet), log: moveLog, win: true }
+    }]);
+    if (!error) fetchScores();
+}
+
+/* --- GAME LOGIC --- */
+function setDifficulty() {
+    const d = difficulties[currentDifficulty];
+    ROWS = d.rows; COLS = d.cols; MINES = d.mines;
+    canvas.width = COLS * TILE; canvas.height = ROWS * TILE;
+    init();
+}
+
+function init() {
+    grid = Array.from({length: ROWS}, () => Array(COLS).fill(0));
+    revealed = Array.from({length: ROWS}, () => Array(COLS).fill(false));
+    flagged = Array.from({length: ROWS}, () => Array(COLS).fill(false));
+    minesSet = new Set();
+    firstClick = true; gameOver = false; win = false;
+    startTime = null; endTime = null; moveLog = [];
+    document.getElementById("smiley").textContent = "😊";
+    clearInterval(timerInterval);
+    updateUI(); draw();
+}
+
+function placeMines(r0, c0) {
+    while(minesSet.size < MINES) {
+        let r = Math.floor(Math.random() * ROWS), c = Math.floor(Math.random() * COLS);
+        if (Math.abs(r-r0) > 1 || Math.abs(c-c0) > 1) minesSet.add(`${r},${c}`);
+    }
+    minesSet.forEach(m => {
+        let [r, c] = m.split(',').map(Number);
+        grid[r][c] = -1;
+    });
+    for(let r=0; r<ROWS; r++) {
+        for(let c=0; c<COLS; c++) {
+            if (grid[r][c] === -1) continue;
+            let count = 0;
+            for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) {
+                let nr = r+i, nc = c+j;
+                if (nr>=0 && nr<ROWS && nc>=0 && nc<COLS && grid[nr][nc]===-1) count++;
+            }
+            grid[r][c] = count;
+        }
+    }
+}
+
+function reveal(r, c) {
+    if (r<0 || r>=ROWS || c<0 || c>=COLS || revealed[r][c] || flagged[r][c]) return;
+    revealed[r][c] = true;
+    if (grid[r][c] === 0) {
+        for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) reveal(r+i, c+j);
+    }
+}
+
+canvas.onmousedown = (e) => {
+    if (gameOver) return;
+    const rect = canvas.getBoundingClientRect();
+    const c = Math.floor((e.clientX - rect.left) / TILE);
+    const r = Math.floor((e.clientY - rect.top) / TILE);
+    
+    if (firstClick) {
+        startTime = Date.now();
+        placeMines(r, c);
+        firstClick = false;
+        timerInterval = setInterval(updateUI, 100);
+    }
+
+    if (e.button === 2) { // Right Click
+        flagged[r][c] = !flagged[r][c];
+        moveLog.push({r, c, type:'flag', time: Date.now() - startTime});
+    } else { // Left Click
+        if (flagged[r][c]) return;
+        moveLog.push({r, c, type:'reveal', time: Date.now() - startTime});
+        if (grid[r][c] === -1) {
+            gameOver = true; endTime = Date.now();
+            document.getElementById("smiley").textContent = "😵";
+            clearInterval(timerInterval);
+        } else {
+            reveal(r, c);
+            if (revealed.flat().filter(x => !x).length === MINES) {
+                gameOver = true; win = true; endTime = Date.now();
+                document.getElementById("smiley").textContent = "😎";
+                clearInterval(timerInterval);
+                saveScore();
+            }
+        }
+    }
+    draw(); updateUI();
+};
+
+function draw() {
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    for(let r=0; r<ROWS; r++) for(let c=0; c<COLS; c++) {
+        let x = c*TILE, y = r*TILE;
+        ctx.strokeStyle = "#808080";
+        if (revealed[r][c]) {
+            ctx.fillStyle = "#ddd"; ctx.fillRect(x,y,TILE,TILE);
+            if (grid[r][c] > 0) {
+                ctx.fillStyle = ["", "blue", "green", "red", "darkblue", "maroon", "cyan", "black", "gray"][grid[r][c]];
+                ctx.font = "bold 16px Tahoma"; ctx.fillText(grid[r][c], x+10, y+22);
+            } else if (grid[r][c] === -1) {
+                ctx.fillStyle = "black"; ctx.beginPath(); ctx.arc(x+15, y+15, 8, 0, Math.PI*2); ctx.fill();
+            }
+        } else {
+            ctx.fillStyle = "#aaa"; ctx.fillRect(x,y,TILE,TILE);
+            if (flagged[r][c]) { ctx.fillStyle = "red"; ctx.fillRect(x+8, y+8, 14, 14); }
+        }
+        ctx.strokeRect(x,y,TILE,TILE);
+    }
+}
+
+function updateUI() {
+    const elapsed = startTime ? (gameOver ? (endTime-startTime) : (Date.now()-startTime)) : 0;
+    document.getElementById("timer").textContent = (elapsed/1000).toFixed(3).padStart(7, "0");
+    const flags = flagged.flat().filter(x => x).length;
+    document.getElementById("mineCounter").textContent = String(MINES - flags).padStart(3, "0");
+}
+
+/* --- REPLAY LOGIC --- */
+function replay(data) {
+    init();
+    firstClick = false;
+    minesSet = new Set(data.mines);
+    // Redraw grid for replay
+    minesSet.forEach(m => { let [r, c] = m.split(',').map(Number); grid[r][c] = -1; });
+    for(let r=0; r<ROWS; r++) for(let c=0; c<COLS; c++) {
+        if (grid[r][c] === -1) continue;
+        let count = 0;
+        for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) {
+            let nr = r+i, nc = c+j;
+            if (nr>=0 && nr<ROWS && nc>=0 && nc<COLS && grid[nr][nc]===-1) count++;
+        }
+        grid[r][c] = count;
+    }
+    data.log.forEach(move => {
+        setTimeout(() => {
+            if (move.type === 'reveal') reveal(move.r, move.c);
+            else flagged[move.r][move.c] = !flagged[move.r][move.c];
+            draw();
+        }, move.time);
+    });
+}
+
+document.getElementById("difficulty").onchange = (e) => { currentDifficulty = e.target.value; setDifficulty(); fetchScores(); };
+document.getElementById("smiley").onclick = () => init();
+document.getElementById("refreshScores").onclick = () => fetchScores();
+canvas.oncontextmenu = (e) => e.preventDefault();
+
+setDifficulty();
+fetchScores();
+</script>
+</body>
 </html>
