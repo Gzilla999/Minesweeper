@@ -2,292 +2,507 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Minesweeper Online - Global Leaderboard</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<title>Minesweeper Online Clone</title>
 <style>
+    /* --- CSS STYLES --- */
+    /* General body styling for that retro Windows 95 gray look */
     body { background:#c0c0c0; font-family:Tahoma, sans-serif; text-align:center; }
+    
+    /* Main container for the game */
     #wrapper { display:inline-block; background:#c0c0c0; border:4px solid #808080; padding:6px; }
+    
+    /* The header containing the counters and smiley face */
     #topbar { display:flex; justify-content:space-between; align-items:center; background:#c0c0c0; border:3px solid #808080; margin-bottom:6px; padding:4px; }
-    .digits { background:black; color:red; font-family:'Courier New', monospace; font-weight:bold; font-size:22px; width:80px; text-align:right; padding:2px; border:inset 2px #808080; }
+    
+    /* Digital clock/counter styling (red text on black background) */
+    .digits { background:black; color:red; font-family:'Courier New', monospace; font-weight:bold; font-size:22px; width:70px; text-align:right; padding:2px; border:inset 2px #808080; cursor:pointer; }
+    
+    /* The reset button (smiley face) */
     #smiley { width:32px; height:32px; border:2px solid #808080; background:#c0c0c0; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; }
-    canvas { display:block; background:#c0c0c0; margin:5px 0; border: 3px inset #fff; }
-    button { margin:2px; font-family: Tahoma; background: #c0c0c0; border: 2px outset #fff; cursor: pointer; padding: 4px 8px; }
-    button:active { border: 2px inset #fff; }
-    #settings { margin:10px; border:2px solid #808080; background:#c0c0c0; padding:10px; display:inline-block; text-align:left; vertical-align: top; width: 320px; }
-    .leaderboard-entry { cursor:pointer; font-size:12px; text-align:left; padding:4px; border-bottom:1px solid #808080; display:flex; justify-content:space-between; }
-    .leaderboard-entry:hover { background:#000080; color:white; }
-    .auth-box { border:2px inset #808080; padding:8px; margin-bottom:10px; background:#d0d0d0; }
-    input { font-family:Tahoma; font-size:12px; margin:2px; border:2px inset #fff; padding:4px; width:calc(100% - 15px); }
-    h4 { margin:5px 0; font-size:14px; text-decoration:underline; }
-    #user-status { font-size:11px; margin-top:4px; font-weight:bold; }
-    #leaderboard { max-height:200px; overflow-y:auto; background:#fff; border:2px inset #808080; margin-bottom:5px; min-height:50px; }
+    
+    /* The drawing area */
+    canvas { display:block; background:#c0c0c0; margin:5px 0; }
+    
+    /* Stats display area */
+    #stats { margin-top:8px; font-size:14px; cursor:pointer; white-space:pre; }
+    
+    button { margin:2px; }
+    
+    /* Settings panel styling */
+    #settings { margin:10px; border:2px solid #808080; background:#c0c0c0; padding:5px; display:inline-block; }
+    
+    #difficultySelect { margin-bottom:6px; }
+    
+    /* Leaderboard list items */
+    .leaderboard-entry { cursor:pointer; font-size:13px; text-align:left; }
 </style>
 </head>
 <body>
+<h2>Minesweeper Online Clone</h2>
 
-<h2>Minesweeper Online</h2>
-
-<div style="margin-bottom:10px;">
-  Difficulty:
-  <select id="difficulty">
-    <option value="easy">Easy (9x9)</option>
-    <option value="intermediate">Intermediate (16x16)</option>
-    <option value="hard">Hard (30x16)</option>
-  </select>
+<div id="difficultySelect">
+Difficulty:&nbsp;
+<select id="difficulty">
+  <option value="easy">Easy</option>
+  <option value="intermediate">Intermediate</option>
+  <option value="hard">Hard</option>
+</select>
 </div>
 
 <div id="wrapper">
   <div id="topbar">
-    <div id="mineCounter" class="digits">000</div>
-    <div id="smiley">😊</div>
-    <div id="timer" class="digits">000.000</div>
+    <div id="mineCounter" class="digits">010</div>
+    <div id="smiley">😊</div> <div id="timer" class="digits">000.000</div>
   </div>
-  <canvas id="board"></canvas>
+  <canvas id="board"></canvas> </div>
+
+<div>
+  <button id="flagToggle">Flag Mode: OFF</button>
 </div>
 
-<div id="settings">
-  <h4>Player Account</h4>
-  <div class="auth-box">
-    <input type="email" id="email" placeholder="Email (test@test.com)">
-    <input type="password" id="password" placeholder="Password (6+ chars)">
-    <button onclick="handleLogin()">Login</button>
-    <button onclick="handleSignUp()">Sign Up</button>
-    <div id="user-status">Not logged in.</div>
-  </div>
+<div id="stats"></div>
+<div id="leaderboard"></div>
 
-  <h4>Leaderboard (Top 10)</h4>
-  <div id="leaderboard"></div>
-  <button id="refreshScores" style="width:100%;">Refresh</button>
+<div id="settings">
+  <h4>Settings</h4>
+  <label><input type="checkbox" id="mobileMode"> Mobile Mode</label><br>
+  <label><input type="checkbox" id="showStats" checked> Show Stats</label><br>
+  <button id="resetHigh">Reset High Score</button>
 </div>
 
 <script>
-/* ---------- SUPABASE ---------- */
-const SUPABASE_URL = 'https://truygcgalekdafoxqoau.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydXlnY2dhbGVrZGFmb3hxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0MjM0NjgsImV4cCI6MjA4Mzk5OTQ2OH0.S4_CjhbbDgDGWAGUnUmA1KmPJitI98IWHKMAbuRxq8A';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-/* ---------- GAME CONFIG ---------- */
-const difficulties = {
+/* --- CONFIGURATION --- */
+// Standard Minesweeper difficulty presets
+let difficulties = {
   easy: {rows:9, cols:9, mines:10},
   intermediate: {rows:16, cols:16, mines:40},
   hard: {rows:16, cols:30, mines:99}
 };
 
-let ROWS, COLS, MINES, TILE = 30;
-let grid, revealed, flagged, minesSet;
-let firstClick, gameOver, win;
-let startTime, endTime, timerInterval;
+/* --- DOM ELEMENTS & STATE VARIABLES --- */
 let currentDifficulty = "easy";
-let moveLog = [];
+const difficultySelect = document.getElementById("difficulty");
+
+// Event listener to change difficulty and reset board
+difficultySelect.addEventListener("change",()=>{ 
+    currentDifficulty=difficultySelect.value; 
+    setDifficulty(); 
+});
 
 const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
+const mineCounter = document.getElementById("mineCounter");
+const timer = document.getElementById("timer");
+const statsDiv = document.getElementById("stats");
 const leaderboardDiv = document.getElementById("leaderboard");
-const userStatus = document.getElementById("user-status");
+const smiley = document.getElementById("smiley");
+const flagToggle = document.getElementById("flagToggle");
+const mobileCheckbox = document.getElementById("mobileMode");
 
-/* ---------- AUTH ---------- */
-async function handleSignUp() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const { error } = await sb.auth.signUp({ email, password });
-  alert(error ? error.message : "Sign up successful!");
-}
+let ROWS, COLS, MINES, TILE = 32; // TILE is the pixel size of one square
+let grid;       // Stores numbers (0-8) or mine (-1)
+let revealed;   // Boolean array: is cell open?
+let flagged;    // Boolean array: is cell flagged?
+let minesSet;   // Set to track mine locations
 
-async function handleLogin() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const { data, error } = await sb.auth.signInWithPassword({ email, password });
-  if (error) return alert(error.message);
-  updateUserUI(data.user);
-}
+// Game State Tracking
+let firstClick = true, gameOver = false, win = false;
+let startTime = null, endTime = null;
+let clickCount = 0;
+let threeBV = 0; // "Bechtel's Board Benchmark" (complexity metric)
+let moveLog = []; // Stores moves for replay functionality
 
-function updateUserUI(user) {
-  if (!user) return;
-  userStatus.textContent = "Logged in as: " + user.email.split('@')[0];
-  userStatus.style.color = "green";
-}
+// UI State
+let replaying = false, replayStartTime = 0;
+let flagMode = false, mobileMode = false, showStats = true;
 
-/* ---------- DATABASE ---------- */
-async function fetchScores() {
-  leaderboardDiv.innerHTML = "";
-  const { data } = await sb
-    .from('scores')
-    .select('*')
-    .eq('difficulty', currentDifficulty)
-    .order('time', { ascending: true })
-    .limit(10);
+// Load High Scores from LocalStorage
+let bestScores = JSON.parse(localStorage.getItem("ms_best_scores")||"{}");
 
-  data?.forEach((s, i) => {
-    const div = document.createElement('div');
-    div.className = "leaderboard-entry";
-    div.innerHTML = `<span>#${i+1} ${s.username}</span><span>${s.time.toFixed(2)}s</span>`;
-    if (s.replay_log) div.onclick = () => replay(s.replay_log);
-    leaderboardDiv.appendChild(div);
-  });
-}
+/* --- EVENT LISTENERS --- */
 
-async function saveScore() {
-  const { data } = await sb.auth.getUser();
-  if (!data.user) return;
-  const time = (endTime - startTime) / 1000;
+// Toggle mobile mode (shows flag button)
+mobileCheckbox.addEventListener("change", e => { 
+    mobileMode = e.target.checked; 
+    flagToggle.style.display = mobileMode ? "inline-block" : "none"; 
+});
 
-  await sb.from('scores').insert({
-    user_id: data.user.id,
-    username: data.user.email.split('@')[0],
-    difficulty: currentDifficulty,
-    time,
-    replay_log: { mines:[...minesSet], log: moveLog }
-  });
+// Toggle flag mode (for touch screens/single button mouse)
+flagToggle.addEventListener("click", () => { 
+    flagMode = !flagMode; 
+    flagToggle.textContent = "Flag Mode: " + (flagMode ? "ON" : "OFF"); 
+});
 
-  fetchScores();
-}
+// Toggle stats visibility
+document.getElementById("showStats").addEventListener("change", e => { 
+    showStats = e.target.checked; 
+    draw(); 
+});
 
-/* ---------- GAME LOGIC ---------- */
-function setDifficulty() {
-  const d = difficulties[currentDifficulty];
+// Reset LocalStorage scores
+document.getElementById("resetHigh").addEventListener("click", () => { 
+    bestScores[currentDifficulty] = []; 
+    localStorage.setItem("ms_best_scores", JSON.stringify(bestScores)); 
+    updateLeaderboard(); 
+    draw(); 
+});
+
+/* --- INITIALIZATION --- */
+
+// Sets grid dimensions based on difficulty
+function setDifficulty(){
+  let d = difficulties[currentDifficulty];
   ROWS = d.rows; COLS = d.cols; MINES = d.mines;
   canvas.width = COLS * TILE;
   canvas.height = ROWS * TILE;
   init();
 }
 
-function init() {
-  grid = Array.from({length:ROWS},()=>Array(COLS).fill(0));
-  revealed = Array.from({length:ROWS},()=>Array(COLS).fill(false));
-  flagged = Array.from({length:ROWS},()=>Array(COLS).fill(false));
-  minesSet = new Set();
-  firstClick = true; gameOver = false; win = false;
-  startTime = endTime = null;
-  moveLog = [];
-  clearInterval(timerInterval);
-  document.getElementById("smiley").textContent = "😊";
-  draw(); updateUI();
+// Resets game variables for a new round
+function init(customMines = null){
+  grid = Array.from({length:ROWS}, () => Array(COLS).fill(0));
+  revealed = Array.from({length:ROWS}, () => Array(COLS).fill(false));
+  flagged = Array.from({length:ROWS}, () => Array(COLS).fill(false));
+  minesSet = new Set(customMines || []);
+  
+  firstClick = true; gameOver = false; win = false; 
+  startTime = null; endTime = null; 
+  clickCount = 0; threeBV = 0; moveLog = []; replaying = false;
+  
+  smiley.textContent = "😊";
+  updateUI(); draw(); updateStats(); updateLeaderboard();
 }
 
-function placeMines(sr, sc) {
-  while (minesSet.size < MINES) {
-    const r = Math.floor(Math.random()*ROWS);
-    const c = Math.floor(Math.random()*COLS);
-    if (Math.abs(r-sr)<=1 && Math.abs(c-sc)<=1) continue;
-    minesSet.add(`${r},${c}`);
+/* --- CORE GAME LOGIC --- */
+
+// Places mines AFTER the first click to ensure the user doesn't explode immediately
+// Uses a "safe radius" around the clicked coordinate (r0, c0)
+function placeMinesSafe(r0, c0, customMines = null){
+  let safeCells = new Set();
+  
+  // Define safe zone (clicked cell + neighbors)
+  for(let dr = -1; dr <= 1; dr++) 
+    for(let dc = -1; dc <= 1; dc++){ 
+        let r = r0 + dr, c = c0 + dc; 
+        if(r >= 0 && r < ROWS && c >= 0 && c < COLS) safeCells.add(r + "," + c); 
+    }
+
+  // Randomly place mines
+  if(customMines){ minesSet = new Set(customMines); } 
+  else { 
+      while(minesSet.size < MINES){ 
+          let r = Math.floor(Math.random() * ROWS), c = Math.floor(Math.random() * COLS); 
+          if(safeCells.has(r + "," + c)) continue; 
+          minesSet.add(r + "," + c); 
+      } 
   }
 
-  minesSet.forEach(m => {
-    const [r,c] = m.split(',').map(Number);
-    grid[r][c] = -1;
+  // Calculate numbers for the grid
+  for(let rc of minesSet){ let [r,c] = rc.split(",").map(Number); grid[r][c] = -1; }
+  
+  for(let r = 0; r < ROWS; r++) for(let c = 0; c < COLS; c++){
+    if(grid[r][c] === -1) continue; 
+    let count = 0;
+    // Count adjacent mines
+    for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++){
+      let nr = r + dr, nc = c + dc; 
+      if(nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && grid[nr][nc] === -1) count++;
+    } 
+    grid[r][c] = count;
+  }
+  threeBV = compute3BV(); // Calculate complexity
+}
+
+// 3BV is a metric representing the minimum number of clicks required to clear the board without flagging
+// It counts islands of zeros (openings) + non-zero numbers not part of an opening
+function compute3BV(){ 
+  let visited = Array.from({length:ROWS}, () => Array(COLS).fill(false)), count = 0;
+  
+  // Recursive flood fill to mark islands of zeros
+  function flood(r,c){ 
+      if(r < 0 || r >= ROWS || c < 0 || c >= COLS || visited[r][c] || grid[r][c] === -1) return; 
+      visited[r][c] = true; 
+      if(grid[r][c] === 0) 
+        for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++) if(dr || dc) flood(r + dr, c + dc); 
+  }
+  
+  // Count zero-islands
+  for(let r = 0; r < ROWS; r++) for(let c = 0; c < COLS; c++) 
+    if(grid[r][c] === 0 && !visited[r][c]){ count++; flood(r,c); }
+  
+  // Count remaining non-zero numbers
+  for(let r = 0; r < ROWS; r++) for(let c = 0; c < COLS; c++) 
+    if(grid[r][c] > 0 && !visited[r][c]) count++;
+    
+  return count;
+}
+
+// Reveals a cell. If it's a zero, it recursively reveals neighbors (Flood Fill)
+function reveal(r, c, allowFlood = true){ 
+    if(r < 0 || r >= ROWS || c < 0 || c >= COLS || revealed[r][c] || flagged[r][c]) return; 
+    revealed[r][c] = true; 
+    if(allowFlood && grid[r][c] === 0) 
+        for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++) if(dr || dc) reveal(r + dr, c + dc, true); 
+}
+
+// "Chording": If a number is revealed and has the correct number of flags around it,
+// clicking it reveals all unflagged neighbors.
+function chord(r, c){ 
+    if(grid[r][c] <= 0) return; 
+    let flags = 0; 
+    // Count surrounding flags
+    for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++){ 
+        let nr = r + dr, nc = c + dc; 
+        if(nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && flagged[nr][nc]) flags++; 
+    } 
+    // If flags match the number, reveal the rest
+    if(flags !== grid[r][c]) return; 
+    for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++){ 
+        let nr = r + dr, nc = c + dc; 
+        if(nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && !flagged[nr][nc] && !revealed[nr][nc]) reveal(nr, nc, true); 
+    } 
+}
+
+// Checks if all non-mine cells have been revealed
+function checkWin(){ 
+    for(let r = 0; r < ROWS; r++) for(let c = 0; c < COLS; c++) 
+        if(grid[r][c] != -1 && !revealed[r][c]) return false; 
+    return true; 
+}
+
+/* --- INPUT HANDLING --- */
+
+function handleClick(r, c, type, logMove = true, replayMove = false){
+  if(gameOver && !replayMove) return;
+
+  // Handle First Click Rule
+  if(firstClick && type === 'reveal'){ placeMinesSafe(r, c); firstClick = false; }
+  
+  // Start Timer
+  if(!startTime && !replayMove) startTime = performance.now();
+
+  let countedClick = false;
+  if(type === 'reveal'){
+    if(revealed[r][c]){ 
+        chord(r, c); // Try to chord if already revealed
+        countedClick = true; 
+    } 
+    else if(grid[r][c] === -1 && !replayMove){ 
+        // Hit a mine!
+        gameOver = true; win = false; endTime = performance.now(); 
+        smiley.textContent = "😵"; countedClick = true; 
+        reveal(r, c, false); 
+    } 
+    else{ 
+        reveal(r, c, true); // Normal reveal
+        countedClick = true; 
+    }
+  } else if(type === 'flag'){ 
+      if(!revealed[r][c]) countedClick = true; 
+      flagged[r][c] = !flagged[r][c]; 
+  }
+
+  // Stats tracking
+  if(countedClick && !replayMove) clickCount++;
+  if(logMove) moveLog.push({r, c, type, time: performance.now() - (replayMove ? replayStartTime : startTime)});
+  
+  // Check Win Condition
+  if(!gameOver && checkWin() && !replayMove){ 
+      gameOver = true; win = true; endTime = performance.now(); 
+      smiley.textContent = "😎"; 
+      saveHighScore(); 
+  }
+
+  updateUI(); draw(); updateStats();
+}
+
+// Mouse Event Listeners
+canvas.addEventListener("mousedown", e => { if(gameOver || replaying) return; smiley.textContent = "😮"; }); // O-face on click
+canvas.addEventListener("mouseup", e => { if(gameOver) return; smiley.textContent = "😊"; });
+
+canvas.addEventListener("mousedown", e => {
+  if(replaying) return;
+  let rect = canvas.getBoundingClientRect();
+  let x = e.clientX - rect.left, y = e.clientY - rect.top;
+  let r = Math.floor(y / TILE), c = Math.floor(x / TILE);
+  
+  // Determine if it's a flag (Right Click) or Reveal (Left Click)
+  let type = (e.button === 2) ? 'flag' : (flagMode ? 'flag' : 'reveal');
+  handleClick(r, c, type);
+});
+
+// Prevent context menu on right click
+canvas.addEventListener("contextmenu", e => e.preventDefault());
+
+// Smiley reset
+smiley.addEventListener("click", () => { if(!replaying) init(); });
+
+// Replay best score on clicking stats
+statsDiv.addEventListener("click", () => { if(bestScores[currentDifficulty] && bestScores[currentDifficulty][0]) replay(bestScores[currentDifficulty][0]); });
+
+/* --- LEADERBOARD & REPLAY SYSTEM --- */
+
+function saveHighScore(){
+  if(threeBV < 1) return; // Ignore empty boards
+  if(!bestScores[currentDifficulty]) bestScores[currentDifficulty] = [];
+  
+  let elapsed = (endTime - startTime) / 1000;
+  
+  // Save game data including the full move log
+  bestScores[currentDifficulty].push({
+      time: elapsed, clickCount, threeBV, 
+      log: moveLog.slice(), win, mines: Array.from(minesSet)
+  });
+  
+  // Sort by time and keep top 10
+  bestScores[currentDifficulty].sort((a, b) => a.time - b.time);
+  if(bestScores[currentDifficulty].length > 10) bestScores[currentDifficulty] = bestScores[currentDifficulty].slice(0, 10);
+  
+  localStorage.setItem("ms_best_scores", JSON.stringify(bestScores));
+  updateLeaderboard();
+}
+
+function updateLeaderboard(){
+  leaderboardDiv.innerHTML = "";
+  if(!bestScores[currentDifficulty]) return;
+  
+  bestScores[currentDifficulty].slice(0, 5).forEach((entry, i) => {
+    let div = document.createElement('div');
+    let efficiency = (entry.clickCount > 0 ? ((entry.threeBV / entry.clickCount) * 100).toFixed(1) + '%' : 'N/A');
+    div.className = 'leaderboard-entry';
+    div.textContent = `#${i+1}: ${entry.time.toFixed(3)}s | 3BV=${entry.threeBV} | 3BV/s=${(entry.threeBV / entry.time).toFixed(2)} | Eff=${efficiency}`;
+    div.onclick = () => replay(entry); // Click to watch replay
+    leaderboardDiv.appendChild(div);
+  });
+}
+
+// Reconstructs a previous game and plays it back visually
+function replay(entry){
+  if(replaying) return;
+  replaying = true;
+  firstClick = false; gameOver = false; win = entry.win;
+
+  // Reset grid
+  grid = Array.from({length:ROWS}, () => Array(COLS).fill(0));
+  revealed = Array.from({length:ROWS}, () => Array(COLS).fill(false));
+  flagged = Array.from({length:ROWS}, () => Array(COLS).fill(false));
+  
+  // Restore mines from the saved log
+  minesSet = new Set(entry.mines);
+  for(let rc of minesSet){ let [r,c] = rc.split(",").map(Number); grid[r][c] = -1; }
+
+  // Recalculate numbers
+  for(let r = 0; r < ROWS; r++) for(let c = 0; c < COLS; c++){
+    if(grid[r][c] === -1) continue; 
+    let count = 0;
+    for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++){
+      let nr = r + dr, nc = c + dc; 
+      if(nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && grid[nr][nc] === -1) count++;
+    } 
+    grid[r][c] = count;
+  }
+  threeBV = compute3BV();
+
+  clickCount = 0;
+  startTime = performance.now(); 
+  replayStartTime = startTime;
+
+  // Execute moves using setTimeout to mimic real-time speed
+  entry.log.forEach(m => {
+    setTimeout(() => {
+      if(m.type === 'reveal'){ 
+        reveal(m.r, m.c, true); 
+        clickCount++; 
+      }
+      else if(m.type === 'flag'){ 
+        flagged[m.r][m.c] = !flagged[m.r][m.c]; 
+        clickCount++; 
+      }
+      draw();
+      updateStats();
+    }, m.time);
   });
 
-  for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) {
-    if (grid[r][c] === -1) continue;
-    let n=0;
-    for (let i=-1;i<=1;i++) for (let j=-1;j<=1;j++) {
-      const nr=r+i,nc=c+j;
-      if (nr>=0&&nc>=0&&nr<ROWS&&nc<COLS&&grid[nr][nc]===-1) n++;
-    }
-    grid[r][c]=n;
-  }
+  // End replay logic
+  let totalTime = entry.log[entry.log.length - 1].time;
+  setTimeout(() => {
+    replaying = false;
+    endTime = startTime + totalTime;
+    gameOver = true; 
+    smiley.textContent = win ? "😎" : "😵"; 
+    updateStats();
+  }, totalTime);
 }
 
-function reveal(r,c){
-  if(r<0||c<0||r>=ROWS||c>=COLS||revealed[r][c]||flagged[r][c]) return;
-  revealed[r][c]=true;
-  if(grid[r][c]===0)
-    for(let i=-1;i<=1;i++)
-      for(let j=-1;j<=1;j++)
-        reveal(r+i,c+j);
-}
+/* --- RENDER LOOP & STATS --- */
 
-canvas.onmousedown = e => {
-  if(gameOver) return;
-  const rect = canvas.getBoundingClientRect();
-  const c = Math.floor((e.clientX - rect.left) / TILE);
-  const r = Math.floor((e.clientY - rect.top) / TILE);
-  if(r<0||c<0||r>=ROWS||c>=COLS) return;
-
-  if(firstClick){
-    startTime = Date.now();
-    placeMines(r,c);
-    timerInterval = setInterval(updateUI,100);
-    firstClick = false;
-  }
-
-  if(e.button===2){
-    flagged[r][c] = !flagged[r][c];
-    moveLog.push({r,c,type:'flag',time:Date.now()-startTime});
-  } else {
-    if(flagged[r][c]) return;
-    moveLog.push({r,c,type:'reveal',time:Date.now()-startTime});
-    if(grid[r][c]===-1){
-      gameOver=true; endTime=Date.now();
-      document.getElementById("smiley").textContent="😵";
-      clearInterval(timerInterval);
-    } else {
-      reveal(r,c);
-      const remaining = grid.flat().filter((v,i)=>v!==-1 && !revealed[Math.floor(i/COLS)][i%COLS]).length;
-      if(remaining===0){
-        gameOver=true; win=true; endTime=Date.now();
-        document.getElementById("smiley").textContent="😎";
-        clearInterval(timerInterval);
-        saveScore();
-      }
-    }
-  }
-  draw(); updateUI();
-};
-
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
-    const x=c*TILE,y=r*TILE;
-    ctx.fillStyle = revealed[r][c] ? "#ddd" : "#aaa";
-    ctx.fillRect(x,y,TILE,TILE);
-    if(revealed[r][c] && grid[r][c]>0){
-      ctx.fillStyle=["","blue","green","red","darkblue","maroon","cyan","black","gray"][grid[r][c]];
-      ctx.font="bold 16px Tahoma";
-      ctx.fillText(grid[r][c],x+10,y+22);
-    }
-    if(flagged[r][c]){
-      ctx.fillStyle="red";
-      ctx.fillRect(x+8,y+8,14,14);
-    }
-    ctx.strokeRect(x,y,TILE,TILE);
-  }
+function updateStats(){
+  if(!gameOver && !replaying){ statsDiv.textContent = ""; return; }
+  let elapsed = (endTime && gameOver) ? (endTime - startTime) / 1000 : (performance.now() - startTime) / 1000;
+  let efficiency = (clickCount > 0 ? ((threeBV / clickCount) * 100).toFixed(1) + '%' : 'N/A');
+  statsDiv.textContent = `${win ? 'Win' : 'Lose'} | Time: ${elapsed.toFixed(3)}s | 3BV=${threeBV} | 3BV/s=${(threeBV / elapsed).toFixed(2)} | Clicks=${clickCount} | Efficiency=${efficiency}`;
 }
 
 function updateUI(){
-  const t = startTime ? (gameOver ? endTime-startTime : Date.now()-startTime) : 0;
-  document.getElementById("timer").textContent = (t/1000).toFixed(3).padStart(7,"0");
-  document.getElementById("mineCounter").textContent =
-    String(MINES - flagged.flat().filter(Boolean).length).padStart(3,"0");
+  // Update Mine Counter (Total - Flags)
+  let minesLeft = MINES - flagged.flat().filter(f => f).length;
+  mineCounter.textContent = String(minesLeft).padStart(3, "0");
+
+  // Update Timer
+  let elapsed;
+  if(replaying) elapsed = (performance.now() - startTime) / 1000;
+  else if(startTime) elapsed = (gameOver ? (endTime - startTime) / 1000 : (performance.now() - startTime) / 1000);
+  else elapsed = 0;
+
+  timer.textContent = elapsed.toFixed(3).padStart(7, "0");
 }
 
-/* ---------- REPLAY ---------- */
-function replay(data){
-  init();
-  firstClick=false;
-  minesSet=new Set(data.mines);
-  placeMines(999,999);
-  data.log.forEach(m=>{
-    setTimeout(()=>{
-      if(m.type==='reveal') reveal(m.r,m.c);
-      else flagged[m.r][m.c]=!flagged[m.r][m.c];
-      draw();
-    },m.time);
-  });
+// Main Draw Loop (Canvas API)
+function draw(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for(let r = 0; r < ROWS; r++){
+    for(let c = 0; c < COLS; c++){
+      let x = c * TILE, y = r * TILE;
+      ctx.strokeStyle = "#808080"; ctx.lineWidth = 1;
+      
+      if(revealed[r][c]){
+        // Draw revealed cell
+        ctx.fillStyle = "#ddd"; ctx.fillRect(x, y, TILE, TILE); ctx.strokeRect(x, y, TILE, TILE);
+        
+        // Draw Number
+        if(grid[r][c] > 0){ 
+            // Colors for 1-8
+            ctx.fillStyle = ["", "blue", "green", "red", "purple", "orange", "turquoise", "black", "gray"][grid[r][c]]; 
+            ctx.font = "bold 18px Arial"; 
+            ctx.fillText(grid[r][c], x + TILE / 2 - 4, y + TILE / 2 + 6); 
+        }
+        // Draw Mine
+        if(grid[r][c] === -1){ 
+            ctx.fillStyle = "black"; ctx.beginPath(); ctx.arc(x + TILE / 2, y + TILE / 2, 10, 0, 2 * Math.PI); ctx.fill(); 
+        }
+      } else {
+        // Draw covered cell
+        ctx.fillStyle = "#aaa"; ctx.fillRect(x, y, TILE, TILE); ctx.strokeRect(x, y, TILE, TILE);
+        
+        // Draw Flag
+        if(flagged[r][c]){ 
+            ctx.fillStyle = "red"; ctx.beginPath(); ctx.arc(x + TILE / 2, y + TILE / 2, 8, 0, 2 * Math.PI); ctx.fill(); 
+        }
+      }
+      
+      // Draw Red Background for wrong mines on Loss
+      if(gameOver && grid[r][c] === -1 && !revealed[r][c]){ 
+          ctx.fillStyle = "#f00"; ctx.fillRect(x, y, TILE, TILE); ctx.strokeRect(x, y, TILE, TILE); 
+      }
+    }
+  }
 }
 
-/* ---------- INIT ---------- */
-document.getElementById("difficulty").onchange=e=>{
-  currentDifficulty=e.target.value;
-  setDifficulty(); fetchScores();
-};
-document.getElementById("smiley").onclick=init;
-document.getElementById("refreshScores").onclick=fetchScores;
-canvas.oncontextmenu=e=>e.preventDefault();
+// Redraw every 50ms for timer updates
+setInterval(() => { updateUI(); draw(); }, 50);
 
-sb.auth.getUser().then(({data})=>updateUserUI(data.user));
-setDifficulty(); fetchScores();
+// Initial start
+setDifficulty();
 </script>
 </body>
 </html>
-
