@@ -1,0 +1,83 @@
+/* --- CSS STYLES --- */
+body {
+    background:#c0c0c0;
+    font-family:Tahoma, sans-serif;
+    text-align:center;
+}
+
+#wrapper {
+    display:inline-block;
+    background:#c0c0c0;
+    border:4px solid #808080;
+    padding:6px;
+}
+
+#topbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#c0c0c0;
+    border:3px solid #808080;
+    margin-bottom:6px;
+    padding:4px;
+}
+
+.digits {
+    background:black;
+    color:red;
+    font-family:'Courier New', monospace;
+    font-weight:bold;
+    font-size:22px;
+    width:70px;
+    text-align:right;
+    padding:2px;
+    border:inset 2px #808080;
+    cursor:pointer;
+}
+
+#smiley {
+    width:32px;
+    height:32px;
+    border:2px solid #808080;
+    background:#c0c0c0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:20px;
+}
+
+canvas {
+    display:block;
+    background:#c0c0c0;
+    margin:5px 0;
+}
+
+#stats {
+    margin-top:8px;
+    font-size:14px;
+    cursor:pointer;
+    white-space:pre;
+}
+
+button {
+    margin:2px;
+}
+
+#settings {
+    margin:10px;
+    border:2px solid #808080;
+    background:#c0c0c0;
+    padding:5px;
+    display:inline-block;
+}
+
+#difficultySelect {
+    margin-bottom:6px;
+}
+
+.leaderboard-entry {
+    cursor:pointer;
+    font-size:13px;
+    text-align:left;
+}
