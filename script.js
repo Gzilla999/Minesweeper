@@ -302,7 +302,10 @@ function replay(entry){
 /* --- UI & RENDERING --- */
 
 function updateStats(){
-  if(!gameOver && !replaying){ statsDiv.textContent = ""; return; }
+  if(!showStats || (!gameOver && !replaying)){
+    statsDiv.textContent = "";
+    return;
+  }
   let elapsed = (endTime - startTime) / 1000;
   let eff = clickCount ? ((threeBV / clickCount) * 100).toFixed(1) + "%" : "N/A";
   statsDiv.textContent =
@@ -311,7 +314,7 @@ function updateStats(){
 
 function updateUI(){
   let minesLeft = MINES - flagged.flat().filter(Boolean).length;
-  mineCounter.textContent = String(minesLeft).padStart(3,"0");
+  mineCounter.textContent = String(Math.max(0, minesLeft)).padStart(3,"0");
 
   let elapsed = startTime ? ((gameOver ? endTime : performance.now()) - startTime) / 1000 : 0;
   timer.textContent = elapsed.toFixed(3).padStart(7,"0");
