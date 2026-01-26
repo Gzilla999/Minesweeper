@@ -66,14 +66,6 @@ document.getElementById("showStats").addEventListener("change", e => {
     draw(); 
 });
 
-// Reset LocalStorage scores
-document.getElementById("resetHigh").addEventListener("click", () => { 
-    bestScores[currentDifficulty] = []; 
-    localStorage.setItem("ms_best_scores", JSON.stringify(bestScores)); 
-    updateLeaderboard(); 
-    draw(); 
-});
-
 /* --- INITIALIZATION --- */
 
 function setDifficulty(){
