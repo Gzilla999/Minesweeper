@@ -2,4 +2,4 @@
 
 Minesweeper online is blocked so I made this.
 
-[Play here](https://lewis-minesweeper.netlify.app/)
+[Play here](https://minesweeper--g999zilla999.replit.app/)
