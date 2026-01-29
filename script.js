@@ -44,7 +44,18 @@ let replaying = false, replayStartTime = 0;
 let flagMode = false, mobileMode = false, showStats = true;
 
 // Load High Scores from LocalStorage
-let bestScores = JSON.parse(localStorage.getItem("ms_best_scores")||"{}");
+function loadBestScores(){
+  try{
+    const raw = localStorage.getItem("ms_best_scores");
+    if(!raw) return {};
+    const parsed = JSON.parse(raw);
+    return (parsed && typeof parsed === 'object') ? parsed : {};
+  }catch(e){
+    console.warn("Minesweeper: failed to load best scores from localStorage", e);
+    return {};
+  }
+}
+let bestScores = loadBestScores();
 
 /* --- EVENT LISTENERS --- */
 
