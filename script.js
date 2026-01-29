@@ -357,5 +357,11 @@ function draw(){
 }
 
 /* --- LOOP & START --- */
-setInterval(()=>{ updateUI(); draw(); },50);
+let running = true;
+function renderLoop(){
+  updateUI();
+  draw();
+  if(running) requestAnimationFrame(renderLoop);
+}
+requestAnimationFrame(renderLoop);
 setDifficulty();
