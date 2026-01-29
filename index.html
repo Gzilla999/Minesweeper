@@ -36,31 +36,8 @@ Difficulty:&nbsp;
 
 <div id="settings">
   <h4>Settings</h4>
+  <label><input type="checkbox" id="mobileMode"> Mobile Mode</label><br>
   <label><input type="checkbox" id="showStats" checked> Show Stats</label><br>
-</div>
-
-<!-- Hidden leaderboard modal (functional only, no visible UI change) -->
-<div id="leaderboardModal" hidden>
-  <div id="leaderboardBox">
-    <button id="closeLeaderboard">✖</button>
-    <h3>Leaderboard</h3>
-    <div>
-      Difficulty: 
-      <select id="lbDifficulty">
-        <option value="easy">Easy</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="hard">Hard</option>
-      </select>
-      Category:
-      <select id="lbCategory">
-        <option value="time">Fastest Time</option>
-        <option value="3bvs">3BV/s</option>
-        <option value="eff">Efficiency</option>
-        <option value="recent">Most Recent</option>
-      </select>
-    </div>
-    <div id="leaderboardList"></div>
-  </div>
 </div>
 
 <script src="script.js"></script>
