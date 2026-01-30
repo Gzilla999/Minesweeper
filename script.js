@@ -1,3 +1,4 @@
+"use strict";
 /* --- CONFIGURATION --- */
 // Standard Minesweeper difficulty presets
 let difficulties = {
