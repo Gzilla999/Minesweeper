@@ -1,4 +1,4 @@
-"use strict";
+use strict;
 /* --- CONFIGURATION --- */
 // Standard Minesweeper difficulty presets
 let difficulties = {
@@ -112,13 +112,27 @@ function placeMinesSafe(r0, c0, customMines = null){
         if(r >= 0 && r < ROWS && c >= 0 && c < COLS) safeCells.add(r + "," + c); 
     }
 
-  if(customMines){ minesSet = new Set(customMines); } 
-  else { 
-      while(minesSet.size < MINES){ 
-          let r = Math.floor(Math.random() * ROWS), c = Math.floor(Math.random() * COLS); 
-          if(safeCells.has(r + "," + c)) continue; 
-          minesSet.add(r + "," + c); 
-      } 
+  if(customMines){ 
+    minesSet = new Set(customMines); 
+  } else { 
+    // Defensive: ensure we don't try to place more mines than available non-safe cells
+    const maxAvailable = ROWS * COLS - safeCells.size;
+    if(MINES > maxAvailable){
+      console.warn(`Minesweeper: MINES (${MINES}) > available non-safe cells (${maxAvailable}). Capping to ${maxAvailable}.`);
+    }
+    const targetMines = Math.min(MINES, Math.max(0, maxAvailable));
+
+    // Avoid pathological infinite loops by bounding attempts
+    let attempts = 0;
+    const maxAttempts = ROWS * COLS * 10;
+    while(minesSet.size < targetMines && attempts++ < maxAttempts){ 
+        let r = Math.floor(Math.random() * ROWS), c = Math.floor(Math.random() * COLS); 
+        if(safeCells.has(r + "," + c)) continue; 
+        minesSet.add(r + "," + c); 
+    } 
+    if(minesSet.size < targetMines){
+      console.warn("Minesweeper: unable to place the requested number of mines after many attempts. Placed:", minesSet.size);
+    }
   }
 
   for(let rc of minesSet){ let [r,c] = rc.split(",").map(Number); grid[r][c] = -1; }
@@ -200,7 +214,11 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
   }
 
   if(countedClick && !replayMove) clickCount++;
-  if(logMove) moveLog.push({r, c, type, time: performance.now() - (replayMove ? replayStartTime : startTime)});
+  // safer base for move timestamps
+  if(logMove){
+    const baseTime = replayMove ? replayStartTime : (startTime || performance.now());
+    moveLog.push({r, c, type, time: performance.now() - baseTime});
+  }
   
   if(!gameOver && checkWin() && !replayMove){ 
       gameOver = true; win = true; endTime = performance.now(); 
@@ -293,7 +311,8 @@ function replay(entry){
     }, m.time);
   });
 
-  let totalTime = entry.log.at(-1).time;
+  // replace .at(-1) for compatibility and safety
+  let totalTime = entry.log.length ? entry.log[entry.log.length - 1].time : 0;
   setTimeout(() => {
     replaying = false;
     endTime = startTime + totalTime;
@@ -310,10 +329,27 @@ function updateStats(){
     statsDiv.textContent = "";
     return;
   }
-  let elapsed = (endTime - startTime) / 1000;
+
+  // compute elapsed safely: use endTime if game over, otherwise use now; fall back to 0 if startTime missing
+  let elapsed = 0;
+  if(startTime){
+    const reference = gameOver ? (endTime || performance.now()) : performance.now();
+    elapsed = (reference - startTime) / 1000;
+  }
+
+  // Efficiency (3BV per click) - safe formatting
   let eff = clickCount ? ((threeBV / clickCount) * 100).toFixed(1) + "%" : "N/A";
+
+  // 3BV/s - only compute when elapsed is positive finite
+  let bvps = "N/A";
+  if(Number.isFinite(elapsed) && elapsed > 0){
+    bvps = (threeBV / elapsed).toFixed(2);
+  }
+
+  const timeText = (Number.isFinite(elapsed) && elapsed > 0) ? `${elapsed.toFixed(3)}s` : "N/A";
+
   statsDiv.textContent =
-    `${win?'Win':'Lose'} | Time: ${elapsed.toFixed(3)}s | 3BV=${threeBV} | 3BV/s=${(threeBV/elapsed).toFixed(2)} | Clicks=${clickCount} | Efficiency=${eff}`;
+    `${win ? 'Win' : 'Lose'} | Time: ${timeText} | 3BV=${threeBV} | 3BV/s=${bvps} | Clicks=${clickCount} | Efficiency=${eff}`;
 }
 
 function updateUI(){
