@@ -317,7 +317,8 @@ function updateStats(){
 }
 
 function updateUI(){
-  let minesLeft = MINES - flagged.flat().filter(Boolean).length;
+  let flaggedCount = flagged.reduce((s, row) => s + row.filter(Boolean).length, 0);
+  let minesLeft = MINES - flaggedCount;
   mineCounter.textContent = String(Math.max(0, minesLeft)).padStart(3,"0");
 
   let elapsed = startTime ? ((gameOver ? endTime : performance.now()) - startTime) / 1000 : 0;
