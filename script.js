@@ -17,6 +17,9 @@ difficultySelect.addEventListener("change",()=>{
 });
 
 const canvas = document.getElementById("board");
+canvas.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+});
 const ctx = canvas.getContext("2d");
 const mineCounter = document.getElementById("mineCounter");
 const timer = document.getElementById("timer");
