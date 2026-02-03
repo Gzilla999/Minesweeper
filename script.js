@@ -258,7 +258,7 @@ function saveHighScore(){
       log: moveLog.slice(), win, mines: Array.from(minesSet)
   });
   bestScores[currentDifficulty].sort((a, b) => a.time - b.time);
-  bestScores[currentDifficulty] = bestScores[currentDifficulty].slice(0, 10);
+  bestScores[currentDifficulty] = bestScores[currentDifficulty].slice(0, 100);
   localStorage.setItem("ms_best_scores", JSON.stringify(bestScores));
   updateLeaderboard();
 }
@@ -266,7 +266,7 @@ function saveHighScore(){
 function updateLeaderboard(){
   leaderboardDiv.innerHTML = "";
   if(!bestScores[currentDifficulty]) return;
-  bestScores[currentDifficulty].slice(0, 5).forEach((e, i) => {
+  bestScores[currentDifficulty].slice(0, 50).forEach((e, i) => {
     let d = document.createElement("div");
     let eff = e.clickCount ? ((e.threeBV / e.clickCount) * 100).toFixed(1) + "%" : "N/A";
     d.className = "leaderboard-entry";
