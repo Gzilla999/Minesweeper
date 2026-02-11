@@ -1,4 +1,10 @@
 "use strict";
+/* --- SERVICE WORKER REGISTRATION --- */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js")
+    .catch(err => console.warn("SW registration failed:", err));
+}
+
 /* --- CONFIGURATION --- */
 // Standard Minesweeper difficulty presets
 let difficulties = {
