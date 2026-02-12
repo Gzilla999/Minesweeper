@@ -88,3 +88,7 @@ button {
     font-size:13px;
     text-align:left;
 }
+
+#flagToggle {
+    display: none;
+}
