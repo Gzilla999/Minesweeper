@@ -1,14 +1,21 @@
 /* --- CSS STYLES --- */
+:root {
+    --ui-bg: #c0c0c0;
+    --ui-border: #808080;
+    --ui-dark: #404040;
+    --ui-light: #ffffff;
+}
+
 body {
-    background:#c0c0c0;
+    background: var(--ui-bg);
     font-family:Tahoma, sans-serif;
     text-align:center;
 }
 
 #wrapper {
     display:inline-block;
-    background:#c0c0c0;
-    border:4px solid #808080;
+    background: var(--ui-bg);
+    border: 4px solid var(--ui-border);
     padding:6px;
 }
 
@@ -16,8 +23,8 @@ body {
     display:flex;
     justify-content:space-between;
     align-items:center;
-    background:#c0c0c0;
-    border:3px solid #808080;
+    background: var(--ui-bg);
+    border: 3px solid var(--ui-border);
     margin-bottom:6px;
     padding:4px;
 }
@@ -38,8 +45,8 @@ body {
 #smiley {
     width:32px;
     height:32px;
-    border:2px solid #808080;
-    background:#c0c0c0;
+    border:2px solid var(--ui-border);
+    background:var(--ui-bg);
     display:flex;
     align-items:center;
     justify-content:center;
@@ -49,7 +56,7 @@ body {
 
 canvas {
     display:block;
-    background:#c0c0c0;
+    background:var(--ui-bg);
     margin:5px 0;
 }
 
@@ -66,8 +73,8 @@ button {
 
 #settings {
     margin:10px;
-    border:2px solid #808080;
-    background:#c0c0c0;
+    border:2px solid var(--ui-border);
+    background:var(--ui-bg);
     padding:5px;
     display:inline-block;
 }
