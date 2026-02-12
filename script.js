@@ -409,3 +409,51 @@ function renderLoop(){
 }
 requestAnimationFrame(renderLoop);
 setDifficulty();
+
+
+const themePicker = document.getElementById("themeColor");
+
+function applyTheme(base) {
+  document.documentElement.style.setProperty("--ui-bg", base);
+
+  // darker border
+  document.documentElement.style.setProperty(
+    "--ui-border",
+    shade(base, -40)
+  );
+
+  document.documentElement.style.setProperty(
+    "--ui-dark",
+    shade(base, -80)
+  );
+
+  document.documentElement.style.setProperty(
+    "--ui-light",
+    shade(base, 40)
+  );
+}
+
+// Simple color shading
+function shade(hex, percent) {
+  let r = parseInt(hex.substr(1,2),16);
+  let g = parseInt(hex.substr(3,2),16);
+  let b = parseInt(hex.substr(5,2),16);
+
+  r = Math.min(255, Math.max(0, r + percent));
+  g = Math.min(255, Math.max(0, g + percent));
+  b = Math.min(255, Math.max(0, b + percent));
+
+  return `rgb(${r},${g},${b})`;
+}
+
+themePicker.addEventListener("input", e => {
+  applyTheme(e.target.value);
+  localStorage.setItem("ms_theme", e.target.value);
+});
+
+const savedTheme = localStorage.getItem("ms_theme");
+if (savedTheme) {
+  themePicker.value = savedTheme;
+  applyTheme(savedTheme);
+}
+
