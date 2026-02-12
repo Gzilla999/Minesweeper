@@ -1,50 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Lewis' Minesweeper</title>
-<link rel="stylesheet" href="style.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lewis' Minesweeper</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<h2>Lewis' Minesweeper</h2>
+    <h1>Lewis' Minesweeper</h1>
 
-<div id="difficultySelect">
-Difficulty:&nbsp;
-<select id="difficulty">
-  <option value="easy">Easy</option>
-  <option value="intermediate">Intermediate</option>
-  <option value="hard">Hard</option>
-</select>
-</div>
+    <div id="difficultySelect">
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="hard">Hard</option>
+        </select>
+    </div>
 
-<div id="wrapper">
-  <div id="topbar">
-    <div id="mineCounter" class="digits">010</div>
-    <div id="smiley">😊</div>
-    <div id="timer" class="digits">000.000</div>
-  </div>
-  <canvas id="board" tabindex="0" aria-label="Minesweeper board"></canvas>
-</div>
+    <div id="wrapper">
+        <div id="topbar">
+            <div id="mineCounter" class="digits">010</div>
+            
+            <button id="smiley" aria-label="Reset Game">😊</button>
+            
+            <div id="timer" class="digits">000.000</div>
+        </div>
+        
+        <canvas id="board" tabindex="0" aria-label="Minesweeper board game"></canvas>
+    </div>
 
-<div>
-  <button id="flagToggle">Flag Mode: OFF</button>
-</div>
+    <div id="controls">
+        <button id="flagToggle">Flag Mode: OFF</button>
+    </div>
 
-<div id="stats"></div>
-<div id="leaderboard"></div>
+    <div id="stats"></div>
+    <div id="leaderboard"></div>
 
-<div id="settings">
-  <h4>Settings</h4>
-  <label><input type="checkbox" id="mobileMode"> Mobile Mode</label><br>
-  <label><input type="checkbox" id="showStats" checked> Show Stats</label><br>
-  <label>Theme colour:<input type="color" id="themeColor" value="#c0c0c0"></label><br>
-</div>
+    <div id="settings">
+        <h3>Settings</h3>
+        <label><input type="checkbox" id="mobileMode"> Mobile Mode (Tap Logic)</label><br>
+        <label><input type="checkbox" id="showStats" checked> Show Stats</label><br>
+        <label>Theme colour: <input type="color" id="themeColor" value="#c0c0c0"></label><br>
+    </div>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
-
-
