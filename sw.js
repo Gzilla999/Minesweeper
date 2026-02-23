@@ -1,13 +1,14 @@
 "use strict";
 
 /* ===== CONFIG ===== */
-const CACHE_VERSION = "ms-cache-v1.1.3"; // ⬅️ CHANGE THIS ON EVERY UPDATE
+const CACHE_VERSION = "ms-cache-v1.1.4"; // ⬅️ CHANGE THIS ON EVERY UPDATE
 const OFFLINE_ASSETS = [
   "./",
   "./index.html",
   "./style.css",
   "./script.js",
-  "./favicon.ico"
+  "./favicon.ico",
+  "./favicon.png"
 ];
 
 /* ===== INSTALL ===== */
