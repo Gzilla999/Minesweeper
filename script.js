@@ -179,12 +179,35 @@ function reveal(r, c, allowFlood = true){
 
 function chord(r, c){ 
     if(grid[r][c] <= 0) return; 
-    let flags = 0; 
+    let flags = 0;
+    let flaggedCells = [];
+    
     for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++){ 
         let nr = r + dr, nc = c + dc; 
-        if(nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && flagged[nr][nc]) flags++; 
+        if(nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS){
+            if(flagged[nr][nc]){
+                flags++; 
+                flaggedCells.push([nr, nc]);
+            }
+        }
     } 
-    if(flags !== grid[r][c]) return; 
+    
+    // Check if flags match the number
+    if(flags !== grid[r][c]) return;
+    
+    // Verify that all flagged cells are actually mines
+    for(let [fr, fc] of flaggedCells){
+        if(grid[fr][fc] !== -1){
+            // Wrong flag! Game over
+            gameOver = true;
+            win = false;
+            endTime = performance.now();
+            smiley.textContent = "😵";
+            return;
+        }
+    }
+    
+    // All flags are correct, reveal safe cells
     for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++){ 
         let nr = r + dr, nc = c + dc; 
         if(nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && !flagged[nr][nc] && !revealed[nr][nc]) reveal(nr, nc, true); 
@@ -207,6 +230,7 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
 
   let countedClick = false;
   if(type === 'reveal'){
+    let isChord = revealed[r][c];  // Track if this is a chord
     if(revealed[r][c]){ chord(r, c); countedClick = true; } 
     else if(grid[r][c] === -1 && !replayMove){ 
         gameOver = true; win = false; endTime = performance.now(); 
@@ -214,13 +238,26 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
         reveal(r, c, false); 
     } 
     else{ reveal(r, c, true); countedClick = true; }
+    
+    // Log as 'chord' type if it was a chord move
+    if(logMove && isChord){
+      const baseTime = replayMove ? replayStartTime : (startTime || performance.now());
+      moveLog.push({r, c, type: 'chord', time: performance.now() - baseTime});
+      if(countedClick && !replayMove) clickCount++;
+      updateUI(); draw(); updateStats();
+      if(!gameOver && checkWin() && !replayMove){ 
+          gameOver = true; win = true; endTime = performance.now(); 
+          smiley.textContent = "😎"; 
+          saveHighScore(); 
+      }
+      return;
+    }
   } else if(type === 'flag'){ 
       if(!revealed[r][c]) countedClick = true; 
       flagged[r][c] = !flagged[r][c]; 
   }
 
   if(countedClick && !replayMove) clickCount++;
-  // safer base for move timestamps
   if(logMove){
     const baseTime = replayMove ? replayStartTime : (startTime || performance.now());
     moveLog.push({r, c, type, time: performance.now() - baseTime});
@@ -312,6 +349,7 @@ function replay(entry){
   entry.log.forEach(m => {
     setTimeout(() => {
       if(m.type === 'reveal'){ reveal(m.r, m.c, true); clickCount++; }
+      else if(m.type === 'chord'){ chord(m.r, m.c); clickCount++; }
       else { flagged[m.r][m.c] = !flagged[m.r][m.c]; clickCount++; }
       draw(); updateStats();
     }, m.time);
@@ -456,4 +494,3 @@ if (savedTheme) {
   themePicker.value = savedTheme;
   applyTheme(savedTheme);
 }
-
