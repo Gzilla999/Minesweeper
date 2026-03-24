@@ -33,9 +33,8 @@ A classic Minesweeper game built with vanilla JavaScript, HTML, and CSS. Play on
 ```bash
 git clone https://github.com/Gzilla999/Minesweeper.git
 cd Minesweeper
-```
 # Open index.html in your browser
-
+```
 ## Offline Support
 
 This project includes a service worker (sw.js) for offline functionality, allowing you to play even without an internet connection.
