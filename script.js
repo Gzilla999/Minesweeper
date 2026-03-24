@@ -8,9 +8,9 @@ if ("serviceWorker" in navigator) {
 /* --- CONFIGURATION --- */
 // Standard Minesweeper difficulty presets
 let difficulties = {
-  easy: {rows:9, cols:9, mines:10},
-  intermediate: {rows:16, cols:16, mines:40},
-  hard: {rows:16, cols:30, mines:99}
+  easy: {rows: 9, cols: 9, mines: 10},
+  intermediate: {rows: 16, cols: 16, mines: 40},
+  hard: {rows: 16, cols: 30, mines: 99}
 };
 
 /* --- DOM ELEMENTS & STATE VARIABLES --- */
@@ -18,7 +18,7 @@ let currentDifficulty = "easy";
 const difficultySelect = document.getElementById("difficulty");
 
 // Event listener to change difficulty and reset board
-difficultySelect.addEventListener("change",()=>{ 
+difficultySelect.addEventListener("change",()=> { 
     currentDifficulty=difficultySelect.value; 
     setDifficulty(); 
 });
@@ -34,10 +34,10 @@ const flagToggle = document.getElementById("flagToggle");
 const mobileCheckbox = document.getElementById("mobileMode");
 
 let ROWS, COLS, MINES, TILE = 32; // TILE is the pixel size of one square
-let grid;       // Stores numbers (0-8) or mine (-1)
-let revealed;   // Boolean array: is cell open?
-let flagged;    // Boolean array: is cell flagged?
-let minesSet;   // Set to track mine locations
+let grid;      // Stores numbers (0-8) or mine (-1)
+let revealed;  // Boolean array: is cell open?
+let flagged;   // Boolean array: is cell flagged?
+let minesSet;  // Set to track mine locations
 
 // Game State Tracking
 let firstClick = true, gameOver = false, win = false;
@@ -123,12 +123,12 @@ function init(customMines = null){
 
 /* --- CORE GAME LOGIC --- */
 
-function placeMinesSafe(r0, c0, customMines = null){
+function placeMineSafe(r0, c0, customMines = null){
   let safeCells = new Set();
   for(let dr = -1; dr <= 1; dr++) 
     for(let dc = -1; dc <= 1; dc++){ 
-        let r = r0 + dr, c = c0 + dc; 
-        if(r >= 0 && r < ROWS && c >= 0 && c < COLS) safeCells.add(r + "," + c); 
+      let r = r0 + dr, c = c0 + dc; 
+      if(r >= 0 && r < ROWS && c >= 0 && c < COLS) safeCells.add(r + "," + c); 
     }
 
   if(customMines){ 
@@ -145,9 +145,9 @@ function placeMinesSafe(r0, c0, customMines = null){
     let attempts = 0;
     const maxAttempts = ROWS * COLS * 10;
     while(minesSet.size < targetMines && attempts++ < maxAttempts){ 
-        let r = Math.floor(Math.random() * ROWS), c = Math.floor(Math.random() * COLS); 
-        if(safeCells.has(r + "," + c)) continue; 
-        minesSet.add(r + "," + c); 
+      let r = Math.floor(Math.random() * ROWS), c = Math.floor(Math.random() * COLS); 
+      if(safeCells.has(r + "," + c)) continue; 
+      minesSet.add(r + "," + c); 
     } 
     if(minesSet.size < targetMines){
       console.warn("Minesweeper: unable to place the requested number of mines after many attempts. Placed:", minesSet.size);
@@ -157,7 +157,7 @@ function placeMinesSafe(r0, c0, customMines = null){
   for(let rc of minesSet){ let [r,c] = rc.split(",").map(Number); grid[r][c] = -1; }
   
   for(let r = 0; r < ROWS; r++) for(let c = 0; c < COLS; c++){
-    if(grid[r][c] === -1) continue; 
+    if(grid[r][c] === -1) continue;
     let count = 0;
     for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++){
       let nr = r + dr, nc = c + dc; 
@@ -171,10 +171,10 @@ function placeMinesSafe(r0, c0, customMines = null){
 function compute3BV(){ 
   let visited = Array.from({length:ROWS}, () => Array(COLS).fill(false)), count = 0;
   function flood(r,c){ 
-      if(r < 0 || r >= ROWS || c < 0 || c >= COLS || visited[r][c] || grid[r][c] === -1) return; 
-      visited[r][c] = true; 
-      if(grid[r][c] === 0) 
-        for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++) if(dr || dc) flood(r + dr, c + dc); 
+    if(r < 0 || r >= ROWS || c < 0 || c >= COLS || visited[r][c] || grid[r][c] === -1) return; 
+    visited[r][c] = true; 
+    if(grid[r][c] === 0) 
+      for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++) if(dr || dc) flood(r + dr, c + dc); 
   }
   for(let r = 0; r < ROWS; r++) for(let c = 0; c < COLS; c++) 
     if(grid[r][c] === 0 && !visited[r][c]){ count++; flood(r,c); }
@@ -238,12 +238,12 @@ function checkWin(){
 function handleClick(r, c, type, logMove = true, replayMove = false){
   if(gameOver && !replayMove) return;
 
-  if(firstClick && type === 'reveal'){ placeMinesSafe(r, c); firstClick = false; }
+  if(firstClick && type === 'reveal'){ placeMineSafe(r, c); firstClick = false; }
   if(!startTime && !replayMove) startTime = performance.now();
 
   let countedClick = false;
   if(type === 'reveal'){
-    let isChord = revealed[r][c];  // Track if this is a chord
+    let isChord = revealed[r][c];   // Track if this is a chord
     if(revealed[r][c]){ chord(r, c); countedClick = true; } 
     else if(grid[r][c] === -1 && !replayMove){ 
         gameOver = true; win = false; endTime = performance.now(); 
@@ -320,16 +320,43 @@ function saveHighScore(){
 }
 
 function updateLeaderboard(){
-  leaderboardDiv.innerHTML = "";
-  if(!bestScores[currentDifficulty]) return;
-  bestScores[currentDifficulty].slice(0, 50).forEach((e, i) => {
-    let d = document.createElement("div");
-    let eff = e.clickCount ? ((e.threeBV / e.clickCount) * 100).toFixed(1) + "%" : "N/A";
-    d.className = "leaderboard-entry";
-    d.textContent = `#${i+1}: ${e.time.toFixed(3)}s | 3BV=${e.threeBV} | 3BV/s=${(e.threeBV/e.time).toFixed(2)} | Eff=${eff}`;
-    d.onclick = () => replay(e);
-    leaderboardDiv.appendChild(d);
-  });
+  leaderboardDiv.innerHTML = `
+    <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+      <thead>
+        <tr style="background-color: #ccc; border-bottom: 2px solid #999;">
+          <th style="padding: 5px; text-align: left; border: 1px solid #999;">Rank</th>
+          <th style="padding: 5px; text-align: left; border: 1px solid #999;">Time (s)</th>
+          <th style="padding: 5px; text-align: left; border: 1px solid #999;">3BV</th>
+          <th style="padding: 5px; text-align: left; border: 1px solid #999;">3BV/s</th>
+          <th style="padding: 5px; text-align: left; border: 1px solid #999;">Efficiency</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${!bestScores[currentDifficulty] ? '' : bestScores[currentDifficulty].slice(0, 50).map((e, i) => {
+          let eff = e.clickCount ? ((e.threeBV / e.clickCount) * 100).toFixed(1) + "%" : "N/A";
+          return `
+            <tr style="border-bottom: 1px solid #ddd; cursor: pointer;" onmouseover="this.style.backgroundColor='#eee'" onmouseout="this.style.backgroundColor=''">
+              <td style="padding: 5px; border: 1px solid #ddd;">#${i+1}</td>
+              <td style="padding: 5px; border: 1px solid #ddd;">${e.time.toFixed(3)}</td>
+              <td style="padding: 5px; border: 1px solid #ddd;">${e.threeBV}</td>
+              <td style="padding: 5px; border: 1px solid #ddd;">${(e.threeBV/e.time).toFixed(2)}</td>
+              <td style="padding: 5px; border: 1px solid #ddd;">${eff}</td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+  
+  // Add click handlers to rows
+  if(bestScores[currentDifficulty]){
+    const rows = leaderboardDiv.querySelectorAll('tbody tr');
+    bestScores[currentDifficulty].slice(0, 50).forEach((entry, index) => {
+      if(rows[index]){
+        rows[index].addEventListener('click', () => replay(entry));
+      }
+    });
+  }
 }
 
 function replay(entry){
