@@ -10,12 +10,6 @@ A classic Minesweeper game built with vanilla JavaScript, HTML, and CSS. Play on
 - 💾 Progressive Web App with offline support
 - ⚡ Fast and lightweight with no dependencies
 
-## Tech Stack
-
-- **JavaScript** (78.3%) - Game logic and interactivity
-- **CSS** (15.3%) - Styling and layout
-- **HTML** (6.4%) - Structure and markup
-
 ## How to Play
 
 1. Click on cells to reveal them
