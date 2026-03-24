@@ -1,0 +1,39 @@
+name: Sync Version to Files
+
+on:
+  push:
+    paths:
+      - 'version.json'
+    branches:
+      - main
+
+jobs:
+  sync-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Read version from version.json
+        id: version
+        run: |
+          VERSION=$(jq -r '.version' version.json)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Update README.md
+        run: |
+          VERSION=${{ steps.version.outputs.VERSION }}
+          sed -i "s/Current version: .*/Current version: v${VERSION}/" README.md
+      
+      - name: Update sw.js
+        run: |
+          VERSION=${{ steps.version.outputs.VERSION }}
+          sed -i "s/const CACHE_VERSION = .*/const CACHE_VERSION = \"ms-cache-v${VERSION}\";/" sw.js
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md sw.js
+          git commit -m "chore: sync version to v${{ steps.version.outputs.VERSION }}" || echo "No changes to commit"
+          git push
