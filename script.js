@@ -89,10 +89,23 @@ document.getElementById("showStats").addEventListener("change", e => {
 function setDifficulty(){
   let d = difficulties[currentDifficulty];
   ROWS = d.rows; COLS = d.cols; MINES = d.mines;
+  
+  // Responsive tile size based on screen width
+  let screenWidth = window.innerWidth - 40; // account for padding/borders
+  let maxTileSize = Math.floor(screenWidth / COLS);
+  TILE = Math.min(32, Math.max(16, maxTileSize)); // clamp between 16-32px
+  
   canvas.width = COLS * TILE;
   canvas.height = ROWS * TILE;
   init();
 }
+
+// Recalculate on window resize
+window.addEventListener('resize', () => {
+  if(!gameOver && !replaying) {
+    setDifficulty();
+  }
+});
 
 function init(customMines = null){
   grid = Array.from({length:ROWS}, () => Array(COLS).fill(0));
