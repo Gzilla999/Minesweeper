@@ -1,7 +1,7 @@
 "use strict";
 
 /* ===== CONFIG ===== */
-const CACHE_VERSION = "ms-cache-v1.2.3"; // ⬅️ CHANGE THIS ON EVERY UPDATE
+const CACHE_VERSION = "ms-cache-v1.2.4"; // ⬅️ CHANGE THIS ON EVERY UPDATE
 const OFFLINE_ASSETS = [
   "./",
   "./index.html",
