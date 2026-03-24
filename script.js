@@ -361,6 +361,9 @@ function updateLeaderboard(){
 
 function replay(entry){
   if(replaying) return;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  
   replaying = true;
   firstClick = false; gameOver = false; win = entry.win;
 
