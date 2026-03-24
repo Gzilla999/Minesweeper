@@ -2,6 +2,6 @@
 
 Minesweeper online is blocked so I made this.
 
-Current version: v1.2.2
+Current version: v1.2.3
 
 [Play here](https://lewis-minesweeper.vercel.app/)
