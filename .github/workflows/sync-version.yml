@@ -1,5 +1,8 @@
 name: Sync Version to Files
 
+permissions:
+  contents: write
+
 on:
   push:
     paths:
