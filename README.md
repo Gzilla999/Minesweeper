@@ -39,4 +39,4 @@ MIT License - see LICENSE file for details
 
 ---
 
-Current version: v1.2.4
+Current version: v1.2.6
