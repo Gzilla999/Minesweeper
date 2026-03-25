@@ -1,6 +1,6 @@
 # Minesweeper Game
 
-A classic Minesweeper game built with vanilla JavaScript, HTML, and CSS. Play online since the official Minesweeper is blocked!
+A classic Minesweeper game built with vanilla JavaScript, HTML, and CSS. Play online since the Minesweeper Online is blocked on school devices.
 
 ## Features
 
