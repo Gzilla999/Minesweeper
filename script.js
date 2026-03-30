@@ -101,10 +101,14 @@ function setDifficulty(){
 }
 
 // Recalculate on window resize
+let resizeTimeout;
 window.addEventListener('resize', () => {
-  if(!gameOver && !replaying && !firstClick) {
-    setDifficulty();
-  }
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    if(!gameOver && !replaying && !firstClick) {
+      setDifficulty();
+    }
+  }, 300);
 });
 
 function init(customMines = null){
