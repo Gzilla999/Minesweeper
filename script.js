@@ -105,7 +105,8 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    if(gameOver || replaying) return; // Don't resize during game over/replay
+    // Don't resize if game is active or if we haven't initialized yet
+    if(gameOver || replaying || !grid) return;
     
     // Only recalculate canvas size, don't reinitialize the game
     let screenWidth = window.innerWidth - 40;
