@@ -361,6 +361,69 @@ canvas.addEventListener("mouseleave", () => {
   longPressTimers.clear();
 });
 
+// Replace the mousedown/mouseup listeners with touch events for mobile
+let touchStartTime = 0;
+let touchStartCell = null;
+
+canvas.addEventListener("touchstart", e => {
+  if(replaying) return;
+  e.preventDefault();
+  
+  let touch = e.touches[0];
+  let rect = canvas.getBoundingClientRect();
+  let r = Math.floor((touch.clientY - rect.top) / TILE);
+  let c = Math.floor((touch.clientX - rect.left) / TILE);
+  
+  touchStartTime = Date.now();
+  touchStartCell = {r, c};
+  let cellKey = `${r},${c}`;
+  
+  // Start long press timer (200ms)
+  let timer = setTimeout(() => {
+    if(!gameOver && touchStartCell) {
+      handleClick(r, c, 'flag');
+      touchStartCell = null; // Prevent double action
+    }
+    longPressTimers.delete(cellKey);
+  }, 200);
+  
+  longPressTimers.set(cellKey, timer);
+});
+
+canvas.addEventListener("touchend", e => {
+  e.preventDefault();
+  
+  if(!touchStartCell) return;
+  
+  let elapsed = Date.now() - touchStartTime;
+  let cellKey = `${touchStartCell.r},${touchStartCell.c}`;
+  
+  // If released before 200ms, treat as normal reveal
+  if(elapsed < 200 && longPressTimers.has(cellKey)) {
+    clearTimeout(longPressTimers.get(cellKey));
+    longPressTimers.delete(cellKey);
+    
+    if(!gameOver && !replaying) {
+      handleClick(touchStartCell.r, touchStartCell.c, flagMode ? 'flag' : 'reveal');
+    }
+  }
+  
+  touchStartCell = null;
+});
+
+canvas.addEventListener("touchcancel", e => {
+  e.preventDefault();
+  // Clear timer if touch is cancelled
+  if(touchStartCell) {
+    let cellKey = `${touchStartCell.r},${touchStartCell.c}`;
+    if(longPressTimers.has(cellKey)) {
+      clearTimeout(longPressTimers.get(cellKey));
+      longPressTimers.delete(cellKey);
+    }
+    touchStartCell = null;
+  }
+});
+
 canvas.addEventListener("contextmenu", e => e.preventDefault());
 smiley.addEventListener("click", () => { if(!replaying) init(); });
 statsDiv.addEventListener("click", () => { if(bestScores[currentDifficulty]?.[0]) replay(bestScores[currentDifficulty][0]); });
