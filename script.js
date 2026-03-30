@@ -388,7 +388,12 @@ function replay(entry){
   flagged = Array.from({length:ROWS}, () => Array(COLS).fill(false));
   
   minesSet = new Set(entry.mines);
-  for(let rc of minesSet){ let [r,c] = rc.split(",").map(Number); grid[r][c] = -1; }
+  for(let rc of minesSet){ 
+    let [r,c] = rc.split(",").map(Number); 
+    if(r >= 0 && r < ROWS && c >= 0 && c < COLS) {
+      grid[r][c] = -1;
+    }
+  }
 
   for(let r = 0; r < ROWS; r++) for(let c = 0; c < COLS; c++){
     if(grid[r][c] === -1) continue;
@@ -461,7 +466,7 @@ function updateUI(){
   mineCounter.textContent = String(Math.max(0, minesLeft)).padStart(3,"0");
 
   let elapsed = startTime ? ((gameOver ? endTime : performance.now()) - startTime) / 1000 : 0;
-  timer.textContent = elapsed.toFixed(3).padStart(7,"0");
+  timer.textContent = Math.max(0, elapsed).toFixed(3).padStart(7,"0");
 }
 
 function draw(){
