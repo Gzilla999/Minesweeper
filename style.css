@@ -64,6 +64,15 @@ body {
     flex-shrink: 0;
 }
 
+#board {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+}
+
 canvas {
     display:block;
     background:var(--ui-bg);
