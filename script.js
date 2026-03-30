@@ -102,7 +102,7 @@ function setDifficulty(){
 
 // Recalculate on window resize
 window.addEventListener('resize', () => {
-  if(!gameOver && !replaying) {
+  if(!gameOver && !replaying && !firstClick) {
     setDifficulty();
   }
 });
