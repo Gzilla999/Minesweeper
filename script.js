@@ -46,6 +46,7 @@ let clickCount = 0;
 let threeBV = 0; // "Bechtel's Board Benchmark"
 let moveLog = [];
 let longPressTimers = new Map(); // Track long press timers
+let longPressActive = new Map(); // Track if long press was triggered
 
 // UI State
 let replaying = false, replayStartTime = 0;
@@ -304,38 +305,67 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
 
 /* --- MOUSE EVENTS --- */
 
-canvas.addEventListener("mousedown", e => { if(gameOver || replaying) return; smiley.textContent = "😮"; });
-canvas.addEventListener("mouseup", e => { if(gameOver) return; smiley.textContent = "😊"; });
-
-canvas.addEventListener("mousedown", e => {
+canvas.addEventListener("mousedown", e => { 
+  if(gameOver || replaying) return;
+  
   e.preventDefault(); // Prevent text selection on long press
-  if(replaying) return;
+  smiley.textContent = "😮";
+  
   let rect = canvas.getBoundingClientRect();
   let r = Math.floor((e.clientY - rect.top) / TILE);
   let c = Math.floor((e.clientX - rect.left) / TILE);
   let cellKey = `${r},${c}`;
+  
+  // For right-click, flag immediately
+  if(e.button === 2) {
+    let type = 'flag';
+    handleClick(r, c, type);
+    return;
+  }
+  
+  // Clear any existing timer for this cell
+  if(longPressTimers.has(cellKey)) {
+    clearTimeout(longPressTimers.get(cellKey));
+  }
   
   // Start long press timer
   let timer = setTimeout(() => {
     // 200ms long press detected - flag the cell
     if(!gameOver) {
       handleClick(r, c, 'flag');
+      longPressActive.set(cellKey, true); // Mark that long press was triggered
     }
     longPressTimers.delete(cellKey);
   }, 200);
   
   longPressTimers.set(cellKey, timer);
+  longPressActive.set(cellKey, false); // Mark that long press hasn't triggered yet
+});
+
+canvas.addEventListener("mousemove", e => {
+  if(replaying) return;
   
-  // For right-click, flag immediately
-  if(e.button === 2) {
-    clearTimeout(timer);
-    longPressTimers.delete(cellKey);
-    let type = 'flag';
-    handleClick(r, c, type);
+  let rect = canvas.getBoundingClientRect();
+  let r = Math.floor((e.clientY - rect.top) / TILE);
+  let c = Math.floor((e.clientX - rect.left) / TILE);
+  let cellKey = `${r},${c}`;
+  
+  // Check if we've moved to a different cell
+  for(let [key, timer] of longPressTimers.entries()) {
+    if(key !== cellKey) {
+      // We moved away from the original cell, cancel the timer
+      clearTimeout(timer);
+      longPressTimers.delete(key);
+      longPressActive.delete(key);
+    }
   }
 });
 
-canvas.addEventListener("mouseup", e => {
+canvas.addEventListener("mouseup", e => { 
+  if(gameOver) return;
+  
+  smiley.textContent = "😊";
+  
   let rect = canvas.getBoundingClientRect();
   let r = Math.floor((e.clientY - rect.top) / TILE);
   let c = Math.floor((e.clientX - rect.left) / TILE);
@@ -350,6 +380,9 @@ canvas.addEventListener("mouseup", e => {
       let type = (e.button === 2) ? 'flag' : (flagMode ? 'flag' : 'reveal');
       handleClick(r, c, type);
     }
+  } else if(longPressActive.get(cellKey)) {
+    // Long press was already triggered, don't do anything else
+    longPressActive.delete(cellKey);
   }
 });
 
@@ -359,6 +392,7 @@ canvas.addEventListener("mouseleave", () => {
     clearTimeout(timer);
   }
   longPressTimers.clear();
+  longPressActive.clear();
 });
 
 // Replace the mousedown/mouseup listeners with touch events for mobile
