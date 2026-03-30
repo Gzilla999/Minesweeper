@@ -45,6 +45,7 @@ let startTime = null, endTime = null;
 let clickCount = 0;
 let threeBV = 0; // "Bechtel's Board Benchmark"
 let moveLog = [];
+let longPressTimers = new Map(); // Track long press timers
 
 // UI State
 let replaying = false, replayStartTime = 0;
@@ -311,8 +312,52 @@ canvas.addEventListener("mousedown", e => {
   let rect = canvas.getBoundingClientRect();
   let r = Math.floor((e.clientY - rect.top) / TILE);
   let c = Math.floor((e.clientX - rect.left) / TILE);
-  let type = (e.button === 2) ? 'flag' : (flagMode ? 'flag' : 'reveal');
-  handleClick(r, c, type);
+  let cellKey = `${r},${c}`;
+  
+  // Start long press timer
+  let timer = setTimeout(() => {
+    // 200ms long press detected - flag the cell
+    if(!gameOver) {
+      handleClick(r, c, 'flag');
+    }
+    longPressTimers.delete(cellKey);
+  }, 200);
+  
+  longPressTimers.set(cellKey, timer);
+  
+  // For right-click, flag immediately
+  if(e.button === 2) {
+    clearTimeout(timer);
+    longPressTimers.delete(cellKey);
+    let type = 'flag';
+    handleClick(r, c, type);
+  }
+});
+
+canvas.addEventListener("mouseup", e => {
+  let rect = canvas.getBoundingClientRect();
+  let r = Math.floor((e.clientY - rect.top) / TILE);
+  let c = Math.floor((e.clientX - rect.left) / TILE);
+  let cellKey = `${r},${c}`;
+  
+  // If timer still exists, user released before 200ms - treat as normal reveal
+  if(longPressTimers.has(cellKey)) {
+    clearTimeout(longPressTimers.get(cellKey));
+    longPressTimers.delete(cellKey);
+    
+    if(!gameOver && !replaying) {
+      let type = (e.button === 2) ? 'flag' : (flagMode ? 'flag' : 'reveal');
+      handleClick(r, c, type);
+    }
+  }
+});
+
+canvas.addEventListener("mouseleave", () => {
+  // Clear all pending long press timers
+  for(let timer of longPressTimers.values()) {
+    clearTimeout(timer);
+  }
+  longPressTimers.clear();
 });
 
 canvas.addEventListener("contextmenu", e => e.preventDefault());
