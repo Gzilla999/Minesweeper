@@ -32,6 +32,8 @@ const leaderboardDiv = document.getElementById("leaderboard");
 const smiley = document.getElementById("smiley");
 const flagToggle = document.getElementById("flagToggle");
 const mobileCheckbox = document.getElementById("mobileMode");
+const longPressDurationInput = document.getElementById("longPressDuration");
+const longPressDurationValue = document.getElementById("longPressDurationValue");
 
 let ROWS, COLS, MINES, TILE = 32; // TILE is the pixel size of one square
 let grid;      // Stores numbers (0-8) or mine (-1)
@@ -51,6 +53,7 @@ let longPressActive = new Map(); // Track if long press was triggered
 // UI State
 let replaying = false, replayStartTime = 0;
 let flagMode = false, mobileMode = false, showStats = true;
+let longPressDuration = 200; // Default 200ms
 
 // Load High Scores from LocalStorage
 function loadBestScores(){
@@ -65,6 +68,19 @@ function loadBestScores(){
   }
 }
 let bestScores = loadBestScores();
+
+// Load Long Press Duration from LocalStorage
+function loadLongPressDuration(){
+  try{
+    const saved = localStorage.getItem("ms_long_press_duration");
+    if(!saved) return 200;
+    const parsed = parseInt(saved, 10);
+    return (Number.isInteger(parsed) && parsed >= 100 && parsed <= 1000) ? parsed : 200;
+  }catch(e){
+    console.warn("Minesweeper: failed to load long press duration from localStorage", e);
+    return 200;
+  }
+}
 
 /* --- EVENT LISTENERS --- */
 
@@ -84,6 +100,13 @@ flagToggle.addEventListener("click", () => {
 document.getElementById("showStats").addEventListener("change", e => { 
     showStats = e.target.checked; 
     draw(); 
+});
+
+// Long press duration control
+longPressDurationInput.addEventListener("input", e => {
+    longPressDuration = parseInt(e.target.value, 10);
+    longPressDurationValue.textContent = longPressDuration + "ms";
+    localStorage.setItem("ms_long_press_duration", longPressDuration.toString());
 });
 
 /* --- INITIALIZATION --- */
@@ -330,13 +353,13 @@ canvas.addEventListener("mousedown", e => {
   
   // Start long press timer
   let timer = setTimeout(() => {
-    // 200ms long press detected - flag the cell
+    // Long press detected - flag the cell
     if(!gameOver) {
       handleClick(r, c, 'flag');
       longPressActive.set(cellKey, true); // Mark that long press was triggered
     }
     longPressTimers.delete(cellKey);
-  }, 200);
+  }, longPressDuration);
   
   longPressTimers.set(cellKey, timer);
   longPressActive.set(cellKey, false); // Mark that long press hasn't triggered yet
@@ -371,7 +394,7 @@ canvas.addEventListener("mouseup", e => {
   let c = Math.floor((e.clientX - rect.left) / TILE);
   let cellKey = `${r},${c}`;
   
-  // If timer still exists, user released before 200ms - treat as normal reveal
+  // If timer still exists, user released before long press duration - treat as normal reveal
   if(longPressTimers.has(cellKey)) {
     clearTimeout(longPressTimers.get(cellKey));
     longPressTimers.delete(cellKey);
@@ -412,14 +435,14 @@ canvas.addEventListener("touchstart", e => {
   touchStartCell = {r, c};
   let cellKey = `${r},${c}`;
   
-  // Start long press timer (200ms)
+  // Start long press timer
   let timer = setTimeout(() => {
     if(!gameOver && touchStartCell) {
       handleClick(r, c, 'flag');
       touchStartCell = null; // Prevent double action
     }
     longPressTimers.delete(cellKey);
-  }, 200);
+  }, longPressDuration);
   
   longPressTimers.set(cellKey, timer);
 });
@@ -432,8 +455,8 @@ canvas.addEventListener("touchend", e => {
   let elapsed = Date.now() - touchStartTime;
   let cellKey = `${touchStartCell.r},${touchStartCell.c}`;
   
-  // If released before 200ms, treat as normal reveal
-  if(elapsed < 200 && longPressTimers.has(cellKey)) {
+  // If released before long press duration, treat as normal reveal
+  if(elapsed < longPressDuration && longPressTimers.has(cellKey)) {
     clearTimeout(longPressTimers.get(cellKey));
     longPressTimers.delete(cellKey);
     
@@ -655,6 +678,10 @@ function renderLoop(){
 requestAnimationFrame(renderLoop);
 setDifficulty();
 
+// Initialize long press duration from localStorage
+longPressDuration = loadLongPressDuration();
+longPressDurationInput.value = longPressDuration;
+longPressDurationValue.textContent = longPressDuration + "ms";
 
 const themePicker = document.getElementById("themeColor");
 
