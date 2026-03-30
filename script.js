@@ -31,7 +31,7 @@ const statsDiv = document.getElementById("stats");
 const leaderboardDiv = document.getElementById("leaderboard");
 const smiley = document.getElementById("smiley");
 const flagToggle = document.getElementById("flagToggle");
-const mobileCheckbox = document.getElementById("mobileMode");
+const mobileCheckbox = document.getElementById("toggleFlag");
 const longPressDurationInput = document.getElementById("longPressDuration");
 const longPressDurationValue = document.getElementById("longPressDurationValue");
 
@@ -52,7 +52,7 @@ let longPressActive = new Map(); // Track if long press was triggered
 
 // UI State
 let replaying = false, replayStartTime = 0;
-let flagMode = false, mobileMode = false, showStats = true;
+let flagMode = false, toggleFlag = false, showStats = true;
 let longPressDuration = 200; // Default 200ms
 
 // Load High Scores from LocalStorage
@@ -86,8 +86,8 @@ function loadLongPressDuration(){
 
 // Toggle mobile mode
 mobileCheckbox.addEventListener("change", e => { 
-    mobileMode = e.target.checked; 
-    flagToggle.style.display = mobileMode ? "inline-block" : "none"; 
+    toggleFlag = e.target.checked; 
+    flagToggle.style.display = toggleFlag ? "inline-block" : "none"; 
 });
 
 // Toggle flag mode
