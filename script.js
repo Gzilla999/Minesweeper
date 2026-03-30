@@ -105,10 +105,21 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    if(!gameOver && !replaying && !firstClick) {
-      setDifficulty();
+    if(gameOver || replaying) return; // Don't resize during game over/replay
+    
+    // Only recalculate canvas size, don't reinitialize the game
+    let screenWidth = window.innerWidth - 40;
+    let maxTileSize = Math.floor(screenWidth / COLS);
+    let newTile = Math.min(32, Math.max(16, maxTileSize));
+    
+    // Only update canvas if tile size actually changed
+    if(newTile !== TILE) {
+      TILE = newTile;
+      canvas.width = COLS * TILE;
+      canvas.height = ROWS * TILE;
+      draw(); // Redraw with new size, don't reset game
     }
-  }, 300);
+  }, 300); // debounce
 });
 
 function init(customMines = null){
