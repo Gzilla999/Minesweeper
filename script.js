@@ -308,6 +308,7 @@ canvas.addEventListener("mousedown", e => { if(gameOver || replaying) return; sm
 canvas.addEventListener("mouseup", e => { if(gameOver) return; smiley.textContent = "😊"; });
 
 canvas.addEventListener("mousedown", e => {
+  e.preventDefault(); // Prevent text selection on long press
   if(replaying) return;
   let rect = canvas.getBoundingClientRect();
   let r = Math.floor((e.clientY - rect.top) / TILE);
