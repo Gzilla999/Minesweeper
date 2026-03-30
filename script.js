@@ -245,7 +245,7 @@ function chord(r, c){
 
 function checkWin(){ 
     for(let r = 0; r < ROWS; r++) for(let c = 0; c < COLS; c++) 
-        if(grid[r][c] != -1 && !revealed[r][c]) return false; 
+        if(grid[r][c] !== -1 && !revealed[r][c]) return false; 
     return true; 
 }
 
@@ -532,9 +532,9 @@ function applyTheme(base) {
 
 // Simple color shading
 function shade(hex, percent) {
-  let r = parseInt(hex.substr(1,2),16);
-  let g = parseInt(hex.substr(3,2),16);
-  let b = parseInt(hex.substr(5,2),16);
+  let r = parseInt(hex.slice(1,3),16);
+  let g = parseInt(hex.slice(3,5),16);
+  let b = parseInt(hex.slice(5,7),16);
 
   r = Math.min(255, Math.max(0, r + percent));
   g = Math.min(255, Math.max(0, g + percent));
