@@ -35,7 +35,7 @@ This project includes a service worker (sw.js) for offline functionality, allowi
 
 ## License
 
-MIT License - see LICENSE file for details
+GPL-3.0 License - see LICENSE file for details
 
 ---
 
