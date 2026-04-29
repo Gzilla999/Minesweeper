@@ -132,6 +132,23 @@ button {
     vertical-align: middle;
 }
 
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.report-bug-button {
+    background-color: #C0C0C0;
+    border: 2px solid #808080;
+    color: black;
+    font-family: 'Ms Sans Serif', 'Arial';
+    font-size: 14px;
+    padding: 5px 15px;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px #A0A0A0;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     body {
