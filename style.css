@@ -149,6 +149,19 @@ footer {
     box-shadow: 2px 2px 2px #A0A0A0;
 }
 
+.reportBugPanel {
+    border: 2px solid #0078d7;
+    padding: 10px;
+    margin: 15px;
+    background-color: #c0c0c0; /* Light gray matching the Windows 95 theme */
+}
+
+@media (max-width: 600px) {
+    .reportBugPanel {
+        padding: 5px;
+        margin: 10px;
+    }
+}
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     body {
