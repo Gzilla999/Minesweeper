@@ -34,6 +34,7 @@ const flagToggle = document.getElementById("flagToggle");
 const mobileCheckbox = document.getElementById("toggleFlag");
 const longPressDurationInput = document.getElementById("longPressDuration");
 const longPressDurationValue = document.getElementById("longPressDurationValue");
+const deleteButtonToggle = document.getElementById("showDeleteButton");
 
 let ROWS, COLS, MINES, TILE = 32; // TILE is the pixel size of one square
 let grid;      // Stores numbers (0-8) or mine (-1)
@@ -54,6 +55,7 @@ let longPressActive = new Map(); // Track if long press was triggered
 let replaying = false, replayStartTime = 0;
 let flagMode = false, toggleFlag = false, showStats = true;
 let longPressDuration = 200; // Default 200ms
+let showDeleteButton = true; // Show delete button by default
 
 // ===== HINT SYSTEM =====
 let hintsRemaining = 3;
@@ -277,6 +279,18 @@ function loadLongPressDuration(){
   }
 }
 
+// Load Show Delete Button setting from LocalStorage
+function loadShowDeleteButton(){
+  try{
+    const saved = localStorage.getItem("ms_show_delete_button");
+    if(saved === null) return true;
+    return saved === "true";
+  }catch(e){
+    console.warn("Minesweeper: failed to load show delete button setting from localStorage", e);
+    return true;
+  }
+}
+
 /* --- EVENT LISTENERS --- */
 
 // Toggle mobile mode
@@ -295,6 +309,13 @@ flagToggle.addEventListener("click", () => {
 document.getElementById("showStats").addEventListener("change", e => { 
     showStats = e.target.checked; 
     draw(); 
+});
+
+// Toggle delete button visibility
+deleteButtonToggle.addEventListener("change", e => {
+    showDeleteButton = e.target.checked;
+    localStorage.setItem("ms_show_delete_button", showDeleteButton.toString());
+    updateLeaderboard();
 });
 
 // Long press duration control
@@ -726,6 +747,14 @@ function saveHighScore(){
 }
 
 function updateLeaderboard(){
+  let headerAction = '';
+  let bodyAction = '';
+  
+  if(showDeleteButton) {
+    headerAction = '<th style="padding: 5px; text-align: center; border: 1px solid #999;">Action</th>';
+    bodyAction = '<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="deleteLeaderboardEntry(\'${DIFFICULTY}\', ${INDEX})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>';
+  }
+  
   leaderboardDiv.innerHTML = `
     <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
       <thead>
@@ -735,12 +764,16 @@ function updateLeaderboard(){
           <th style="padding: 5px; text-align: left; border: 1px solid #999;">3BV</th>
           <th style="padding: 5px; text-align: left; border: 1px solid #999;">3BV/s</th>
           <th style="padding: 5px; text-align: left; border: 1px solid #999;">Efficiency</th>
-          <th style="padding: 5px; text-align: center; border: 1px solid #999;">Action</th>
+          ${headerAction}
         </tr>
       </thead>
       <tbody>
         ${!bestScores[currentDifficulty] ? '' : bestScores[currentDifficulty].slice(0, 50).map((e, i) => {
           let eff = e.clickCount ? ((e.threeBV / e.clickCount) * 100).toFixed(1) + "%" : "N/A";
+          let actionCell = '';
+          if(showDeleteButton) {
+            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="deleteLeaderboardEntry('${currentDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>`;
+          }
           return `
             <tr style="border-bottom: 1px solid #ddd; cursor: pointer;" onmouseover="this.style.backgroundColor='#eee'" onmouseout="this.style.backgroundColor=''">
               <td style="padding: 5px; border: 1px solid #ddd;">#${i+1}</td>
@@ -748,9 +781,7 @@ function updateLeaderboard(){
               <td style="padding: 5px; border: 1px solid #ddd;">${e.threeBV}</td>
               <td style="padding: 5px; border: 1px solid #ddd;">${(e.threeBV/e.time).toFixed(2)}</td>
               <td style="padding: 5px; border: 1px solid #ddd;">${eff}</td>
-              <td style="padding: 5px; border: 1px solid #ddd; text-align: center;">
-                <button onclick="deleteLeaderboardEntry('${currentDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button>
-              </td>
+              ${actionCell}
             </tr>
           `;
         }).join('')}
@@ -935,6 +966,10 @@ setDifficulty();
 longPressDuration = loadLongPressDuration();
 longPressDurationInput.value = longPressDuration;
 longPressDurationValue.textContent = longPressDuration + "ms";
+
+// Initialize show delete button from localStorage
+showDeleteButton = loadShowDeleteButton();
+deleteButtonToggle.checked = showDeleteButton;
 
 const themePicker = document.getElementById("themeColor");
 
