@@ -156,6 +156,40 @@ footer {
     background-color: #c0c0c0; /* Light gray matching the Windows 95 theme */
 }
 
+#hintButton {
+    background-color: #fff700;
+    color: #000;
+    font-weight: bold;
+    border: 2px outset #dfdf00;
+}
+
+#hintButton:hover:not(:disabled) {
+    background-color: #ffff00;
+}
+
+#hintButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #ccc;
+}
+
+/* Hint probability display */
+.hint-probability {
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    color: #0066cc;
+}
+
+@keyframes hintHighlight {
+    0% { filter: brightness(1.3); }
+    100% { filter: brightness(1); }
+}
+
+.hint-revealed {
+    animation: hintHighlight 0.5s ease-out;
+}
+
 @media (max-width: 600px) {
     .reportBugPanel {
         padding: 5px;
