@@ -61,9 +61,10 @@ const MAX_HINTS_PER_GAME = 3;
 const hintButton = document.getElementById("hintButton");
 const hintCountSpan = document.getElementById("hintCount");
 let hintedCells = new Set();
-let probabilities = {}; // Cache probabilities
+let hintMode = false; // Toggle to show probabilities
+let cellProbabilities = []; // Store calculated probabilities
 
-hintButton.addEventListener("click", useHint);
+hintButton.addEventListener("click", toggleHintMode);
 
 function calculateMineProbability(r, c) {
     // Don't calculate for revealed or flagged cells
@@ -121,40 +122,51 @@ function calculateMineProbability(r, c) {
     return Math.min(1, totalProbability / adjacentNumbers.length);
 }
 
-function useHint() {
+function toggleHintMode() {
     if (gameOver || replaying || hintsRemaining <= 0) return;
     
-    // Calculate probabilities for all unrevealed cells
-    let cellProbabilities = [];
-    for (let r = 0; r < ROWS; r++) {
-        for (let c = 0; c < COLS; c++) {
-            if (!revealed[r][c] && !flagged[r][c]) {
-                let prob = calculateMineProbability(r, c);
-                if (prob !== null) {
-                    cellProbabilities.push({r, c, probability: prob});
+    if (!hintMode) {
+        // ENTER hint mode - calculate all probabilities
+        hintMode = true;
+        cellProbabilities = [];
+        
+        for (let r = 0; r < ROWS; r++) {
+            for (let c = 0; c < COLS; c++) {
+                if (!revealed[r][c] && !flagged[r][c]) {
+                    let prob = calculateMineProbability(r, c);
+                    if (prob !== null) {
+                        cellProbabilities.push({r, c, probability: prob});
+                    }
                 }
             }
         }
+        
+        hintButton.textContent = "💡 Click a cell... (" + hintsRemaining + ")";
+        hintButton.style.backgroundColor = "#ffff00";
+        draw(); // Redraw to show probabilities
+    } else {
+        // EXIT hint mode without selecting
+        hintMode = false;
+        cellProbabilities = [];
+        hintButton.textContent = "💡 Hint (" + hintsRemaining + ")";
+        hintButton.style.backgroundColor = "#fff700";
+        draw();
     }
+}
+
+function revealFromHint(r, c) {
+    if (!hintMode) return;
     
-    if (cellProbabilities.length === 0) {
-        alert("No cells to hint!");
-        return;
-    }
+    // Reveal the cell
+    reveal(r, c, true);
+    hintedCells.add(`${r},${c}`);
     
-    // Sort by lowest probability (safest first)
-    cellProbabilities.sort((a, b) => a.probability - b.probability);
-    
-    // Reveal the safest cell
-    let hintCell = cellProbabilities[0];
-    reveal(hintCell.r, hintCell.c, true);
-    hintedCells.add(`${hintCell.r},${hintCell.c}`);
-    
-    // Show hint info (optional - for debugging)
-    console.log(`Hint: Cell (${hintCell.r},${hintCell.c}) with ${(hintCell.probability*100).toFixed(1)}% mine probability`);
+    console.log(`Hint revealed: Cell (${r},${c})`);
     
     // Decrement hints
     hintsRemaining--;
+    hintMode = false;
+    cellProbabilities = [];
     updateHintUI();
     
     // Check for win
@@ -174,6 +186,8 @@ function useHint() {
 function updateHintUI() {
     hintCountSpan.textContent = hintsRemaining;
     hintButton.disabled = hintsRemaining <= 0 || gameOver;
+    hintButton.textContent = "💡 Hint (" + hintsRemaining + ")";
+    hintButton.style.backgroundColor = "#fff700";
 }
 
 // Load High Scores from LocalStorage
@@ -764,36 +778,56 @@ function updateUI(){
 }
 
 function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
-    let x=c*TILE,y=r*TILE;
-    ctx.strokeStyle="#808080";
-    if(revealed[r][c]){
-      ctx.fillStyle="#ddd"; ctx.fillRect(x,y,TILE,TILE); ctx.strokeRect(x,y,TILE,TILE);
-      if(grid[r][c]>0){
-        ctx.fillStyle=["","blue","green","red","purple","orange","turquoise","black","gray"][grid[r][c]];
-        ctx.font="bold 18px Arial";
-        ctx.fillText(grid[r][c],x+TILE/2-4,y+TILE/2+6);
-      }
-      if(grid[r][c]===-1){
-        ctx.fillStyle="black";
-        ctx.beginPath();
-        ctx.arc(x+TILE/2,y+TILE/2,10,0,Math.PI*2);
-        ctx.fill();
-      }
-    }else{
-      ctx.fillStyle="#aaa"; ctx.fillRect(x,y,TILE,TILE); ctx.strokeRect(x,y,TILE,TILE);
-      if(flagged[r][c]){
-        ctx.fillStyle="red";
-        ctx.beginPath();
-        ctx.arc(x+TILE/2,y+TILE/2,8,0,Math.PI*2);
-        ctx.fill();
-      }
-    }
-    if(gameOver && grid[r][c]===-1 && !revealed[r][c]){
-      ctx.fillStyle="#f00"; ctx.fillRect(x,y,TILE,TILE); ctx.strokeRect(x,y,TILE,TILE);
-    }
-  }
+   ctx.clearRect(0,0,canvas.width,canvas.height);
+   for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+     let x=c*TILE,y=r*TILE;
+     ctx.strokeStyle="#808080";
+     if(revealed[r][c]){
+       ctx.fillStyle="#ddd"; ctx.fillRect(x,y,TILE,TILE); ctx.strokeRect(x,y,TILE,TILE);
+       if(grid[r][c]>0){
+         ctx.fillStyle=["","blue","green","red","purple","orange","turquoise","black","gray"][grid[r][c]];
+         ctx.font="bold 18px Arial";
+         ctx.fillText(grid[r][c],x+TILE/2-4,y+TILE/2+6);
+       }
+       if(grid[r][c]===-1){
+         ctx.fillStyle="black";
+         ctx.beginPath();
+         ctx.arc(x+TILE/2,y+TILE/2,10,0,Math.PI*2);
+         ctx.fill();
+       }
+     }else{
+       ctx.fillStyle="#aaa"; ctx.fillRect(x,y,TILE,TILE); ctx.strokeRect(x,y,TILE,TILE);
+       if(flagged[r][c]){
+         ctx.fillStyle="red";
+         ctx.beginPath();
+         ctx.arc(x+TILE/2,y+TILE/2,8,0,Math.PI*2);
+         ctx.fill();
+       }
+       
+       // HINT MODE: Display probability on unrevealed cells
+       if(hintMode) {
+           let probEntry = cellProbabilities.find(p => p.r === r && p.c === c);
+           if(probEntry) {
+               let percent = Math.round(probEntry.probability * 100);
+               
+               // Color code: Green (safe) -> Yellow (medium) -> Red (dangerous)
+               if(percent < 30) {
+                   ctx.fillStyle = "#00aa00"; // Green
+               } else if(percent < 60) {
+                   ctx.fillStyle = "#ffaa00"; // Orange
+               } else {
+                   ctx.fillStyle = "#dd0000"; // Red
+               }
+               
+               ctx.font = "bold 10px Arial";
+               ctx.fillText(percent + "%", x+3, y+TILE-3);
+           }
+       }
+     }
+     if(gameOver && grid[r][c]===-1 && !revealed[r][c]){
+       ctx.fillStyle="#f00"; ctx.fillRect(x,y,TILE,TILE); ctx.strokeRect(x,y,TILE,TILE);
+     }
+   }
 }
 
 /* --- LOOP & START --- */
