@@ -536,6 +536,12 @@ canvas.addEventListener("mouseup", e => {
   let c = Math.floor((e.clientX - rect.left) / TILE);
   let cellKey = `${r},${c}`;
   
+  // If in hint mode, reveal the selected cell
+  if(hintMode && r >= 0 && r < ROWS && c >= 0 && c < COLS) {
+      revealFromHint(r, c);
+      return;
+  }
+  
   // If timer still exists, user released before long press duration - treat as normal reveal
   if(longPressTimers.has(cellKey)) {
     clearTimeout(longPressTimers.get(cellKey));
