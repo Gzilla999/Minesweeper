@@ -65,110 +65,212 @@ let cellProbabilities = []; // Store calculated probabilities
 
 hintButton.addEventListener("click", toggleHintMode);
 
-function calculateMineProbability(r, c) {
-    // Don't calculate for revealed or flagged cells
-    if (revealed[r][c] || flagged[r][c]) return null;
-    
-    // Get adjacent numbered cells and their constraints
-    let constraints = [];
-    
-    for (let dr = -1; dr <= 1; dr++) {
-        for (let dc = -1; dc <= 1; dc++) {
-            if (dr === 0 && dc === 0) continue;
-            
+function calculateAllProbabilities() {
+  let borderCells = [];
+  let borderSet = new Map(); // Tracks 'r,c' -> index
+  let rules = []; // { cells: [idx1, idx2...], mines: remainingMines }
+
+  // 1. Identify border cells and constraints
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (revealed[r][c] && grid[r][c] > 0) {
+        let unrevealed = [];
+        let adjMines = 0;
+        for (let dr = -1; dr <= 1; dr++) {
+          for (let dc = -1; dc <= 1; dc++) {
+            if (!dr && !dc) continue;
             let nr = r + dr, nc = c + dc;
-            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && revealed[nr][nc] && grid[nr][nc] > 0) {
-                // Get constraint for this numbered cell
-                let adjMines = 0, adjUnrevealed = [];
-                
-                for (let dr2 = -1; dr2 <= 1; dr2++) {
-                    for (let dc2 = -1; dc2 <= 1; dc2++) {
-                        if (dr2 === 0 && dc2 === 0) continue;
-                        
-                        let ar = nr + dr2, ac = nc + dc2;
-                        if (ar >= 0 && ar < ROWS && ac >= 0 && ac < COLS) {
-                            if (flagged[ar][ac]) {
-                                adjMines++;
-                            } else if (!revealed[ar][ac]) {
-                                adjUnrevealed.push({r: ar, c: ac});
-                            }
-                        }
-                    }
+            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
+              if (flagged[nr][nc]) {
+                adjMines++;
+              } else if (!revealed[nr][nc]) {
+                let key = `${nr},${nc}`;
+                if (!borderSet.has(key)) {
+                  borderSet.set(key, borderCells.length);
+                  borderCells.push({ r: nr, c: nc });
                 }
-                
-                let remaining = grid[nr][nc] - adjMines;
-                if (remaining > 0 && adjUnrevealed.length > 0) {
-                    constraints.push({
-                        minesNeeded: remaining,
-                        unrevealed: adjUnrevealed,
-                        ratio: remaining / adjUnrevealed.length
-                    });
-                }
+                unrevealed.push(borderSet.get(key));
+              }
             }
+          }
         }
+        let remaining = grid[r][c] - adjMines;
+        if (unrevealed.length > 0) {
+          rules.push({ cells: unrevealed, mines: remaining });
+        }
+      }
     }
-    
-    if (constraints.length === 0) {
-        return 0.1; // No adjacent constraints - default low probability
+  }
+
+  let probabilities = new Map(); // index -> prob
+
+  // 2. Build connected components to solve independent regions separately
+  let adj = Array.from({ length: borderCells.length }, () => new Set());
+  rules.forEach(rule => {
+    for (let i = 0; i < rule.cells.length; i++) {
+      for (let j = i + 1; j < rule.cells.length; j++) {
+        adj[rule.cells[i]].add(rule.cells[j]);
+        adj[rule.cells[j]].add(rule.cells[i]);
+      }
     }
-    
-    // Find constraints that include this cell (r, c)
-    let cellConstraints = constraints.filter(c => 
-        c.unrevealed.some(u => u.r === r && u.c === c)
-    );
-    
-    if (cellConstraints.length === 0) {
-        return 0; // Cell is not adjacent to any constraint
+  });
+
+  let visited = new Set();
+  let components = [];
+  for (let i = 0; i < borderCells.length; i++) {
+    if (!visited.has(i)) {
+      let comp = [];
+      let q = [i];
+      visited.add(i);
+      while (q.length > 0) {
+        let curr = q.shift();
+        comp.push(curr);
+        for (let neighbor of adj[curr]) {
+          if (!visited.has(neighbor)) {
+            visited.add(neighbor);
+            q.push(neighbor);
+          }
+        }
+      }
+      components.push(comp);
     }
-    
-    // Calculate average constraint ratio
-    let totalRatio = cellConstraints.reduce((sum, c) => sum + c.ratio, 0);
-    let probability = totalRatio / cellConstraints.length;
-    
-    return Math.min(1, Math.max(0, probability));
+  }
+
+  // 3. Backtracking solver for each component
+  for (let comp of components) {
+    let compRules = rules.filter(r => r.cells.some(c => comp.includes(c)));
+
+    // Map global indices to local 0...N-1 indices for this component
+    let localMap = new Map();
+    comp.forEach((gIdx, lIdx) => localMap.set(gIdx, lIdx));
+    let localRules = compRules.map(r => ({
+      cells: r.cells.map(c => localMap.get(c)).filter(c => c !== undefined),
+      mines: r.mines
+    }));
+
+    let validArrangements = 0;
+    let mineCounts = new Array(comp.length).fill(0);
+
+    // Safety limit: if component is too large, use local fallback to prevent browser freeze
+    if (comp.length > 20) {
+      comp.forEach(gIdx => {
+        let cellRules = compRules.filter(r => r.cells.includes(gIdx));
+        let avgProb = cellRules.reduce((sum, r) => sum + Math.max(0, Math.min(1, r.mines / r.cells.length)), 0) / (cellRules.length || 1);
+        probabilities.set(gIdx, avgProb);
+      });
+      continue;
+    }
+
+    function backtrack(index, currentAssignment) {
+      // Prune branches that violate constraints early
+      for (let rule of localRules) {
+        let minMines = 0, maxMines = 0;
+        for (let cIdx of rule.cells) {
+          if (cIdx < index) {
+            if (currentAssignment[cIdx]) { minMines++; maxMines++; }
+          } else {
+            maxMines++; // Unknown, assume it could be a mine
+          }
+        }
+        if (minMines > rule.mines || maxMines < rule.mines) return; // Invalid branch
+      }
+
+      if (index === comp.length) {
+        validArrangements++;
+        for (let i = 0; i < comp.length; i++) {
+          if (currentAssignment[i]) mineCounts[i]++;
+        }
+        return;
+      }
+
+      currentAssignment[index] = false; // Try safe
+      backtrack(index + 1, currentAssignment);
+
+      currentAssignment[index] = true;  // Try mine
+      backtrack(index + 1, currentAssignment);
+    }
+
+    backtrack(0, new Array(comp.length).fill(false));
+
+    if (validArrangements > 0) {
+      for (let i = 0; i < comp.length; i++) {
+        probabilities.set(comp[i], mineCounts[i] / validArrangements);
+      }
+    } else {
+      // Inconsistent state fallback 
+      for (let i = 0; i < comp.length; i++) probabilities.set(comp[i], 1);
+    }
+  }
+
+  // 4. Calculate background probability and assemble results
+  let result = [];
+  let expectedBorderMines = 0;
+
+  for (let i = 0; i < borderCells.length; i++) {
+    let p = probabilities.has(i) ? probabilities.get(i) : 0;
+    expectedBorderMines += p;
+    result.push({ r: borderCells[i].r, c: borderCells[i].c, probability: p });
+  }
+
+  let flaggedCount = flagged.reduce((s, row) => s + row.filter(Boolean).length, 0);
+  let remainingGameMines = Math.max(0, MINES - flaggedCount);
+  let totalUnrevealedUnflagged = 0;
+
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (!revealed[r][c] && !flagged[r][c]) totalUnrevealedUnflagged++;
+    }
+  }
+
+  let bgCells = totalUnrevealedUnflagged - borderCells.length;
+  let bgProb = 0;
+  if (bgCells > 0) {
+    bgProb = Math.max(0, (remainingGameMines - expectedBorderMines) / bgCells);
+    bgProb = Math.min(1, bgProb);
+  }
+
+  // Assign background probabilities to non-border cells
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (!revealed[r][c] && !flagged[r][c] && !borderSet.has(`${r},${c}`)) {
+        result.push({ r, c, probability: bgProb });
+      }
+    }
+  }
+
+  return result;
 }
 
 function toggleHintMode() {
-    if (gameOver || replaying || hintsRemaining <= 0) return;
-    
-    if (!hintMode) {
-        // ENTER hint mode - calculate all probabilities
-        hintMode = true;
-        cellProbabilities = [];
-        
-        for (let r = 0; r < ROWS; r++) {
-            for (let c = 0; c < COLS; c++) {
-                if (!revealed[r][c] && !flagged[r][c]) {
-                    let prob = calculateMineProbability(r, c);
-                    if (prob !== null) {
-                        cellProbabilities.push({r, c, probability: prob});
-                    }
-                }
-            }
-        }
-        
-        hintButton.textContent = "💡 Click to close (" + hintsRemaining + ")";
-        hintButton.style.backgroundColor = "#ffff00";
-        draw(); // Redraw to show probabilities
-    } else {
-        // EXIT hint mode without doing anything
-        exitHintMode();
-    }
+  if (gameOver || replaying || hintsRemaining <= 0) return;
+
+  if (!hintMode) {
+    // ENTER hint mode
+    hintMode = true;
+    hintsRemaining--; // Consume a hint
+    cellProbabilities = calculateAllProbabilities();
+
+    hintButton.textContent = "💡 Click to close (" + hintsRemaining + ")";
+    hintButton.style.backgroundColor = "#ffff00";
+    draw(); // Redraw to show probabilities
+  } else {
+    // EXIT hint mode
+    exitHintMode();
+  }
 }
 
 function exitHintMode() {
-    hintMode = false;
-    cellProbabilities = [];
-    hintButton.textContent = "💡 Hint (" + hintsRemaining + ")";
-    hintButton.style.backgroundColor = "#fff700";
-    draw();
+  hintMode = false;
+  cellProbabilities = [];
+  updateHintUI();
+  draw();
 }
 
 function updateHintUI() {
-    hintCountSpan.textContent = hintsRemaining;
-    hintButton.disabled = hintsRemaining <= 0 || gameOver;
-    hintButton.textContent = "💡 Hint (" + hintsRemaining + ")";
-    hintButton.style.backgroundColor = "#fff700";
+  hintCountSpan.textContent = hintsRemaining;
+  hintButton.disabled = hintsRemaining <= 0 || gameOver;
+  hintButton.textContent = "💡 Hint (" + hintsRemaining + ")";
+  hintButton.style.backgroundColor = hintsRemaining > 0 && !gameOver ? "#fff700" : "#cccccc";
 }
 
 // Load High Scores from LocalStorage
