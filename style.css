@@ -8,8 +8,8 @@
 
 body {
     background: var(--ui-bg);
-    font-family:Tahoma, sans-serif;
-    text-align:center;
+    font-family: Tahoma, sans-serif;
+    text-align: center;
     margin: 0;
     padding: 10px;
     box-sizing: border-box;
@@ -17,10 +17,10 @@ body {
 }
 
 #wrapper {
-    display:inline-block;
+    display: inline-block;
     background: var(--ui-bg);
     border: 4px solid var(--ui-border);
-    padding:6px;
+    padding: 6px;
     max-width: calc(100vw - 32px);
     overflow: hidden;
     resize: both;
@@ -29,54 +29,54 @@ body {
 }
 
 #topbar {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: var(--ui-bg);
     border: 3px solid var(--ui-border);
-    margin-bottom:6px;
-    padding:4px;
+    margin-bottom: 6px;
+    padding: 4px;
 }
 
 .digits {
-    background:black;
-    color:red;
-    font-family:'Courier New', monospace;
-    font-weight:bold;
-    font-size:22px;
-    width:70px;
-    text-align:right;
-    padding:2px;
-    border:inset 2px #808080;
-    cursor:pointer;
+    background: #000000;
+    color: #ff0000;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 22px;
+    width: 70px;
+    text-align: right;
+    padding: 2px;
+    border: inset 2px #808080;
+    cursor: pointer;
 }
 
 #smiley {
-    width:32px;
-    height:32px;
-    border:2px solid var(--ui-border);
-    background:var(--ui-bg);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    font-size:20px;
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--ui-border);
+    background: var(--ui-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
     flex-shrink: 0;
 }
 
 #board {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  touch-action: none;
-  -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: none;
+    -webkit-touch-callout: none;
 }
 
 canvas {
-    display:block;
-    background:var(--ui-bg);
-    margin:5px 0;
+    display: block;
+    background: var(--ui-bg);
+    margin: 5px 0;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     width: 100%;
@@ -86,35 +86,35 @@ canvas {
 }
 
 #stats {
-    margin-top:8px;
-    font-size:14px;
-    cursor:pointer;
-    white-space:pre-wrap;
+    margin-top: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: pre-wrap;
     word-wrap: break-word;
 }
 
 button {
-    margin:2px;
+    margin: 2px;
     padding: 8px 12px;
     font-size: 14px;
 }
 
 #settings {
-    margin:10px;
-    border:2px solid var(--ui-border);
-    background:var(--ui-bg);
-    padding:5px;
-    display:inline-block;
+    margin: 10px;
+    border: 2px solid var(--ui-border);
+    background: var(--ui-bg);
+    padding: 5px;
+    display: inline-block;
 }
 
 #difficultySelect {
-    margin-bottom:6px;
+    margin-bottom: 6px;
 }
 
 .leaderboard-entry {
-    cursor:pointer;
-    font-size:13px;
-    text-align:left;
+    cursor: pointer;
+    font-size: 13px;
+    text-align: left;
     word-wrap: break-word;
 }
 
@@ -139,14 +139,14 @@ footer {
 }
 
 .report-bug-button {
-    background-color: #C0C0C0;
+    background-color: #c0c0c0;
     border: 2px solid #808080;
-    color: black;
-    font-family: 'Ms Sans Serif', 'Arial';
+    color: #000000;
+    font-family: 'Ms Sans Serif', Arial, sans-serif;
     font-size: 14px;
     padding: 5px 15px;
     cursor: pointer;
-    box-shadow: 2px 2px 2px #A0A0A0;
+    box-shadow: 2px 2px 2px #a0a0a0;
 }
 
 .reportBugPanel {
@@ -158,7 +158,7 @@ footer {
 
 #hintButton {
     background-color: #fff700;
-    color: #000;
+    color: #000000;
     font-weight: bold;
     border: 2px outset #dfdf00;
 }
@@ -170,7 +170,7 @@ footer {
 #hintButton:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    background-color: #ccc;
+    background-color: #cccccc;
 }
 
 /* Hint probability display */
@@ -182,20 +182,18 @@ footer {
 }
 
 @keyframes hintHighlight {
-    0% { filter: brightness(1.3); }
-    100% { filter: brightness(1); }
+    0% {
+        filter: brightness(1.3);
+    }
+    100% {
+        filter: brightness(1);
+    }
 }
 
 .hint-revealed {
     animation: hintHighlight 0.5s ease-out;
 }
 
-@media (max-width: 600px) {
-    .reportBugPanel {
-        padding: 5px;
-        margin: 10px;
-    }
-}
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     body {
@@ -247,6 +245,13 @@ footer {
     .leaderboard-entry {
         font-size: 11px;
         padding: 3px;
+    }
+}
+
+@media (max-width: 600px) {
+    .reportBugPanel {
+        padding: 5px;
+        margin: 10px;
     }
 }
 
