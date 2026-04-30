@@ -55,6 +55,127 @@ let replaying = false, replayStartTime = 0;
 let flagMode = false, toggleFlag = false, showStats = true;
 let longPressDuration = 200; // Default 200ms
 
+// ===== HINT SYSTEM =====
+let hintsRemaining = 3;
+const MAX_HINTS_PER_GAME = 3;
+const hintButton = document.getElementById("hintButton");
+const hintCountSpan = document.getElementById("hintCount");
+let hintedCells = new Set();
+let probabilities = {}; // Cache probabilities
+
+hintButton.addEventListener("click", useHint);
+
+function calculateMineProbability(r, c) {
+    // Don't calculate for revealed or flagged cells
+    if (revealed[r][c] || flagged[r][c]) return null;
+    
+    // Get adjacent cell info
+    let adjacentMines = 0;
+    let adjacentUnrevealed = 0;
+    let adjacentNumbers = [];
+    
+    for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+            if (dr === 0 && dc === 0) continue;
+            
+            let nr = r + dr, nc = c + dc;
+            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
+                if (flagged[nr][nc]) {
+                    adjacentMines++;
+                } else if (!revealed[nr][nc]) {
+                    adjacentUnrevealed++;
+                } else if (grid[nr][nc] > 0) {
+                    adjacentNumbers.push({r: nr, c: nc, count: grid[nr][nc]});
+                }
+            }
+        }
+    }
+    
+    // If no adjacent revealed numbers, assume low probability
+    if (adjacentNumbers.length === 0) {
+        return 0.1; // Low baseline probability
+    }
+    
+    // Calculate average probability from adjacent numbered cells
+    let totalProbability = 0;
+    for (let adj of adjacentNumbers) {
+        let adjMines = 0, adjUnrevealed = 0;
+        
+        for (let dr = -1; dr <= 1; dr++) {
+            for (let dc = -1; dc <= 1; dc++) {
+                if (dr === 0 && dc === 0) continue;
+                
+                let ar = adj.r + dr, ac = adj.c + dc;
+                if (ar >= 0 && ar < ROWS && ac >= 0 && ac < COLS) {
+                    if (flagged[ar][ac]) adjMines++;
+                    else if (!revealed[ar][ac]) adjUnrevealed++;
+                }
+            }
+        }
+        
+        let remaining = adj.count - adjMines;
+        let cellProbability = adjUnrevealed > 0 ? remaining / adjUnrevealed : 0;
+        totalProbability += cellProbability;
+    }
+    
+    return Math.min(1, totalProbability / adjacentNumbers.length);
+}
+
+function useHint() {
+    if (gameOver || replaying || hintsRemaining <= 0) return;
+    
+    // Calculate probabilities for all unrevealed cells
+    let cellProbabilities = [];
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            if (!revealed[r][c] && !flagged[r][c]) {
+                let prob = calculateMineProbability(r, c);
+                if (prob !== null) {
+                    cellProbabilities.push({r, c, probability: prob});
+                }
+            }
+        }
+    }
+    
+    if (cellProbabilities.length === 0) {
+        alert("No cells to hint!");
+        return;
+    }
+    
+    // Sort by lowest probability (safest first)
+    cellProbabilities.sort((a, b) => a.probability - b.probability);
+    
+    // Reveal the safest cell
+    let hintCell = cellProbabilities[0];
+    reveal(hintCell.r, hintCell.c, true);
+    hintedCells.add(`${hintCell.r},${hintCell.c}`);
+    
+    // Show hint info (optional - for debugging)
+    console.log(`Hint: Cell (${hintCell.r},${hintCell.c}) with ${(hintCell.probability*100).toFixed(1)}% mine probability`);
+    
+    // Decrement hints
+    hintsRemaining--;
+    updateHintUI();
+    
+    // Check for win
+    if (!gameOver && checkWin()) {
+        gameOver = true;
+        win = true;
+        endTime = performance.now();
+        smiley.textContent = "😎";
+        saveHighScore();
+    }
+    
+    updateUI();
+    draw();
+    updateStats();
+}
+
+function updateHintUI() {
+    hintCountSpan.textContent = hintsRemaining;
+    hintButton.disabled = hintsRemaining <= 0 || gameOver;
+}
+
 // Load High Scores from LocalStorage
 function loadBestScores(){
   try{
