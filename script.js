@@ -703,6 +703,14 @@ statsDiv.addEventListener("click", () => { if(bestScores[currentDifficulty]?.[0]
 
 /* --- LEADERBOARD & REPLAY --- */
 
+function deleteLeaderboardEntry(difficulty, index) {
+  if(bestScores[difficulty] && bestScores[difficulty][index]) {
+    bestScores[difficulty].splice(index, 1);
+    localStorage.setItem("ms_best_scores", JSON.stringify(bestScores));
+    updateLeaderboard();
+  }
+}
+
 function saveHighScore(){
   if(threeBV < 1) return;
   if(!bestScores[currentDifficulty]) bestScores[currentDifficulty] = [];
@@ -727,6 +735,7 @@ function updateLeaderboard(){
           <th style="padding: 5px; text-align: left; border: 1px solid #999;">3BV</th>
           <th style="padding: 5px; text-align: left; border: 1px solid #999;">3BV/s</th>
           <th style="padding: 5px; text-align: left; border: 1px solid #999;">Efficiency</th>
+          <th style="padding: 5px; text-align: center; border: 1px solid #999;">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -739,6 +748,9 @@ function updateLeaderboard(){
               <td style="padding: 5px; border: 1px solid #ddd;">${e.threeBV}</td>
               <td style="padding: 5px; border: 1px solid #ddd;">${(e.threeBV/e.time).toFixed(2)}</td>
               <td style="padding: 5px; border: 1px solid #ddd;">${eff}</td>
+              <td style="padding: 5px; border: 1px solid #ddd; text-align: center;">
+                <button onclick="deleteLeaderboardEntry('${currentDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button>
+              </td>
             </tr>
           `;
         }).join('')}
@@ -746,12 +758,17 @@ function updateLeaderboard(){
     </table>
   `;
   
-  // Add click handlers to rows
+  // Add click handlers to rows (for replay on row click, excluding delete button clicks)
   if(bestScores[currentDifficulty]){
     const rows = leaderboardDiv.querySelectorAll('tbody tr');
     bestScores[currentDifficulty].slice(0, 50).forEach((entry, index) => {
       if(rows[index]){
-        rows[index].addEventListener('click', () => replay(entry));
+        rows[index].addEventListener('click', (event) => {
+          // Don't replay if delete button was clicked
+          if(event.target.textContent !== 'Delete') {
+            replay(entry);
+          }
+        });
       }
     });
   }
