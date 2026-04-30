@@ -69,56 +69,63 @@ function calculateMineProbability(r, c) {
     // Don't calculate for revealed or flagged cells
     if (revealed[r][c] || flagged[r][c]) return null;
     
-    // Get adjacent cell info
-    let adjacentMines = 0;
-    let adjacentUnrevealed = 0;
-    let adjacentNumbers = [];
+    // Get adjacent numbered cells and their constraints
+    let constraints = [];
     
     for (let dr = -1; dr <= 1; dr++) {
         for (let dc = -1; dc <= 1; dc++) {
             if (dr === 0 && dc === 0) continue;
             
             let nr = r + dr, nc = c + dc;
-            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
-                if (flagged[nr][nc]) {
-                    adjacentMines++;
-                } else if (!revealed[nr][nc]) {
-                    adjacentUnrevealed++;
-                } else if (grid[nr][nc] > 0) {
-                    adjacentNumbers.push({r: nr, c: nc, count: grid[nr][nc]});
-                }
-            }
-        }
-    }
-    
-    // If no adjacent revealed numbers, assume low probability
-    if (adjacentNumbers.length === 0) {
-        return 0.1; // Low baseline probability
-    }
-    
-    // Calculate average probability from adjacent numbered cells
-    let totalProbability = 0;
-    for (let adj of adjacentNumbers) {
-        let adjMines = 0, adjUnrevealed = 0;
-        
-        for (let dr = -1; dr <= 1; dr++) {
-            for (let dc = -1; dc <= 1; dc++) {
-                if (dr === 0 && dc === 0) continue;
+            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && revealed[nr][nc] && grid[nr][nc] > 0) {
+                // Get constraint for this numbered cell
+                let adjMines = 0, adjUnrevealed = [];
                 
-                let ar = adj.r + dr, ac = adj.c + dc;
-                if (ar >= 0 && ar < ROWS && ac >= 0 && ac < COLS) {
-                    if (flagged[ar][ac]) adjMines++;
-                    else if (!revealed[ar][ac]) adjUnrevealed++;
+                for (let dr2 = -1; dr2 <= 1; dr2++) {
+                    for (let dc2 = -1; dc2 <= 1; dc2++) {
+                        if (dr2 === 0 && dc2 === 0) continue;
+                        
+                        let ar = nr + dr2, ac = nc + dc2;
+                        if (ar >= 0 && ar < ROWS && ac >= 0 && ac < COLS) {
+                            if (flagged[ar][ac]) {
+                                adjMines++;
+                            } else if (!revealed[ar][ac]) {
+                                adjUnrevealed.push({r: ar, c: ac});
+                            }
+                        }
+                    }
+                }
+                
+                let remaining = grid[nr][nc] - adjMines;
+                if (remaining > 0 && adjUnrevealed.length > 0) {
+                    constraints.push({
+                        minesNeeded: remaining,
+                        unrevealed: adjUnrevealed,
+                        ratio: remaining / adjUnrevealed.length
+                    });
                 }
             }
         }
-        
-        let remaining = adj.count - adjMines;
-        let cellProbability = adjUnrevealed > 0 ? remaining / adjUnrevealed : 0;
-        totalProbability += cellProbability;
     }
     
-    return Math.min(1, totalProbability / adjacentNumbers.length);
+    if (constraints.length === 0) {
+        return 0.1; // No adjacent constraints - default low probability
+    }
+    
+    // Find constraints that include this cell (r, c)
+    let cellConstraints = constraints.filter(c => 
+        c.unrevealed.some(u => u.r === r && u.c === c)
+    );
+    
+    if (cellConstraints.length === 0) {
+        return 0; // Cell is not adjacent to any constraint
+    }
+    
+    // Calculate average constraint ratio
+    let totalRatio = cellConstraints.reduce((sum, c) => sum + c.ratio, 0);
+    let probability = totalRatio / cellConstraints.length;
+    
+    return Math.min(1, Math.max(0, probability));
 }
 
 function toggleHintMode() {
