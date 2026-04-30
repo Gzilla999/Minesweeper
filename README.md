@@ -39,4 +39,4 @@ GPL-3.0 License - see LICENSE file for details
 
 ---
 
-Current version: v1.4.0
+Current version: v1.4.1
