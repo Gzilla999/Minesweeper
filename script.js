@@ -277,9 +277,16 @@ function init(customMines = null){
   
   firstClick = true; gameOver = false; win = false; 
   startTime = null; endTime = null; 
-  clickCount = 0; threeBV = 0; moveLog = []; replaying = false;
+  clickCount = 0; threeBV = 0; moveLog = []; 
+  
+  // Reset hints for new game
+  hintsRemaining = MAX_HINTS_PER_GAME;
+  hintedCells.clear();
+  
+  replaying = false;
   
   smiley.textContent = "😊";
+  updateHintUI();
   updateUI(); draw(); updateStats(); updateLeaderboard();
 }
 
