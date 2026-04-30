@@ -960,18 +960,19 @@ function renderLoop(){
   if(running) requestAnimationFrame(renderLoop);
 }
 requestAnimationFrame(renderLoop);
-setDifficulty();
+
+// Initialize show delete button from localStorage
+showDeleteButton = loadShowDeleteButton();
+deleteButtonToggle.checked = showDeleteButton;
 
 // Initialize long press duration from localStorage
 longPressDuration = loadLongPressDuration();
 longPressDurationInput.value = longPressDuration;
 longPressDurationValue.textContent = longPressDuration + "ms";
 
-// Initialize show delete button from localStorage
-showDeleteButton = loadShowDeleteButton();
-deleteButtonToggle.checked = showDeleteButton;
-
 const themePicker = document.getElementById("themeColor");
+
+setDifficulty();
 
 function applyTheme(base) {
   document.documentElement.style.setProperty("--ui-bg", base);
