@@ -225,6 +225,7 @@ function toggleHintMode() {
     if (!hintMode) {
         hintMode = true;
         hintsRemaining--; 
+        clickCount++;
         cellProbabilities = calculateAllProbabilities();
         
         hintButton.textContent = "💡 Close Hint (" + hintsRemaining + ")";
