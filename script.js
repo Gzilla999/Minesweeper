@@ -5,6 +5,16 @@ if ("serviceWorker" in navigator) {
     .catch(err => console.warn("SW registration failed:", err));
 }
 
+function escapeForSingleQuotedJsString(value) {
+  return String(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/\r/g, "\\r")
+    .replace(/\n/g, "\\n")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
+}
+
 /* --- CONFIGURATION --- */
 // Standard Minesweeper difficulty presets
 let difficulties = {
@@ -772,7 +782,8 @@ function updateLeaderboard(){
           let eff = e.clickCount ? ((e.threeBV / e.clickCount) * 100).toFixed(1) + "%" : "N/A";
           let actionCell = '';
           if(showDeleteButton) {
-            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="deleteLeaderboardEntry('${currentDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>`;
+            const safeDifficulty = escapeForSingleQuotedJsString(currentDifficulty);
+            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="deleteLeaderboardEntry('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>`;
           }
           return `
             <tr style="border-bottom: 1px solid #ddd; cursor: pointer;" onmouseover="this.style.backgroundColor='#eee'" onmouseout="this.style.backgroundColor=''">
