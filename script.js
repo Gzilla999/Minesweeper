@@ -733,6 +733,37 @@ smiley.addEventListener("click", () => { if(!replaying) init(); });
 statsDiv.addEventListener("click", () => { if(bestScores[currentDifficulty]?.[0]) replay(bestScores[currentDifficulty][0]); });
 
 /* --- LEADERBOARD & REPLAY --- */
+let pendingDelete = null;
+
+const confirmModal = document.getElementById("confirmModal");
+const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+
+function openDeleteModal(difficulty, index) {
+  pendingDelete = { difficulty, index };
+  confirmModal.classList.add("active");
+}
+
+function closeDeleteModal() {
+  confirmModal.classList.remove("active");
+  pendingDelete = null;
+}
+
+// Confirm button
+confirmDeleteBtn.addEventListener("click", () => {
+  if (pendingDelete) {
+    deleteLeaderboardEntry(pendingDelete.difficulty, pendingDelete.index);
+  }
+  closeDeleteModal();
+});
+
+// Cancel button
+cancelDeleteBtn.addEventListener("click", closeDeleteModal);
+
+// Optional: click outside to close
+confirmModal.addEventListener("click", (e) => {
+  if (e.target === confirmModal) closeDeleteModal();
+});
 
 function deleteLeaderboardEntry(difficulty, index) {
   if(bestScores[difficulty] && bestScores[difficulty][index]) {
@@ -762,7 +793,7 @@ function updateLeaderboard(){
   
   if(showDeleteButton) {
     headerAction = '<th style="padding: 5px; text-align: center; border: 1px solid #999;">Action</th>';
-    bodyAction = '<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="deleteLeaderboardEntry(\'${DIFFICULTY}\', ${INDEX})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>';
+    bodyAction = '<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="openDeleteModal(\'${DIFFICULTY}\', ${INDEX})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>';
   }
   
   leaderboardDiv.innerHTML = `
@@ -783,7 +814,7 @@ function updateLeaderboard(){
           let actionCell = '';
           if(showDeleteButton) {
             const safeDifficulty = escapeForSingleQuotedJsString(currentDifficulty);
-            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="deleteLeaderboardEntry('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>`;
+            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="openDeleteModal('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>`;
           }
           return `
             <tr style="border-bottom: 1px solid #ddd; cursor: pointer;" onmouseover="this.style.backgroundColor='#eee'" onmouseout="this.style.backgroundColor=''">
