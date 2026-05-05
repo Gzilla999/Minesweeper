@@ -793,7 +793,12 @@ function updateLeaderboard(){
   
   if(showDeleteButton) {
     headerAction = '<th style="padding: 5px; text-align: center; border: 1px solid #999;">Action</th>';
-    bodyAction = '<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="openDeleteModal(\'${DIFFICULTY}\', ${INDEX})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>';
+    bodyAction = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;">
+  <button onclick="openDeleteModal('${safeDifficulty}', ${i})"
+  style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000;
+  padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">
+  Delete</button>
+</td>`;
   }
   
   leaderboardDiv.innerHTML = `
