@@ -734,7 +734,57 @@ statsDiv.addEventListener("click", () => { if(bestScores[currentDifficulty]?.[0]
 
 /* --- LEADERBOARD & REPLAY --- */
 
-function deleteLeaderboardEntry(difficulty, index) {
+// Create confirmation modal if it doesn't exist
+function initConfirmationModal() {
+  if (!document.getElementById("confirmationModal")) {
+    const modal = document.createElement("div");
+    modal.id = "confirmationModal";
+    modal.className = "modal-overlay";
+    modal.innerHTML = `
+      <div class="modal-content">
+        <h2>Delete Entry?</h2>
+        <p>Are you sure you want to delete this leaderboard entry?</p>
+        <p class="modal-warning">This action cannot be undone.</p>
+        <div class="modal-buttons">
+          <button class="cancel-btn" id="cancelDeleteBtn">Cancel</button>
+          <button class="confirm-btn" id="confirmDeleteBtn">Delete</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+}
+
+function showDeleteConfirmation(difficulty, index) {
+  initConfirmationModal();
+  const modal = document.getElementById("confirmationModal");
+  
+  // Remove old event listeners and add new ones
+  const confirmBtn = document.getElementById("confirmDeleteBtn");
+  const cancelBtn = document.getElementById("cancelDeleteBtn");
+  
+  // Create new button references to avoid stale closures
+  const newConfirmBtn = confirmBtn.cloneNode(true);
+  const newCancelBtn = cancelBtn.cloneNode(true);
+  
+  confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+  cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+  
+  // Add event listeners to new buttons
+  newConfirmBtn.addEventListener("click", () => {
+    performDelete(difficulty, index);
+    modal.classList.remove("active");
+  });
+  
+  newCancelBtn.addEventListener("click", () => {
+    modal.classList.remove("active");
+  });
+  
+  // Show modal
+  modal.classList.add("active");
+}
+
+function performDelete(difficulty, index) {
   if(bestScores[difficulty] && bestScores[difficulty][index]) {
     bestScores[difficulty].splice(index, 1);
     localStorage.setItem("ms_best_scores", JSON.stringify(bestScores));
@@ -762,7 +812,7 @@ function updateLeaderboard(){
   
   if(showDeleteButton) {
     headerAction = '<th style="padding: 5px; text-align: center; border: 1px solid #999;">Action</th>';
-    bodyAction = '<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="deleteLeaderboardEntry(\'${DIFFICULTY}\', ${INDEX})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>';
+    bodyAction = '<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation(\'${DIFFICULTY}\', ${INDEX})" style="background-color: #ff6b6b; color: white; padding: 4px 8px; font-size: 12px; border: none; cursor: pointer; border-radius: 3px;">Delete</button></td>';
   }
   
   leaderboardDiv.innerHTML = `
@@ -783,7 +833,7 @@ function updateLeaderboard(){
           let actionCell = '';
           if(showDeleteButton) {
             const safeDifficulty = escapeForSingleQuotedJsString(currentDifficulty);
-            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="deleteLeaderboardEntry('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 8px; cursor: pointer; font-size: 11px; border-radius: 3px;">Delete</button></td>`;
+            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; padding: 4px 8px; font-size: 12px; border: none; cursor: pointer; border-radius: 3px;">Delete</button></td>`;
           }
           return `
             <tr style="border-bottom: 1px solid #ddd; cursor: pointer;" onmouseover="this.style.backgroundColor='#eee'" onmouseout="this.style.backgroundColor=''">
