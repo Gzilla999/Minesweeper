@@ -65,7 +65,7 @@ let longPressActive = new Map(); // Track if long press was triggered
 let replaying = false, replayStartTime = 0;
 let flagMode = false, toggleFlag = false, showStats = true;
 let longPressDuration = 200; // Default 200ms
-let showDeleteButton = true; // Show delete button by default
+let showDeleteButton = false;
 
 // ===== HINT SYSTEM =====
 let hintsRemaining = 3;
