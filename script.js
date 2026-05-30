@@ -5,6 +5,97 @@ if ("serviceWorker" in navigator) {
     .catch(err => console.warn("SW registration failed:", err));
 }
 
+/* --- SOUND EFFECTS MANAGER --- */
+
+class SoundEffects {
+  constructor() {
+    this.audioContext = null;
+    this.soundEnabled = true;
+    this.initialized = false;
+    this.loadSoundPreference();
+  }
+
+  initAudio() {
+    if (this.initialized) return;
+    try {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      this.initialized = true;
+    } catch (e) {
+      console.warn("Web Audio API not supported:", e);
+      this.soundEnabled = false;
+    }
+  }
+
+  playSound(frequency, duration, type = "sine", volume = 0.3) {
+    if (!this.soundEnabled || !this.initialized) return;
+    try {
+      const osc = this.audioContext.createOscillator();
+      const gain = this.audioContext.createGain();
+      osc.connect(gain);
+      gain.connect(this.audioContext.destination);
+      osc.frequency.value = frequency;
+      osc.type = type;
+      gain.gain.setValueAtTime(volume, this.audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+      osc.start(this.audioContext.currentTime);
+      osc.stop(this.audioContext.currentTime + duration);
+    } catch (e) {
+      console.warn("Sound playback error:", e);
+    }
+  }
+
+  click() {
+    this.playSound(400, 0.08, "sine", 0.25);
+  }
+
+  flag() {
+    this.playSound(600, 0.12, "sine", 0.3);
+  }
+
+  reveal() {
+    this.playSound(500, 0.1, "sine", 0.25);
+  }
+
+  mine() {
+    this.playSound(200, 0.15, "sine", 0.3);
+    setTimeout(() => this.playSound(150, 0.15, "sine", 0.3), 100);
+  }
+
+  win() {
+    this.playSound(400, 0.15, "sine", 0.3);
+    setTimeout(() => this.playSound(600, 0.15, "sine", 0.3), 150);
+    setTimeout(() => this.playSound(800, 0.3, "sine", 0.3), 300);
+  }
+
+  lose() {
+    this.playSound(600, 0.15, "sine", 0.3);
+    setTimeout(() => this.playSound(400, 0.15, "sine", 0.3), 150);
+    setTimeout(() => this.playSound(200, 0.3, "sine", 0.3), 300);
+  }
+
+  toggle() {
+    this.soundEnabled = !this.soundEnabled;
+    localStorage.setItem("ms_sound_enabled", this.soundEnabled.toString());
+    return this.soundEnabled;
+  }
+
+  loadSoundPreference() {
+    try {
+      const saved = localStorage.getItem("ms_sound_enabled");
+      if (saved === null) {
+        this.soundEnabled = true;
+      } else {
+        this.soundEnabled = saved === "true";
+      }
+    } catch (e) {
+      console.warn("Failed to load sound preference:", e);
+      this.soundEnabled = true;
+    }
+  }
+}
+
+const soundFX = new SoundEffects();
+
 function escapeForSingleQuotedJsString(value) {
   return String(value)
     .replace(/\\/g, "\\\\")
@@ -16,7 +107,6 @@ function escapeForSingleQuotedJsString(value) {
 }
 
 /* --- CONFIGURATION --- */
-// Standard Minesweeper difficulty presets
 let difficulties = {
   easy: {rows: 9, cols: 9, mines: 10},
   intermediate: {rows: 16, cols: 16, mines: 40},
@@ -27,7 +117,6 @@ let difficulties = {
 let currentDifficulty = "easy";
 const difficultySelect = document.getElementById("difficulty");
 
-// Event listener to change difficulty and reset board
 difficultySelect.addEventListener("change",()=> { 
     currentDifficulty=difficultySelect.value; 
     setDifficulty(); 
@@ -46,45 +135,40 @@ const longPressDurationInput = document.getElementById("longPressDuration");
 const longPressDurationValue = document.getElementById("longPressDurationValue");
 const deleteButtonToggle = document.getElementById("showDeleteButton");
 
-let ROWS, COLS, MINES, TILE = 32; // TILE is the pixel size of one square
-let grid;      // Stores numbers (0-8) or mine (-1)
-let revealed;  // Boolean array: is cell open?
-let flagged;   // Boolean array: is cell flagged?
-let minesSet;  // Set to track mine locations
+let ROWS, COLS, MINES, TILE = 32;
+let grid;
+let revealed;
+let flagged;
+let minesSet;
 
-// Game State Tracking
 let firstClick = true, gameOver = false, win = false;
 let startTime = null, endTime = null;
 let clickCount = 0;
-let threeBV = 0; // "Bechtel's Board Benchmark"
+let threeBV = 0;
 let moveLog = [];
-let longPressTimers = new Map(); // Track long press timers
-let longPressActive = new Map(); // Track if long press was triggered
+let longPressTimers = new Map();
+let longPressActive = new Map();
 
-// UI State
 let replaying = false, replayStartTime = 0;
 let flagMode = false, toggleFlag = false, showStats = true;
-let longPressDuration = 200; // Default 200ms
+let longPressDuration = 200;
 let showDeleteButton = false;
 
-// ===== HINT SYSTEM =====
+/* ===== HINT SYSTEM ===== */
 let hintsRemaining = 3;
 const MAX_HINTS_PER_GAME = 3;
 const hintButton = document.getElementById("hintButton");
 const hintCountSpan = document.getElementById("hintCount");
-let hintMode = false; // Toggle to show probabilities
-let cellProbabilities = []; // Store calculated probabilities
+let hintMode = false;
+let cellProbabilities = [];
 
 hintButton.addEventListener("click", toggleHintMode);
-
-// ===== ADVANCED TANK SOLVER HINT SYSTEM =====
 
 function calculateAllProbabilities() {
     const borderCells = [];
     const borderSet = new Map(); 
     const rules = [];
 
-    // 1. Identify Border Cells & Constraints
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             if (revealed[r][c] && grid[r][c] > 0) {
@@ -115,7 +199,6 @@ function calculateAllProbabilities() {
 
     if (borderCells.length === 0) return calculateBackgroundOnly();
 
-    // 2. Group into Independent Islands
     const adj = borderCells.map(() => []);
     rules.forEach(rule => {
         rule.cells.forEach(c1 => {
@@ -138,10 +221,8 @@ function calculateAllProbabilities() {
         components.push(comp);
     }
 
-    // 3. Solve Islands
     const compSolutions = components.map(comp => solveComponent(comp, rules));
 
-    // 4. Global Background Probability
     const flaggedCount = flagged.reduce((s, row) => s + row.filter(Boolean).length, 0);
     const totalRemainingMines = MINES - flaggedCount;
     const totalHidden = revealed.flat().filter(v => !v).length - flaggedCount;
@@ -164,7 +245,6 @@ function calculateAllProbabilities() {
         results.push({ r: cell.r, c: cell.c, probability: p });
     });
 
-    // Add background probability for cells not touching numbers
     const avgProb = totalHidden > 0 ? totalRemainingMines / totalHidden : 0;
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
@@ -262,7 +342,6 @@ function updateHintUI() {
     hintButton.style.backgroundColor = "#fff700";
 }
 
-// Load High Scores from LocalStorage
 function loadBestScores(){
   try{
     const raw = localStorage.getItem("ms_best_scores");
@@ -276,7 +355,6 @@ function loadBestScores(){
 }
 let bestScores = loadBestScores();
 
-// Load Long Press Duration from LocalStorage
 function loadLongPressDuration(){
   try{
     const saved = localStorage.getItem("ms_long_press_duration");
@@ -289,7 +367,6 @@ function loadLongPressDuration(){
   }
 }
 
-// Load Show Delete Button setting from LocalStorage
 function loadShowDeleteButton(){
   try{
     const saved = localStorage.getItem("ms_show_delete_button");
@@ -303,37 +380,40 @@ function loadShowDeleteButton(){
 
 /* --- EVENT LISTENERS --- */
 
-// Toggle mobile mode
 mobileCheckbox.addEventListener("change", e => { 
     toggleFlag = e.target.checked; 
     flagToggle.style.display = toggleFlag ? "inline-block" : "none"; 
 });
 
-// Toggle flag mode
 flagToggle.addEventListener("click", () => { 
     flagMode = !flagMode; 
     flagToggle.textContent = "Flag Mode: " + (flagMode ? "ON" : "OFF"); 
 });
 
-// Toggle stats visibility
 document.getElementById("showStats").addEventListener("change", e => { 
     showStats = e.target.checked; 
     draw(); 
 });
 
-// Toggle delete button visibility
 deleteButtonToggle.addEventListener("change", e => {
     showDeleteButton = e.target.checked;
     localStorage.setItem("ms_show_delete_button", showDeleteButton.toString());
     updateLeaderboard();
 });
 
-// Long press duration control
 longPressDurationInput.addEventListener("input", e => {
     longPressDuration = parseInt(e.target.value, 10);
     longPressDurationValue.textContent = longPressDuration + "ms";
     localStorage.setItem("ms_long_press_duration", longPressDuration.toString());
 });
+
+const soundToggle = document.getElementById("soundToggle");
+if (soundToggle) {
+    soundToggle.addEventListener("change", e => {
+        soundFX.toggle();
+    });
+    soundToggle.checked = soundFX.soundEnabled;
+}
 
 /* --- INITIALIZATION --- */
 
@@ -341,37 +421,32 @@ function setDifficulty(){
   let d = difficulties[currentDifficulty];
   ROWS = d.rows; COLS = d.cols; MINES = d.mines;
   
-  // Responsive tile size based on screen width
-  let screenWidth = window.innerWidth - 40; // account for padding/borders
+  let screenWidth = window.innerWidth - 40;
   let maxTileSize = Math.floor(screenWidth / COLS);
-  TILE = Math.min(32, Math.max(16, maxTileSize)); // clamp between 16-32px
+  TILE = Math.min(32, Math.max(16, maxTileSize));
   
   canvas.width = COLS * TILE;
   canvas.height = ROWS * TILE;
   init();
 }
 
-// Recalculate on window resize
 let resizeTimeout;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    // Don't resize if game is active or if we haven't initialized yet
     if(gameOver || replaying || !grid) return;
     
-    // Only recalculate canvas size, don't reinitialize the game
     let screenWidth = window.innerWidth - 40;
     let maxTileSize = Math.floor(screenWidth / COLS);
     let newTile = Math.min(32, Math.max(16, maxTileSize));
     
-    // Only update canvas if tile size actually changed
     if(newTile !== TILE) {
       TILE = newTile;
       canvas.width = COLS * TILE;
       canvas.height = ROWS * TILE;
-      draw(); // Redraw with new size, don't reset game
+      draw();
     }
-  }, 300); // debounce
+  }, 300);
 });
 
 function init(customMines = null){
@@ -384,7 +459,6 @@ function init(customMines = null){
   startTime = null; endTime = null; 
   clickCount = 0; threeBV = 0; moveLog = []; 
   
-  // Reset hints for new game
   hintsRemaining = MAX_HINTS_PER_GAME;
   hintMode = false;
   cellProbabilities = [];
@@ -409,14 +483,12 @@ function placeMineSafe(r0, c0, customMines = null){
   if(customMines){ 
     minesSet = new Set(customMines); 
   } else { 
-    // Defensive: ensure we don't try to place more mines than available non-safe cells
     const maxAvailable = ROWS * COLS - safeCells.size;
     if(MINES > maxAvailable){
       console.warn(`Minesweeper: MINES (${MINES}) > available non-safe cells (${maxAvailable}). Capping to ${maxAvailable}.`);
     }
     const targetMines = Math.min(MINES, Math.max(0, maxAvailable));
 
-    // Avoid pathological infinite loops by bounding attempts
     let attempts = 0;
     const maxAttempts = ROWS * COLS * 10;
     while(minesSet.size < targetMines && attempts++ < maxAttempts){ 
@@ -480,26 +552,26 @@ function chord(r, c){
         }
     } 
     
-    // Check if flags match the number
     if(flags !== grid[r][c]) return;
     
-    // Verify that all flagged cells are actually mines
     for(let [fr, fc] of flaggedCells){
         if(grid[fr][fc] !== -1){
-            // Wrong flag! Game over
             gameOver = true;
             win = false;
             endTime = performance.now();
             smiley.textContent = "😵";
+            soundFX.initAudio();
+            soundFX.mine();
             return;
         }
     }
     
-    // All flags are correct, reveal safe cells
     for(let dr = -1; dr <= 1; dr++) for(let dc = -1; dc <= 1; dc++){ 
         let nr = r + dr, nc = c + dc; 
         if(nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && !flagged[nr][nc] && !revealed[nr][nc]) reveal(nr, nc, true); 
     } 
+    soundFX.initAudio();
+    soundFX.reveal();
 }
 
 function checkWin(){ 
@@ -518,16 +590,22 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
 
   let countedClick = false;
   if(type === 'reveal'){
-    let isChord = revealed[r][c];   // Track if this is a chord
+    let isChord = revealed[r][c];
     if(revealed[r][c]){ chord(r, c); countedClick = true; } 
     else if(grid[r][c] === -1 && !replayMove){ 
         gameOver = true; win = false; endTime = performance.now(); 
         smiley.textContent = "😵"; countedClick = true; 
-        reveal(r, c, false); 
+        reveal(r, c, false);
+        soundFX.initAudio();
+        soundFX.mine();
     } 
-    else{ reveal(r, c, true); countedClick = true; }
+    else{ 
+        reveal(r, c, true); 
+        countedClick = true;
+        soundFX.initAudio();
+        soundFX.click();
+    }
     
-    // Log as 'chord' type if it was a chord move
     if(logMove && isChord){
       const baseTime = replayMove ? replayStartTime : (startTime || performance.now());
       moveLog.push({r, c, type: 'chord', time: performance.now() - baseTime});
@@ -535,14 +613,18 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
       updateUI(); draw(); updateStats();
       if(!gameOver && checkWin() && !replayMove){ 
           gameOver = true; win = true; endTime = performance.now(); 
-          smiley.textContent = "😎"; 
+          smiley.textContent = "😎";
+          soundFX.initAudio();
+          soundFX.win();
           saveHighScore(); 
       }
       return;
     }
   } else if(type === 'flag'){ 
       if(!revealed[r][c]) countedClick = true; 
-      flagged[r][c] = !flagged[r][c]; 
+      flagged[r][c] = !flagged[r][c];
+      soundFX.initAudio();
+      soundFX.flag();
   }
 
   if(countedClick && !replayMove) clickCount++;
@@ -553,7 +635,9 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
   
   if(!gameOver && checkWin() && !replayMove){ 
       gameOver = true; win = true; endTime = performance.now(); 
-      smiley.textContent = "😎"; 
+      smiley.textContent = "😎";
+      soundFX.initAudio();
+      soundFX.win();
       saveHighScore(); 
   }
 
@@ -565,7 +649,7 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
 canvas.addEventListener("mousedown", e => { 
   if(gameOver || replaying) return;
   
-  e.preventDefault(); // Prevent text selection on long press
+  e.preventDefault();
   smiley.textContent = "😮";
   
   let rect = canvas.getBoundingClientRect();
@@ -573,30 +657,26 @@ canvas.addEventListener("mousedown", e => {
   let c = Math.floor((e.clientX - rect.left) / TILE);
   let cellKey = `${r},${c}`;
   
-  // For right-click, flag immediately
   if(e.button === 2) {
     let type = 'flag';
     handleClick(r, c, type);
     return;
   }
   
-  // Clear any existing timer for this cell
   if(longPressTimers.has(cellKey)) {
     clearTimeout(longPressTimers.get(cellKey));
   }
   
-  // Start long press timer
   let timer = setTimeout(() => {
-    // Long press detected - flag the cell
     if(!gameOver) {
       handleClick(r, c, 'flag');
-      longPressActive.set(cellKey, true); // Mark that long press was triggered
+      longPressActive.set(cellKey, true);
     }
     longPressTimers.delete(cellKey);
   }, longPressDuration);
   
   longPressTimers.set(cellKey, timer);
-  longPressActive.set(cellKey, false); // Mark that long press hasn't triggered yet
+  longPressActive.set(cellKey, false);
 });
 
 canvas.addEventListener("mousemove", e => {
@@ -607,10 +687,8 @@ canvas.addEventListener("mousemove", e => {
   let c = Math.floor((e.clientX - rect.left) / TILE);
   let cellKey = `${r},${c}`;
   
-  // Check if we've moved to a different cell
   for(let [key, timer] of longPressTimers.entries()) {
     if(key !== cellKey) {
-      // We moved away from the original cell, cancel the timer
       clearTimeout(timer);
       longPressTimers.delete(key);
       longPressActive.delete(key);
@@ -628,13 +706,11 @@ canvas.addEventListener("mouseup", e => {
   let c = Math.floor((e.clientX - rect.left) / TILE);
   let cellKey = `${r},${c}`;
   
-  // If in hint mode, just exit hint mode on any click
   if(hintMode) {
     exitHintMode();
     return;
   }
   
-  // If timer still exists, user released before long press duration - treat as normal reveal
   if(longPressTimers.has(cellKey)) {
     clearTimeout(longPressTimers.get(cellKey));
     longPressTimers.delete(cellKey);
@@ -644,13 +720,11 @@ canvas.addEventListener("mouseup", e => {
       handleClick(r, c, type);
     }
   } else if(longPressActive.get(cellKey)) {
-    // Long press was already triggered, don't do anything else
     longPressActive.delete(cellKey);
   }
 });
 
 canvas.addEventListener("mouseleave", () => {
-  // Clear all pending long press timers
   for(let timer of longPressTimers.values()) {
     clearTimeout(timer);
   }
@@ -658,7 +732,6 @@ canvas.addEventListener("mouseleave", () => {
   longPressActive.clear();
 });
 
-// Replace the mousedown/mouseup listeners with touch events for mobile
 let touchStartTime = 0;
 let touchStartCell = null;
 
@@ -675,11 +748,10 @@ canvas.addEventListener("touchstart", e => {
   touchStartCell = {r, c};
   let cellKey = `${r},${c}`;
   
-  // Start long press timer
   let timer = setTimeout(() => {
     if(!gameOver && touchStartCell) {
       handleClick(r, c, 'flag');
-      touchStartCell = null; // Prevent double action
+      touchStartCell = null;
     }
     longPressTimers.delete(cellKey);
   }, longPressDuration);
@@ -695,14 +767,12 @@ canvas.addEventListener("touchend", e => {
   let elapsed = Date.now() - touchStartTime;
   let cellKey = `${touchStartCell.r},${touchStartCell.c}`;
   
-  // If in hint mode, just exit hint mode
   if(hintMode) {
     exitHintMode();
     touchStartCell = null;
     return;
   }
   
-  // If released before long press duration, treat as normal reveal
   if(elapsed < longPressDuration && longPressTimers.has(cellKey)) {
     clearTimeout(longPressTimers.get(cellKey));
     longPressTimers.delete(cellKey);
@@ -717,7 +787,6 @@ canvas.addEventListener("touchend", e => {
 
 canvas.addEventListener("touchcancel", e => {
   e.preventDefault();
-  // Clear timer if touch is cancelled
   if(touchStartCell) {
     let cellKey = `${touchStartCell.r},${touchStartCell.c}`;
     if(longPressTimers.has(cellKey)) {
@@ -734,7 +803,6 @@ statsDiv.addEventListener("click", () => { if(bestScores[currentDifficulty]?.[0]
 
 /* --- LEADERBOARD & REPLAY --- */
 
-// Create confirmation modal if it doesn't exist
 function initConfirmationModal() {
   if (!document.getElementById("confirmationModal")) {
     const modal = document.createElement("div");
@@ -759,18 +827,15 @@ function showDeleteConfirmation(difficulty, index) {
   initConfirmationModal();
   const modal = document.getElementById("confirmationModal");
   
-  // Remove old event listeners and add new ones
   const confirmBtn = document.getElementById("confirmDeleteBtn");
   const cancelBtn = document.getElementById("cancelDeleteBtn");
   
-  // Create new button references to avoid stale closures
   const newConfirmBtn = confirmBtn.cloneNode(true);
   const newCancelBtn = cancelBtn.cloneNode(true);
   
   confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
   cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
   
-  // Add event listeners to new buttons
   newConfirmBtn.addEventListener("click", () => {
     performDelete(difficulty, index);
     modal.classList.remove("active");
@@ -780,7 +845,6 @@ function showDeleteConfirmation(difficulty, index) {
     modal.classList.remove("active");
   });
   
-  // Show modal
   modal.classList.add("active");
 }
 
@@ -808,11 +872,9 @@ function saveHighScore(){
 
 function updateLeaderboard(){
   let headerAction = '';
-  let bodyAction = '';
   
   if(showDeleteButton) {
     headerAction = '<th style="padding: 5px; text-align: center; border: 1px solid #999;">Action</th>';
-    bodyAction = '<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation(\'${DIFFICULTY}\', ${INDEX})" style="background-color: #ff6b6b; color: white; padding: 4px 8px; font-size: 12px; border: none; cursor: pointer; border-radius: 3px;">Delete</button></td>';
   }
   
   leaderboardDiv.innerHTML = `
@@ -833,7 +895,7 @@ function updateLeaderboard(){
           let actionCell = '';
           if(showDeleteButton) {
             const safeDifficulty = escapeForSingleQuotedJsString(currentDifficulty);
-            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; padding: 4px 8px; font-size: 12px; border: none; cursor: pointer; border-radius: 3px;">Delete</button></td>`;
+            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: none; padding: 3px 8px; border-radius: 3px; cursor: pointer;">Delete</button></td>`;
           }
           return `
             <tr style="border-bottom: 1px solid #ddd; cursor: pointer;" onmouseover="this.style.backgroundColor='#eee'" onmouseout="this.style.backgroundColor=''">
@@ -850,13 +912,11 @@ function updateLeaderboard(){
     </table>
   `;
   
-  // Add click handlers to rows (for replay on row click, excluding delete button clicks)
   if(bestScores[currentDifficulty]){
     const rows = leaderboardDiv.querySelectorAll('tbody tr');
     bestScores[currentDifficulty].slice(0, 50).forEach((entry, index) => {
       if(rows[index]){
         rows[index].addEventListener('click', (event) => {
-          // Don't replay if delete button was clicked
           if(event.target.textContent !== 'Delete') {
             replay(entry);
           }
@@ -910,7 +970,6 @@ function replay(entry){
     }, m.time);
   });
 
-  // replace .at(-1) for compatibility and safety
   let totalTime = entry.log.length ? entry.log[entry.log.length - 1].time : 0;
   setTimeout(() => {
     replaying = false;
@@ -929,17 +988,14 @@ function updateStats(){
     return;
   }
 
-  // compute elapsed safely: use endTime if game over, otherwise use now; fall back to 0 if startTime missing
   let elapsed = 0;
   if(startTime){
     const reference = gameOver ? (endTime || performance.now()) : performance.now();
     elapsed = (reference - startTime) / 1000;
   }
 
-  // Efficiency (3BV per click) - safe formatting
   let eff = clickCount ? ((threeBV / clickCount) * 100).toFixed(1) + "%" : "N/A";
 
-  // 3BV/s - only compute when elapsed is positive finite
   let bvps = "N/A";
   if(Number.isFinite(elapsed) && elapsed > 0){
     bvps = (threeBV / elapsed).toFixed(2);
@@ -987,19 +1043,17 @@ function draw(){
         ctx.fill();
       }
       
-      // HINT MODE: Display probability on unrevealed cells
       if(hintMode) {
           let probEntry = cellProbabilities.find(p => p.r === r && p.c === c);
           if(probEntry) {
               let percent = Math.round(probEntry.probability * 100);
               
-              // Color code: Green (safe) -> Yellow (medium) -> Red (dangerous)
               if(percent < 30) {
-                  ctx.fillStyle = "#00aa00"; // Green
+                  ctx.fillStyle = "#00aa00";
               } else if(percent < 60) {
-                  ctx.fillStyle = "#ffaa00"; // Orange
+                  ctx.fillStyle = "#ffaa00";
               } else {
-                  ctx.fillStyle = "#dd0000"; // Red
+                  ctx.fillStyle = "#dd0000";
               }
               
               ctx.font = "bold 10px Arial";
@@ -1022,11 +1076,9 @@ function renderLoop(){
 }
 requestAnimationFrame(renderLoop);
 
-// Initialize show delete button from localStorage
 showDeleteButton = loadShowDeleteButton();
 deleteButtonToggle.checked = showDeleteButton;
 
-// Initialize long press duration from localStorage
 longPressDuration = loadLongPressDuration();
 longPressDurationInput.value = longPressDuration;
 longPressDurationValue.textContent = longPressDuration + "ms";
@@ -1037,25 +1089,11 @@ setDifficulty();
 
 function applyTheme(base) {
   document.documentElement.style.setProperty("--ui-bg", base);
-
-  // darker border
-  document.documentElement.style.setProperty(
-    "--ui-border",
-    shade(base, -40)
-  );
-
-  document.documentElement.style.setProperty(
-    "--ui-dark",
-    shade(base, -80)
-  );
-
-  document.documentElement.style.setProperty(
-    "--ui-light",
-    shade(base, 40)
-  );
+  document.documentElement.style.setProperty("--ui-border", shade(base, -40));
+  document.documentElement.style.setProperty("--ui-dark", shade(base, -80));
+  document.documentElement.style.setProperty("--ui-light", shade(base, 40));
 }
 
-// Simple color shading
 function shade(hex, percent) {
   let r = parseInt(hex.slice(1,3),16);
   let g = parseInt(hex.slice(3,5),16);
