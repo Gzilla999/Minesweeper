@@ -590,6 +590,7 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
 
   let countedClick = false;
   if(type === 'reveal'){
+    if(flagged[r][c]) return;
     let isChord = revealed[r][c];
     if(revealed[r][c]){ chord(r, c); countedClick = true; } 
     else if(grid[r][c] === -1 && !replayMove){ 
