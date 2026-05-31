@@ -611,7 +611,7 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
       const baseTime = replayMove ? replayStartTime : (startTime || performance.now());
       moveLog.push({r, c, type: 'chord', time: performance.now() - baseTime});
       if(countedClick && !replayMove) clickCount++;
-      updateUI(); draw(); updateStats();
+      updateUI(); draw();
       if(!gameOver && checkWin() && !replayMove){ 
           gameOver = true; win = true; endTime = performance.now(); 
           smiley.textContent = "😎";
@@ -619,6 +619,7 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
           soundFX.win();
           saveHighScore(); 
       }
+      updateStats();
       return;
     }
   } else if(type === 'flag'){ 
@@ -897,7 +898,7 @@ function updateLeaderboard(){
           let actionCell = '';
           if(showDeleteButton) {
             const safeDifficulty = escapeForSingleQuotedJsString(currentDifficulty);
-            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: none; padding: 3px 8px; border-radius: 3px; cursor: pointer;">Delete</button></td>`;
+            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Delete</button></td>`;
           }
           return `
             <tr style="border-bottom: 1px solid #ddd; cursor: pointer;" onmouseover="this.style.backgroundColor='#eee'" onmouseout="this.style.backgroundColor=''">
