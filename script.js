@@ -621,6 +621,7 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
       return;
     }
   } else if(type === 'flag'){ 
+      if(revealed[r][c]) return;
       if(!revealed[r][c]) countedClick = true; 
       flagged[r][c] = !flagged[r][c];
       soundFX.initAudio();
