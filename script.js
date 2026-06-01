@@ -965,13 +965,14 @@ function replay(entry){
   replayStartTime = startTime;
 
   entry.log.forEach(m => {
-    setTimeout(() => {
-      if(m.type === 'reveal'){ reveal(m.r, m.c, true); clickCount++; }
-      else if(m.type === 'chord'){ chord(m.r, m.c); clickCount++; }
-      else { flagged[m.r][m.c] = !flagged[m.r][m.c]; clickCount++; }
-      draw(); updateStats();
-    }, m.time);
-  });
+  setTimeout(() => {
+    soundFX.initAudio();  // Initialize before each move
+    if(m.type === 'reveal'){ reveal(m.r, m.c, true); clickCount++; soundFX.reveal(); }
+    else if(m.type === 'chord'){ chord(m.r, m.c); clickCount++; }
+    else { flagged[m.r][m.c] = !flagged[m.r][m.c]; clickCount++; soundFX.flag(); }
+    draw(); updateStats();
+  }, m.time);
+});
 
   let totalTime = entry.log.length ? entry.log[entry.log.length - 1].time : 0;
   setTimeout(() => {
