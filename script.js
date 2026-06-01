@@ -370,7 +370,7 @@ function loadLongPressDuration(){
 function loadShowDeleteButton(){
   try{
     const saved = localStorage.getItem("ms_show_delete_button");
-    if(saved === null) return true;
+    if(saved === null) return false;
     return saved === "true";
   }catch(e){
     console.warn("Minesweeper: failed to load show delete button setting from localStorage", e);
