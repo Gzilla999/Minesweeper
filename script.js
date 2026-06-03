@@ -41,6 +41,25 @@ class SoundEffects {
 
   playSound(frequency, duration, type = "sine", volume = 0.3) {
     if (!this.soundEnabled || !this.initialized) return;
+  
+    try {
+      // Ensure context is running before attempting to play
+      if (this.audioContext.state === "suspended") {
+        this.audioContext.resume().then(() => {
+          this._createAndPlaySound(frequency, duration, type, volume);
+        }).catch(e => {
+          console.warn("Failed to resume for sound playback:", e);
+        });
+        return;
+      }
+    
+      this._createAndPlaySound(frequency, duration, type, volume);
+    } catch (e) {
+      console.warn("Sound playback error:", e);
+    }
+  }
+
+  _createAndPlaySound(frequency, duration, type = "sine", volume = 0.3) {
     try {
       const osc = this.audioContext.createOscillator();
       const gain = this.audioContext.createGain();
