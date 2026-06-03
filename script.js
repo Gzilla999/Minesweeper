@@ -13,26 +13,44 @@ class SoundEffects {
     this.soundEnabled = true;
     this.initialized = false;
     this.loadSoundPreference();
+    this.setupContextResumeListener();
+  }
+
+  setupContextResumeListener() {
+    // Automatically resume audio context on user interaction
+    const resumeContext = () => {
+      if (this.audioContext && this.audioContext.state === "suspended") {
+        this.audioContext.resume().catch(e => {
+          console.warn("Failed to resume AudioContext:", e);
+        });
+      }
+    };
+    
+    document.addEventListener("click", resumeContext);
+    document.addEventListener("touchstart", resumeContext);
   }
 
   initAudio() {
-    if (this.initialized && this.audioContext && this.audioContext.state === "running") {
+    if (this.initialized) {
+      // Already initialized, just ensure it's running
+      if (this.audioContext && this.audioContext.state === "suspended") {
+        this.audioContext.resume().catch(e => {
+          console.warn("Failed to resume AudioContext:", e);
+        });
+      }
       return;
     }
-    try {
-      if (!this.audioContext) {
-        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
     
-      // Resume the context if it's suspended
+    try {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      this.initialized = true;
+      
+      // Resume immediately if suspended
       if (this.audioContext.state === "suspended") {
         this.audioContext.resume().catch(e => {
           console.warn("Failed to resume AudioContext:", e);
-          this.soundEnabled = false;
         });
       }
-    
-      this.initialized = true;
     } catch (e) {
       console.warn("Web Audio API not supported:", e);
       this.soundEnabled = false;
@@ -40,26 +58,27 @@ class SoundEffects {
   }
 
   playSound(frequency, duration, type = "sine", volume = 0.3) {
-    if (!this.soundEnabled || !this.initialized) return;
-  
+    if (!this.soundEnabled || !this.initialized || !this.audioContext) return;
+    
     try {
-      // Ensure context is running before attempting to play
-      if (this.audioContext.state === "suspended") {
-        this.audioContext.resume().then(() => {
-          this._createAndPlaySound(frequency, duration, type, volume);
-        }).catch(e => {
-          console.warn("Failed to resume for sound playback:", e);
-        });
+      // Only create oscillator if context is actually running
+      if (this.audioContext.state !== "running") {
+        // Context not ready, try to resume and queue the sound
+        if (this.audioContext.state === "suspended") {
+          this.audioContext.resume().then(() => {
+            this._playOscillator(frequency, duration, type, volume);
+          }).catch(e => console.warn("Resume failed:", e));
+        }
         return;
       }
-    
-      this._createAndPlaySound(frequency, duration, type, volume);
+
+      this._playOscillator(frequency, duration, type, volume);
     } catch (e) {
       console.warn("Sound playback error:", e);
     }
   }
 
-  _createAndPlaySound(frequency, duration, type = "sine", volume = 0.3) {
+  _playOscillator(frequency, duration, type = "sine", volume = 0.3) {
     try {
       const osc = this.audioContext.createOscillator();
       const gain = this.audioContext.createGain();
@@ -592,7 +611,6 @@ function chord(r, c){
             win = false;
             endTime = performance.now();
             smiley.textContent = "😵";
-            soundFX.initAudio();
             soundFX.mine();
             return;
         }
@@ -602,7 +620,6 @@ function chord(r, c){
         let nr = r + dr, nc = c + dc; 
         if(nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && !flagged[nr][nc] && !revealed[nr][nc]) reveal(nr, nc, true); 
     } 
-    soundFX.initAudio();
     soundFX.reveal();
 }
 
@@ -615,6 +632,11 @@ function checkWin(){
 /* --- INPUT HANDLING --- */
 
 function handleClick(r, c, type, logMove = true, replayMove = false){
+  // Initialize audio ONCE at the start if not already initialized
+  if (!replayMove && !soundFX.initialized) {
+    soundFX.initAudio();
+  }
+
   if(gameOver && !replayMove) return;
 
   if(firstClick && type === 'reveal'){ placeMineSafe(r, c); firstClick = false; }
@@ -629,13 +651,11 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
         gameOver = true; win = false; endTime = performance.now(); 
         smiley.textContent = "😵"; countedClick = true; 
         reveal(r, c, false);
-        soundFX.initAudio();
         soundFX.mine();
     } 
     else{ 
         reveal(r, c, true); 
         countedClick = true;
-        soundFX.initAudio();
         soundFX.click();
     }
     
@@ -647,7 +667,6 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
       if(!gameOver && checkWin() && !replayMove){ 
           gameOver = true; win = true; endTime = performance.now(); 
           smiley.textContent = "😎";
-          soundFX.initAudio();
           soundFX.win();
           saveHighScore(); 
       }
@@ -658,7 +677,6 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
       if(revealed[r][c]) return;
       if(!revealed[r][c]) countedClick = true; 
       flagged[r][c] = !flagged[r][c];
-      soundFX.initAudio();
       soundFX.flag();
   }
 
@@ -671,7 +689,6 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
   if(!gameOver && checkWin() && !replayMove){ 
       gameOver = true; win = true; endTime = performance.now(); 
       smiley.textContent = "😎";
-      soundFX.initAudio();
       soundFX.win();
       saveHighScore(); 
   }
@@ -930,7 +947,7 @@ function updateLeaderboard(){
           let actionCell = '';
           if(showDeleteButton) {
             const safeDifficulty = escapeForSingleQuotedJsString(currentDifficulty);
-            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Delete</button></td>`;
+            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Delete</button></td>`;
           }
           return `
             <tr style="border-bottom: 1px solid #ddd; cursor: pointer;" onmouseover="this.style.backgroundColor='#eee'" onmouseout="this.style.backgroundColor=''">
@@ -998,7 +1015,6 @@ function replay(entry){
 
   entry.log.forEach(m => {
   setTimeout(() => {
-    soundFX.initAudio();  // Initialize before each move
     if(m.type === 'reveal'){ reveal(m.r, m.c, true); clickCount++; soundFX.reveal(); }
     else if(m.type === 'chord'){ chord(m.r, m.c); clickCount++; }
     else { flagged[m.r][m.c] = !flagged[m.r][m.c]; clickCount++; soundFX.flag(); }
