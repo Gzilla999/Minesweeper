@@ -16,9 +16,22 @@ class SoundEffects {
   }
 
   initAudio() {
-    if (this.initialized) return;
+    if (this.initialized && this.audioContext && this.audioContext.state === "running") {
+      return;
+    }
     try {
-      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      if (!this.audioContext) {
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    
+      // Resume the context if it's suspended
+      if (this.audioContext.state === "suspended") {
+        this.audioContext.resume().catch(e => {
+          console.warn("Failed to resume AudioContext:", e);
+          this.soundEnabled = false;
+        });
+      }
+    
       this.initialized = true;
     } catch (e) {
       console.warn("Web Audio API not supported:", e);
