@@ -11,8 +11,10 @@ class SoundEffects {
   constructor() {
     this.audioContext = null;
     this.soundEnabled = true;
+    this.volume = 0.5; // Default volume (0.0 to 1.0)
     this.initialized = false;
     this.loadSoundPreference();
+    this.loadVolumePreference();
     this.setupContextResumeListener();
   }
 
@@ -66,13 +68,13 @@ class SoundEffects {
         // Context not ready, try to resume and queue the sound
         if (this.audioContext.state === "suspended") {
           this.audioContext.resume().then(() => {
-            this._playOscillator(frequency, duration, type, volume);
+            this._playOscillator(frequency, duration, type, volume * this.volume);
           }).catch(e => console.warn("Resume failed:", e));
         }
         return;
       }
 
-      this._playOscillator(frequency, duration, type, volume);
+      this._playOscillator(frequency, duration, type, volume * this.volume);
     } catch (e) {
       console.warn("Sound playback error:", e);
     }
@@ -142,6 +144,27 @@ class SoundEffects {
       console.warn("Failed to load sound preference:", e);
       this.soundEnabled = true;
     }
+  }
+  
+  loadVolumePreference() {
+    try {
+      const saved = localStorage.getItem("ms_volume");
+      if (saved === null) {
+        this.volume = 0.5;
+      } else {
+        const parsed = parseFloat(saved);
+        this.volume = (Number.isFinite(parsed) && parsed >= 0 && parsed <= 1) ? parsed : 0.5;
+      }
+    } catch (e) {
+      console.warn("Failed to load volume preference:", e);
+      this.volume = 0.5;
+    }
+  }
+
+  setVolume(value) {
+    // value should be 0-100
+    this.volume = Math.max(0, Math.min(100, value)) / 100;
+    localStorage.setItem("ms_volume", this.volume.toString());
   }
 }
 
@@ -464,6 +487,20 @@ if (soundToggle) {
         soundFX.toggle();
     });
     soundToggle.checked = soundFX.soundEnabled;
+}
+
+const volumeSlider = document.getElementById("volumeSlider");
+const volumeValue = document.getElementById("volumeValue");
+
+if (volumeSlider) {
+    volumeSlider.addEventListener("input", e => {
+        const value = parseInt(e.target.value, 10);
+        soundFX.setVolume(value);
+        volumeValue.textContent = value + "%";
+    });
+    // Set initial slider value from saved preference
+    volumeSlider.value = Math.round(soundFX.volume * 100);
+    volumeValue.textContent = Math.round(soundFX.volume * 100) + "%";
 }
 
 /* --- INITIALIZATION --- */
