@@ -11,7 +11,7 @@ class SoundEffects {
   constructor() {
     this.audioContext = null;
     this.soundEnabled = true;
-    this.volume = 0.5; // Default volume (0.0 to 1.0)
+    this.volume = 1.0; // Default volume (0.0 to 1.0)
     this.initialized = false;
     this.loadSoundPreference();
     this.loadVolumePreference();
@@ -150,14 +150,14 @@ class SoundEffects {
     try {
       const saved = localStorage.getItem("ms_volume");
       if (saved === null) {
-        this.volume = 0.5;
+        this.volume = 1.0; // Changed from 0.5 to 1.0
       } else {
         const parsed = parseFloat(saved);
-        this.volume = (Number.isFinite(parsed) && parsed >= 0 && parsed <= 1) ? parsed : 0.5;
+        this.volume = (Number.isFinite(parsed) && parsed >= 0 && parsed <= 1) ? parsed : 1.0; // Changed from 0.5 to 1.0
       }
     } catch (e) {
       console.warn("Failed to load volume preference:", e);
-      this.volume = 0.5;
+      this.volume = 1.0; // Changed from 0.5 to 1.0
     }
   }
 
