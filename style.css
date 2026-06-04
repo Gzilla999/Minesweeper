@@ -404,3 +404,18 @@ footer {
         font-size: 10px;
     }
 }
+
+/* Volume Slider Styling */
+#volumeSlider {
+    width: 150px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+#volumeValue {
+    margin-left: 5px;
+    font-weight: bold;
+    min-width: 35px;
+    display: inline-block;
+    text-align: right;
+}
