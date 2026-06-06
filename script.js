@@ -393,8 +393,24 @@ function updateHintUI() {
 // NEW: LEADERBOARD STORAGE SYSTEM
 function loadLeaderboards(){
   try{
+    // Check if old version exists first
+    const oldRaw = localStorage.getItem("ms_best_scores");
+    if(oldRaw) {
+      try {
+        const oldScores = JSON.parse(oldRaw);
+        const migrated = { time: oldScores, threebv: {}, bvps: {}, efficiency: {} };
+        localStorage.setItem("ms_leaderboards", JSON.stringify(migrated));
+        localStorage.removeItem("ms_best_scores"); // Delete old version
+        return migrated;
+      } catch(e) {
+        console.warn("Minesweeper: failed to migrate old scores format", e);
+      }
+    }
+    
+    // Load new version if old doesn't exist or migration failed
     const raw = localStorage.getItem("ms_leaderboards");
     if(!raw) return { time: {}, threebv: {}, bvps: {}, efficiency: {} };
+    
     const parsed = JSON.parse(raw);
     return (parsed && typeof parsed === 'object') ? parsed : { time: {}, threebv: {}, bvps: {}, efficiency: {} };
   }catch(e){
@@ -402,6 +418,7 @@ function loadLeaderboards(){
     return { time: {}, threebv: {}, bvps: {}, efficiency: {} };
   }
 }
+
 let leaderboards = loadLeaderboards();
 
 function loadLongPressDuration(){
