@@ -401,6 +401,7 @@ function loadLeaderboards(){
         const migrated = { time: oldScores, threebv: {}, bvps: {}, efficiency: {} };
         localStorage.setItem("ms_leaderboards", JSON.stringify(migrated));
         localStorage.removeItem("ms_best_scores"); // Delete old version
+        localStorage.setItem("ms_leaderboards_normalized", "true");
         return normalizeLeaderboards(migrated);
       } catch(e) {
         console.warn("Minesweeper: failed to migrate old scores format", e);
@@ -413,7 +414,15 @@ function loadLeaderboards(){
     
     const parsed = JSON.parse(raw);
     const leaderboards = (parsed && typeof parsed === 'object') ? parsed : { time: {}, threebv: {}, bvps: {}, efficiency: {} };
-    return normalizeLeaderboards(leaderboards);
+    
+    // Check if normalization has been done
+    const isNormalized = localStorage.getItem("ms_leaderboards_normalized") === "true";
+    if(!isNormalized) {
+      console.log("Leaderboards not yet normalized, normalizing now...");
+      return normalizeLeaderboards(leaderboards);
+    }
+    
+    return leaderboards;
   }catch(e){
     console.warn("Minesweeper: failed to load leaderboards from localStorage", e);
     return { time: {}, threebv: {}, bvps: {}, efficiency: {} };
