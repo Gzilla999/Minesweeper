@@ -1,7 +1,7 @@
 "use strict";
 
 /* ===== CONFIG ===== */
-const CACHE_VERSION = "ms-cache-v1.5.10";
+const CACHE_VERSION = "ms-cache-v1.6.0";
 const OFFLINE_ASSETS = [
   "./",
   "./index.html",
