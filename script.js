@@ -11,7 +11,7 @@ class SoundEffects {
   constructor() {
     this.audioContext = null;
     this.soundEnabled = true;
-    this.volume = 1.0; // Default volume (0.0 to 1.0)
+    this.volume = 1.0;
     this.initialized = false;
     this.loadSoundPreference();
     this.loadVolumePreference();
@@ -19,7 +19,6 @@ class SoundEffects {
   }
 
   setupContextResumeListener() {
-    // Automatically resume audio context on user interaction
     const resumeContext = () => {
       if (this.audioContext && this.audioContext.state === "suspended") {
         this.audioContext.resume().catch(e => {
@@ -34,7 +33,6 @@ class SoundEffects {
 
   initAudio() {
     if (this.initialized) {
-      // Already initialized, just ensure it's running
       if (this.audioContext && this.audioContext.state === "suspended") {
         this.audioContext.resume().catch(e => {
           console.warn("Failed to resume AudioContext:", e);
@@ -47,7 +45,6 @@ class SoundEffects {
       this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
       this.initialized = true;
       
-      // Resume immediately if suspended
       if (this.audioContext.state === "suspended") {
         this.audioContext.resume().catch(e => {
           console.warn("Failed to resume AudioContext:", e);
@@ -63,9 +60,7 @@ class SoundEffects {
     if (!this.soundEnabled || !this.initialized || !this.audioContext) return;
     
     try {
-      // Only create oscillator if context is actually running
       if (this.audioContext.state !== "running") {
-        // Context not ready, try to resume and queue the sound
         if (this.audioContext.state === "suspended") {
           this.audioContext.resume().then(() => {
             this._playOscillator(frequency, duration, type, volume * this.volume);
@@ -97,29 +92,18 @@ class SoundEffects {
     }
   }
 
-  click() {
-    this.playSound(400, 0.08, "sine", 0.25);
-  }
-
-  flag() {
-    this.playSound(600, 0.12, "sine", 0.3);
-  }
-
-  reveal() {
-    this.playSound(500, 0.1, "sine", 0.25);
-  }
-
+  click() { this.playSound(400, 0.08, "sine", 0.25); }
+  flag() { this.playSound(600, 0.12, "sine", 0.3); }
+  reveal() { this.playSound(500, 0.1, "sine", 0.25); }
   mine() {
     this.playSound(200, 0.15, "sine", 0.3);
     setTimeout(() => this.playSound(150, 0.15, "sine", 0.3), 100);
   }
-
   win() {
     this.playSound(400, 0.15, "sine", 0.3);
     setTimeout(() => this.playSound(600, 0.15, "sine", 0.3), 150);
     setTimeout(() => this.playSound(800, 0.3, "sine", 0.3), 300);
   }
-
   lose() {
     this.playSound(600, 0.15, "sine", 0.3);
     setTimeout(() => this.playSound(400, 0.15, "sine", 0.3), 150);
@@ -135,11 +119,7 @@ class SoundEffects {
   loadSoundPreference() {
     try {
       const saved = localStorage.getItem("ms_sound_enabled");
-      if (saved === null) {
-        this.soundEnabled = true;
-      } else {
-        this.soundEnabled = saved === "true";
-      }
+      this.soundEnabled = saved === null ? true : saved === "true";
     } catch (e) {
       console.warn("Failed to load sound preference:", e);
       this.soundEnabled = true;
@@ -150,19 +130,18 @@ class SoundEffects {
     try {
       const saved = localStorage.getItem("ms_volume");
       if (saved === null) {
-        this.volume = 1.0; // Changed from 0.5 to 1.0
+        this.volume = 1.0;
       } else {
         const parsed = parseFloat(saved);
-        this.volume = (Number.isFinite(parsed) && parsed >= 0 && parsed <= 1) ? parsed : 1.0; // Changed from 0.5 to 1.0
+        this.volume = (Number.isFinite(parsed) && parsed >= 0 && parsed <= 1) ? parsed : 1.0;
       }
     } catch (e) {
       console.warn("Failed to load volume preference:", e);
-      this.volume = 1.0; // Changed from 0.5 to 1.0
+      this.volume = 1.0;
     }
   }
 
   setVolume(value) {
-    // value should be 0-100
     this.volume = Math.max(0, Math.min(100, value)) / 100;
     localStorage.setItem("ms_volume", this.volume.toString());
   }
@@ -210,16 +189,10 @@ const longPressDurationValue = document.getElementById("longPressDurationValue")
 const deleteButtonToggle = document.getElementById("showDeleteButton");
 
 let ROWS, COLS, MINES, TILE = 32;
-let grid;
-let revealed;
-let flagged;
-let minesSet;
-
+let grid, revealed, flagged, minesSet;
 let firstClick = true, gameOver = false, win = false;
 let startTime = null, endTime = null;
-let clickCount = 0;
-let threeBV = 0;
-let moveLog = [];
+let clickCount = 0, threeBV = 0, moveLog = [];
 let longPressTimers = new Map();
 let longPressActive = new Map();
 
@@ -227,6 +200,7 @@ let replaying = false, replayStartTime = 0;
 let flagMode = false, toggleFlag = false, showStats = true;
 let longPressDuration = 200;
 let showDeleteButton = false;
+let leaderboardSortBy = "time";
 
 /* ===== HINT SYSTEM ===== */
 let hintsRemaining = 3;
@@ -237,6 +211,8 @@ let hintMode = false;
 let cellProbabilities = [];
 
 hintButton.addEventListener("click", toggleHintMode);
+
+// [Hint system functions - same as before...]
 
 function calculateAllProbabilities() {
     const borderCells = [];
@@ -300,7 +276,6 @@ function calculateAllProbabilities() {
     const flaggedCount = flagged.reduce((s, row) => s + row.filter(Boolean).length, 0);
     const totalRemainingMines = MINES - flaggedCount;
     const totalHidden = revealed.flat().filter(v => !v).length - flaggedCount;
-    const hiddenOutsideBorder = totalHidden - borderCells.length;
 
     let results = [];
     borderCells.forEach((cell, i) => {
@@ -393,7 +368,6 @@ function toggleHintMode() {
         hintsRemaining--; 
         clickCount++;
         cellProbabilities = calculateAllProbabilities();
-        
         hintButton.textContent = "💡 Close Hint (" + hintsRemaining + ")";
         hintButton.style.backgroundColor = "#ffff00";
         draw(); 
@@ -416,18 +390,19 @@ function updateHintUI() {
     hintButton.style.backgroundColor = "#fff700";
 }
 
-function loadBestScores(){
+// NEW: LEADERBOARD STORAGE SYSTEM
+function loadLeaderboards(){
   try{
-    const raw = localStorage.getItem("ms_best_scores");
-    if(!raw) return {};
+    const raw = localStorage.getItem("ms_leaderboards");
+    if(!raw) return { time: {}, threebv: {}, bvps: {}, efficiency: {} };
     const parsed = JSON.parse(raw);
-    return (parsed && typeof parsed === 'object') ? parsed : {};
+    return (parsed && typeof parsed === 'object') ? parsed : { time: {}, threebv: {}, bvps: {}, efficiency: {} };
   }catch(e){
-    console.warn("Minesweeper: failed to load best scores from localStorage", e);
-    return {};
+    console.warn("Minesweeper: failed to load leaderboards from localStorage", e);
+    return { time: {}, threebv: {}, bvps: {}, efficiency: {} };
   }
 }
-let bestScores = loadBestScores();
+let leaderboards = loadLeaderboards();
 
 function loadLongPressDuration(){
   try{
@@ -449,6 +424,19 @@ function loadShowDeleteButton(){
   }catch(e){
     console.warn("Minesweeper: failed to load show delete button setting from localStorage", e);
     return true;
+  }
+}
+
+function loadLeaderboardSortBy(){
+  try{
+    const saved = localStorage.getItem("ms_leaderboard_sort_by");
+    if(!saved) return "time";
+    const sortBy = String(saved);
+    if(['time', 'threebv', 'bvps', 'efficiency'].includes(sortBy)) return sortBy;
+    return "time";
+  }catch(e){
+    console.warn("Minesweeper: failed to load leaderboard sort by from localStorage", e);
+    return "time";
   }
 }
 
@@ -498,7 +486,6 @@ if (volumeSlider) {
         soundFX.setVolume(value);
         volumeValue.textContent = value + "%";
     });
-    // Set initial slider value from saved preference
     volumeSlider.value = Math.round(soundFX.volume * 100);
     volumeValue.textContent = Math.round(soundFX.volume * 100) + "%";
 }
@@ -669,7 +656,6 @@ function checkWin(){
 /* --- INPUT HANDLING --- */
 
 function handleClick(r, c, type, logMove = true, replayMove = false){
-  // Initialize audio ONCE at the start if not already initialized
   if (!replayMove && !soundFX.initialized) {
     soundFX.initAudio();
   }
@@ -737,7 +723,6 @@ function handleClick(r, c, type, logMove = true, replayMove = false){
 
 canvas.addEventListener("mousedown", e => { 
   if(gameOver || replaying) return;
-  
   e.preventDefault();
   smiley.textContent = "😮";
   
@@ -747,8 +732,7 @@ canvas.addEventListener("mousedown", e => {
   let cellKey = `${r},${c}`;
   
   if(e.button === 2) {
-    let type = 'flag';
-    handleClick(r, c, type);
+    handleClick(r, c, 'flag');
     return;
   }
   
@@ -787,7 +771,6 @@ canvas.addEventListener("mousemove", e => {
 
 canvas.addEventListener("mouseup", e => { 
   if(gameOver) return;
-  
   smiley.textContent = "😊";
   
   let rect = canvas.getBoundingClientRect();
@@ -850,7 +833,6 @@ canvas.addEventListener("touchstart", e => {
 
 canvas.addEventListener("touchend", e => {
   e.preventDefault();
-  
   if(!touchStartCell) return;
   
   let elapsed = Date.now() - touchStartTime;
@@ -888,7 +870,11 @@ canvas.addEventListener("touchcancel", e => {
 
 canvas.addEventListener("contextmenu", e => e.preventDefault());
 smiley.addEventListener("click", () => { if(!replaying) init(); });
-statsDiv.addEventListener("click", () => { if(bestScores[currentDifficulty]?.[0]) replay(bestScores[currentDifficulty][0]); });
+statsDiv.addEventListener("click", () => { 
+  if(leaderboards[leaderboardSortBy]?.[currentDifficulty]?.[0]) {
+    replay(leaderboards[leaderboardSortBy][currentDifficulty][0]); 
+  }
+});
 
 /* --- LEADERBOARD & REPLAY --- */
 
@@ -912,7 +898,7 @@ function initConfirmationModal() {
   }
 }
 
-function showDeleteConfirmation(difficulty, index) {
+function showDeleteConfirmation(difficulty, statType, index) {
   initConfirmationModal();
   const modal = document.getElementById("confirmationModal");
   
@@ -926,7 +912,7 @@ function showDeleteConfirmation(difficulty, index) {
   cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
   
   newConfirmBtn.addEventListener("click", () => {
-    performDelete(difficulty, index);
+    performDelete(difficulty, statType, index);
     modal.classList.remove("active");
   });
   
@@ -937,26 +923,60 @@ function showDeleteConfirmation(difficulty, index) {
   modal.classList.add("active");
 }
 
-function performDelete(difficulty, index) {
-  if(bestScores[difficulty] && bestScores[difficulty][index]) {
-    bestScores[difficulty].splice(index, 1);
-    localStorage.setItem("ms_best_scores", JSON.stringify(bestScores));
+function performDelete(difficulty, statType, index) {
+  if(leaderboards[statType]?.[difficulty]?.[index]) {
+    leaderboards[statType][difficulty].splice(index, 1);
+    localStorage.setItem("ms_leaderboards", JSON.stringify(leaderboards));
     updateLeaderboard();
   }
 }
 
 function saveHighScore(){
   if(threeBV < 1) return;
-  if(!bestScores[currentDifficulty]) bestScores[currentDifficulty] = [];
+  
   let elapsed = (endTime - startTime) / 1000;
-  bestScores[currentDifficulty].push({
+  const entry = {
       time: elapsed, clickCount, threeBV, 
       log: moveLog.slice(), win, mines: Array.from(minesSet)
+  };
+  
+  // Initialize difficulty objects if they don't exist
+  if(!leaderboards.time[currentDifficulty]) leaderboards.time[currentDifficulty] = [];
+  if(!leaderboards.threebv[currentDifficulty]) leaderboards.threebv[currentDifficulty] = [];
+  if(!leaderboards.bvps[currentDifficulty]) leaderboards.bvps[currentDifficulty] = [];
+  if(!leaderboards.efficiency[currentDifficulty]) leaderboards.efficiency[currentDifficulty] = [];
+  
+  // Add to Time leaderboard
+  leaderboards.time[currentDifficulty].push(entry);
+  leaderboards.time[currentDifficulty].sort((a, b) => a.time - b.time);
+  leaderboards.time[currentDifficulty] = leaderboards.time[currentDifficulty].slice(0, 100);
+  
+  // Add to 3BV leaderboard
+  leaderboards.threebv[currentDifficulty].push(entry);
+  leaderboards.threebv[currentDifficulty].sort((a, b) => b.threeBV - a.threeBV);
+  leaderboards.threebv[currentDifficulty] = leaderboards.threebv[currentDifficulty].slice(0, 100);
+  
+  // Add to 3BV/s leaderboard
+  leaderboards.bvps[currentDifficulty].push(entry);
+  leaderboards.bvps[currentDifficulty].sort((a, b) => (b.threeBV / b.time) - (a.threeBV / a.time));
+  leaderboards.bvps[currentDifficulty] = leaderboards.bvps[currentDifficulty].slice(0, 100);
+  
+  // Add to Efficiency leaderboard
+  leaderboards.efficiency[currentDifficulty].push(entry);
+  leaderboards.efficiency[currentDifficulty].sort((a, b) => {
+    const effA = a.clickCount ? a.threeBV / a.clickCount : 0;
+    const effB = b.clickCount ? b.threeBV / b.clickCount : 0;
+    return effB - effA;
   });
-  bestScores[currentDifficulty].sort((a, b) => a.time - b.time);
-  bestScores[currentDifficulty] = bestScores[currentDifficulty].slice(0, 100);
-  localStorage.setItem("ms_best_scores", JSON.stringify(bestScores));
+  leaderboards.efficiency[currentDifficulty] = leaderboards.efficiency[currentDifficulty].slice(0, 100);
+  
+  localStorage.setItem("ms_leaderboards", JSON.stringify(leaderboards));
   updateLeaderboard();
+}
+
+function getLeaderboardEntries() {
+  if (!leaderboards[leaderboardSortBy]?.[currentDifficulty]) return [];
+  return leaderboards[leaderboardSortBy][currentDifficulty].slice(0, 50);
 }
 
 function updateLeaderboard(){
@@ -966,25 +986,30 @@ function updateLeaderboard(){
     headerAction = '<th style="padding: 5px; text-align: center; border: 1px solid #999;">Action</th>';
   }
   
+  const getHeaderStyle = (sortBy) => {
+    return leaderboardSortBy === sortBy ? 'style="padding: 5px; text-align: left; border: 1px solid #999; cursor: pointer; background-color: #aaa; font-weight: bold;"' : 'style="padding: 5px; text-align: left; border: 1px solid #999; cursor: pointer;"';
+  };
+  
   leaderboardDiv.innerHTML = `
     <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
       <thead>
         <tr style="background-color: #ccc; border-bottom: 2px solid #999;">
           <th style="padding: 5px; text-align: left; border: 1px solid #999;">Rank</th>
-          <th style="padding: 5px; text-align: left; border: 1px solid #999;">Time (s)</th>
-          <th style="padding: 5px; text-align: left; border: 1px solid #999;">3BV</th>
-          <th style="padding: 5px; text-align: left; border: 1px solid #999;">3BV/s</th>
-          <th style="padding: 5px; text-align: left; border: 1px solid #999;">Efficiency</th>
+          <th ${getHeaderStyle('time')} onclick="changeLeaderboardSort('time')">Time (s)</th>
+          <th ${getHeaderStyle('threebv')} onclick="changeLeaderboardSort('threebv')">3BV</th>
+          <th ${getHeaderStyle('bvps')} onclick="changeLeaderboardSort('bvps')">3BV/s</th>
+          <th ${getHeaderStyle('efficiency')} onclick="changeLeaderboardSort('efficiency')">Efficiency</th>
           ${headerAction}
         </tr>
       </thead>
       <tbody>
-        ${!bestScores[currentDifficulty] ? '' : bestScores[currentDifficulty].slice(0, 50).map((e, i) => {
+        ${getLeaderboardEntries().map((e, i) => {
           let eff = e.clickCount ? ((e.threeBV / e.clickCount) * 100).toFixed(1) + "%" : "N/A";
           let actionCell = '';
           if(showDeleteButton) {
             const safeDifficulty = escapeForSingleQuotedJsString(currentDifficulty);
-            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', ${i})" style="background-color: #ff6b6b; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Delete</button></td>`;
+            const safeSortBy = escapeForSingleQuotedJsString(leaderboardSortBy);
+            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', '${safeSortBy}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 6px; cursor: pointer; font-size: 12px;">Delete</button></td>`;
           }
           return `
             <tr style="border-bottom: 1px solid #ddd; cursor: pointer;" onmouseover="this.style.backgroundColor='#eee'" onmouseout="this.style.backgroundColor=''">
@@ -1001,18 +1026,22 @@ function updateLeaderboard(){
     </table>
   `;
   
-  if(bestScores[currentDifficulty]){
-    const rows = leaderboardDiv.querySelectorAll('tbody tr');
-    bestScores[currentDifficulty].slice(0, 50).forEach((entry, index) => {
-      if(rows[index]){
-        rows[index].addEventListener('click', (event) => {
-          if(event.target.textContent !== 'Delete') {
-            replay(entry);
-          }
-        });
-      }
-    });
-  }
+  const rows = leaderboardDiv.querySelectorAll('tbody tr');
+  getLeaderboardEntries().forEach((entry, index) => {
+    if(rows[index]){
+      rows[index].addEventListener('click', (event) => {
+        if(event.target.textContent !== 'Delete') {
+          replay(entry);
+        }
+      });
+    }
+  });
+}
+
+function changeLeaderboardSort(sortBy) {
+  leaderboardSortBy = sortBy;
+  localStorage.setItem("ms_leaderboard_sort_by", sortBy);
+  updateLeaderboard();
 }
 
 function replay(entry){
@@ -1051,13 +1080,13 @@ function replay(entry){
   replayStartTime = startTime;
 
   entry.log.forEach(m => {
-  setTimeout(() => {
-    if(m.type === 'reveal'){ reveal(m.r, m.c, true); clickCount++; soundFX.reveal(); }
-    else if(m.type === 'chord'){ chord(m.r, m.c); clickCount++; }
-    else { flagged[m.r][m.c] = !flagged[m.r][m.c]; clickCount++; soundFX.flag(); }
-    draw(); updateStats();
-  }, m.time);
-});
+    setTimeout(() => {
+      if(m.type === 'reveal'){ reveal(m.r, m.c, true); clickCount++; soundFX.reveal(); }
+      else if(m.type === 'chord'){ chord(m.r, m.c); clickCount++; }
+      else { flagged[m.r][m.c] = !flagged[m.r][m.c]; clickCount++; soundFX.flag(); }
+      draw(); updateStats();
+    }, m.time);
+  });
 
   let totalTime = entry.log.length ? entry.log[entry.log.length - 1].time : 0;
   setTimeout(() => {
@@ -1084,7 +1113,6 @@ function updateStats(){
   }
 
   let eff = clickCount ? ((threeBV / clickCount) * 100).toFixed(1) + "%" : "N/A";
-
   let bvps = "N/A";
   if(Number.isFinite(elapsed) && elapsed > 0){
     bvps = (threeBV / elapsed).toFixed(2);
@@ -1136,14 +1164,9 @@ function draw(){
           let probEntry = cellProbabilities.find(p => p.r === r && p.c === c);
           if(probEntry) {
               let percent = Math.round(probEntry.probability * 100);
-              
-              if(percent < 30) {
-                  ctx.fillStyle = "#00aa00";
-              } else if(percent < 60) {
-                  ctx.fillStyle = "#ffaa00";
-              } else {
-                  ctx.fillStyle = "#dd0000";
-              }
+              if(percent < 30) ctx.fillStyle = "#00aa00";
+              else if(percent < 60) ctx.fillStyle = "#ffaa00";
+              else ctx.fillStyle = "#dd0000";
               
               ctx.font = "bold 10px Arial";
               ctx.fillText(percent + "%", x+3, y+TILE-3);
@@ -1171,6 +1194,8 @@ deleteButtonToggle.checked = showDeleteButton;
 longPressDuration = loadLongPressDuration();
 longPressDurationInput.value = longPressDuration;
 longPressDurationValue.textContent = longPressDuration + "ms";
+
+leaderboardSortBy = loadLeaderboardSortBy();
 
 const themePicker = document.getElementById("themeColor");
 
