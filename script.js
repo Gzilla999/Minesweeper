@@ -212,8 +212,6 @@ let cellProbabilities = [];
 
 hintButton.addEventListener("click", toggleHintMode);
 
-// [Hint system functions - same as before...]
-
 function calculateAllProbabilities() {
     const borderCells = [];
     const borderSet = new Map(); 
@@ -276,6 +274,7 @@ function calculateAllProbabilities() {
     const flaggedCount = flagged.reduce((s, row) => s + row.filter(Boolean).length, 0);
     const totalRemainingMines = MINES - flaggedCount;
     const totalHidden = revealed.flat().filter(v => !v).length - flaggedCount;
+    const hiddenOutsideBorder = totalHidden - borderCells.length;
 
     let results = [];
     borderCells.forEach((cell, i) => {
@@ -390,7 +389,6 @@ function updateHintUI() {
     hintButton.style.backgroundColor = "#fff700";
 }
 
-// NEW: LEADERBOARD STORAGE SYSTEM
 function loadLeaderboards(){
   try{
     // Check if old version exists first
@@ -401,8 +399,7 @@ function loadLeaderboards(){
         const migrated = { time: oldScores, threebv: {}, bvps: {}, efficiency: {} };
         localStorage.setItem("ms_leaderboards", JSON.stringify(migrated));
         localStorage.removeItem("ms_best_scores"); // Delete old version
-        localStorage.setItem("ms_leaderboards_normalized", "true");
-        return normalizeLeaderboards(migrated);
+        return populateLeaderboards(migrated);
       } catch(e) {
         console.warn("Minesweeper: failed to migrate old scores format", e);
       }
@@ -414,66 +411,37 @@ function loadLeaderboards(){
     
     const parsed = JSON.parse(raw);
     const leaderboards = (parsed && typeof parsed === 'object') ? parsed : { time: {}, threebv: {}, bvps: {}, efficiency: {} };
-    
-    // Check if normalization has been done
-    const isNormalized = localStorage.getItem("ms_leaderboards_normalized") === "true";
-    if(!isNormalized) {
-      console.log("Leaderboards not yet normalized, normalizing now...");
-      return normalizeLeaderboards(leaderboards);
-    }
-    
-    return leaderboards;
+    return populateLeaderboards(leaderboards);
   }catch(e){
     console.warn("Minesweeper: failed to load leaderboards from localStorage", e);
     return { time: {}, threebv: {}, bvps: {}, efficiency: {} };
   }
 }
 
-function normalizeLeaderboards(leaderboards) {
-  // Find which leaderboard has the most entries
-  let maxEntries = 0;
-  let sourceLeaderboard = null;
-  
-  for(let stat in leaderboards) {
-    let totalEntries = 0;
-    for(let difficulty in leaderboards[stat]) {
-      const entries = leaderboards[stat][difficulty];
-      if(Array.isArray(entries)) {
-        totalEntries += entries.length;
+function populateLeaderboards(leaderboards) {
+  // For each difficulty, check if time has more entries than others
+  for(let difficulty in leaderboards.time) {
+    const timeEntries = leaderboards.time[difficulty];
+    if(Array.isArray(timeEntries) && timeEntries.length > 0) {
+      // If other stats are empty or have fewer entries, populate from time
+      if(!Array.isArray(leaderboards.threebv[difficulty]) || leaderboards.threebv[difficulty].length === 0) {
+        leaderboards.threebv[difficulty] = sortEntriesByType([...timeEntries], "threebv");
       }
-    }
-    if(totalEntries > maxEntries) {
-      maxEntries = totalEntries;
-      sourceLeaderboard = stat;
+      if(!Array.isArray(leaderboards.bvps[difficulty]) || leaderboards.bvps[difficulty].length === 0) {
+        leaderboards.bvps[difficulty] = sortEntriesByType([...timeEntries], "bvps");
+      }
+      if(!Array.isArray(leaderboards.efficiency[difficulty]) || leaderboards.efficiency[difficulty].length === 0) {
+        leaderboards.efficiency[difficulty] = sortEntriesByType([...timeEntries], "efficiency");
+      }
     }
   }
   
-  // If a source leaderboard has entries, copy to others
-  if(sourceLeaderboard && maxEntries > 0) {
-    for(let stat in leaderboards) {
-      if(stat === sourceLeaderboard) continue;
-      
-      for(let difficulty in leaderboards[sourceLeaderboard]) {
-        const entries = leaderboards[sourceLeaderboard][difficulty];
-        if(Array.isArray(entries) && entries.length > 0) {
-          // Only populate if this stat's difficulty is empty
-          if(!leaderboards[stat][difficulty] || !Array.isArray(leaderboards[stat][difficulty]) || leaderboards[stat][difficulty].length === 0) {
-            leaderboards[stat][difficulty] = sortEntriesByType(entries, stat);
-            console.log(`Populated ${stat} - ${difficulty} with ${leaderboards[stat][difficulty].length} entries from ${sourceLeaderboard}`);
-          }
-        }
-      }
-    }
-    
-    // Save the normalized leaderboards
-    localStorage.setItem("ms_leaderboards", JSON.stringify(leaderboards));
-  }
-  
+  localStorage.setItem("ms_leaderboards", JSON.stringify(leaderboards));
   return leaderboards;
 }
 
 function sortEntriesByType(entries, statType) {
-  const copy = JSON.parse(JSON.stringify(entries)); // Deep copy to avoid mutation
+  const copy = [...entries];
   
   switch(statType) {
     case "threebv":
@@ -1042,22 +1010,22 @@ function saveHighScore(){
   if(!leaderboards.bvps[currentDifficulty]) leaderboards.bvps[currentDifficulty] = [];
   if(!leaderboards.efficiency[currentDifficulty]) leaderboards.efficiency[currentDifficulty] = [];
   
-  // Add to Time leaderboard
+  // Add to Time leaderboard if it qualifies (top 100)
   leaderboards.time[currentDifficulty].push(entry);
   leaderboards.time[currentDifficulty].sort((a, b) => a.time - b.time);
   leaderboards.time[currentDifficulty] = leaderboards.time[currentDifficulty].slice(0, 100);
   
-  // Add to 3BV leaderboard
+  // Add to 3BV leaderboard if it qualifies (top 100)
   leaderboards.threebv[currentDifficulty].push(entry);
   leaderboards.threebv[currentDifficulty].sort((a, b) => b.threeBV - a.threeBV);
   leaderboards.threebv[currentDifficulty] = leaderboards.threebv[currentDifficulty].slice(0, 100);
   
-  // Add to 3BV/s leaderboard
+  // Add to 3BV/s leaderboard if it qualifies (top 100)
   leaderboards.bvps[currentDifficulty].push(entry);
   leaderboards.bvps[currentDifficulty].sort((a, b) => (b.threeBV / b.time) - (a.threeBV / a.time));
   leaderboards.bvps[currentDifficulty] = leaderboards.bvps[currentDifficulty].slice(0, 100);
   
-  // Add to Efficiency leaderboard
+  // Add to Efficiency leaderboard if it qualifies (top 100)
   leaderboards.efficiency[currentDifficulty].push(entry);
   leaderboards.efficiency[currentDifficulty].sort((a, b) => {
     const effA = a.clickCount ? a.threeBV / a.clickCount : 0;
