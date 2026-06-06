@@ -428,7 +428,10 @@ function normalizeLeaderboards(leaderboards) {
   for(let stat in leaderboards) {
     let totalEntries = 0;
     for(let difficulty in leaderboards[stat]) {
-      totalEntries += leaderboards[stat][difficulty].length || 0;
+      const entries = leaderboards[stat][difficulty];
+      if(Array.isArray(entries)) {
+        totalEntries += entries.length;
+      }
     }
     if(totalEntries > maxEntries) {
       maxEntries = totalEntries;
@@ -443,10 +446,11 @@ function normalizeLeaderboards(leaderboards) {
       
       for(let difficulty in leaderboards[sourceLeaderboard]) {
         const entries = leaderboards[sourceLeaderboard][difficulty];
-        if(!leaderboards[stat][difficulty] || leaderboards[stat][difficulty].length === 0) {
-          if(entries && entries.length > 0) {
-            // Copy and sort entries based on stat type
+        if(Array.isArray(entries) && entries.length > 0) {
+          // Only populate if this stat's difficulty is empty
+          if(!leaderboards[stat][difficulty] || !Array.isArray(leaderboards[stat][difficulty]) || leaderboards[stat][difficulty].length === 0) {
             leaderboards[stat][difficulty] = sortEntriesByType(entries, stat);
+            console.log(`Populated ${stat} - ${difficulty} with ${leaderboards[stat][difficulty].length} entries from ${sourceLeaderboard}`);
           }
         }
       }
@@ -460,7 +464,7 @@ function normalizeLeaderboards(leaderboards) {
 }
 
 function sortEntriesByType(entries, statType) {
-  const copy = [...entries];
+  const copy = JSON.parse(JSON.stringify(entries)); // Deep copy to avoid mutation
   
   switch(statType) {
     case "threebv":
