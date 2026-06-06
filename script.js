@@ -401,7 +401,7 @@ function loadLeaderboards(){
         const migrated = { time: oldScores, threebv: {}, bvps: {}, efficiency: {} };
         localStorage.setItem("ms_leaderboards", JSON.stringify(migrated));
         localStorage.removeItem("ms_best_scores"); // Delete old version
-        return migrated;
+        return normalizeLeaderboards(migrated);
       } catch(e) {
         console.warn("Minesweeper: failed to migrate old scores format", e);
       }
@@ -412,11 +412,77 @@ function loadLeaderboards(){
     if(!raw) return { time: {}, threebv: {}, bvps: {}, efficiency: {} };
     
     const parsed = JSON.parse(raw);
-    return (parsed && typeof parsed === 'object') ? parsed : { time: {}, threebv: {}, bvps: {}, efficiency: {} };
+    const leaderboards = (parsed && typeof parsed === 'object') ? parsed : { time: {}, threebv: {}, bvps: {}, efficiency: {} };
+    return normalizeLeaderboards(leaderboards);
   }catch(e){
     console.warn("Minesweeper: failed to load leaderboards from localStorage", e);
     return { time: {}, threebv: {}, bvps: {}, efficiency: {} };
   }
+}
+
+function normalizeLeaderboards(leaderboards) {
+  // Find which leaderboard has the most entries
+  let maxEntries = 0;
+  let sourceLeaderboard = null;
+  
+  for(let stat in leaderboards) {
+    let totalEntries = 0;
+    for(let difficulty in leaderboards[stat]) {
+      totalEntries += leaderboards[stat][difficulty].length || 0;
+    }
+    if(totalEntries > maxEntries) {
+      maxEntries = totalEntries;
+      sourceLeaderboard = stat;
+    }
+  }
+  
+  // If a source leaderboard has entries, copy to others
+  if(sourceLeaderboard && maxEntries > 0) {
+    for(let stat in leaderboards) {
+      if(stat === sourceLeaderboard) continue;
+      
+      for(let difficulty in leaderboards[sourceLeaderboard]) {
+        const entries = leaderboards[sourceLeaderboard][difficulty];
+        if(!leaderboards[stat][difficulty] || leaderboards[stat][difficulty].length === 0) {
+          if(entries && entries.length > 0) {
+            // Copy and sort entries based on stat type
+            leaderboards[stat][difficulty] = sortEntriesByType(entries, stat);
+          }
+        }
+      }
+    }
+    
+    // Save the normalized leaderboards
+    localStorage.setItem("ms_leaderboards", JSON.stringify(leaderboards));
+  }
+  
+  return leaderboards;
+}
+
+function sortEntriesByType(entries, statType) {
+  const copy = [...entries];
+  
+  switch(statType) {
+    case "threebv":
+      copy.sort((a, b) => b.threeBV - a.threeBV);
+      break;
+    case "bvps":
+      copy.sort((a, b) => (b.threeBV / b.time) - (a.threeBV / a.time));
+      break;
+    case "efficiency":
+      copy.sort((a, b) => {
+        const effA = a.clickCount ? a.threeBV / a.clickCount : 0;
+        const effB = b.clickCount ? b.threeBV / b.clickCount : 0;
+        return effB - effA;
+      });
+      break;
+    case "time":
+    default:
+      copy.sort((a, b) => a.time - b.time);
+      break;
+  }
+  
+  return copy.slice(0, 100);
 }
 
 let leaderboards = loadLeaderboards();
