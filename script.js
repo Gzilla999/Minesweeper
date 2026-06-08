@@ -424,13 +424,13 @@ function populateLeaderboards(leaderboards) {
     const timeEntries = leaderboards.time[difficulty];
     if(Array.isArray(timeEntries) && timeEntries.length > 0) {
       // If other stats are empty or have fewer entries, populate from time
-      if(!Array.isArray(leaderboards.threebv[difficulty]) || leaderboards.threebv[difficulty].length === 0) {
+      if(!Array.isArray(leaderboards.threebv[difficulty]) || leaderboards.threebv[difficulty].length === 0 || leaderboards.threebv[difficulty].length < timeEntries.length) {
         leaderboards.threebv[difficulty] = sortEntriesByType([...timeEntries], "threebv");
       }
-      if(!Array.isArray(leaderboards.bvps[difficulty]) || leaderboards.bvps[difficulty].length === 0) {
+      if(!Array.isArray(leaderboards.bvps[difficulty]) || leaderboards.bvps[difficulty].length === 0 || leaderboards.bvps[difficulty].length < timeEntries.length) {
         leaderboards.bvps[difficulty] = sortEntriesByType([...timeEntries], "bvps");
       }
-      if(!Array.isArray(leaderboards.efficiency[difficulty]) || leaderboards.efficiency[difficulty].length === 0) {
+      if(!Array.isArray(leaderboards.efficiency[difficulty]) || leaderboards.efficiency[difficulty].length === 0 || leaderboards.efficiency[difficulty].length < timeEntries.length) {
         leaderboards.efficiency[difficulty] = sortEntriesByType([...timeEntries], "efficiency");
       }
     }
