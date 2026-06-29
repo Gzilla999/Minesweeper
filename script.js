@@ -56,7 +56,7 @@ class SoundEffects {
     }
   }
 
-  playSound(frequency, duration, type = "sine", volume = 0.3) {
+  playSound(frequency, duration, type = "sine", volume = 0.7) {
     if (!this.soundEnabled || !this.initialized || !this.audioContext) return;
     
     try {
@@ -75,7 +75,7 @@ class SoundEffects {
     }
   }
 
-  _playOscillator(frequency, duration, type = "sine", volume = 0.3) {
+  _playOscillator(frequency, duration, type = "sine", volume = 0.7) {
     try {
       const osc = this.audioContext.createOscillator();
       const gain = this.audioContext.createGain();
@@ -92,22 +92,22 @@ class SoundEffects {
     }
   }
 
-  click() { this.playSound(400, 0.08, "sine", 0.25); }
-  flag() { this.playSound(600, 0.12, "sine", 0.3); }
-  reveal() { this.playSound(500, 0.1, "sine", 0.25); }
+  click() { this.playSound(400, 0.08, "sine", 0.5); }
+  flag() { this.playSound(600, 0.12, "sine", 0.6); }
+  reveal() { this.playSound(500, 0.1, "sine", 0.5); }
   mine() {
-    this.playSound(200, 0.15, "sine", 0.3);
-    setTimeout(() => this.playSound(150, 0.15, "sine", 0.3), 100);
+    this.playSound(200, 0.15, "sine", 0.6);
+    setTimeout(() => this.playSound(150, 0.15, "sine", 0.6), 100);
   }
   win() {
-    this.playSound(400, 0.15, "sine", 0.3);
-    setTimeout(() => this.playSound(600, 0.15, "sine", 0.3), 150);
-    setTimeout(() => this.playSound(800, 0.3, "sine", 0.3), 300);
+    this.playSound(400, 0.15, "sine", 0.6);
+    setTimeout(() => this.playSound(600, 0.15, "sine", 0.6), 150);
+    setTimeout(() => this.playSound(800, 0.3, "sine", 0.6), 300);
   }
   lose() {
-    this.playSound(600, 0.15, "sine", 0.3);
-    setTimeout(() => this.playSound(400, 0.15, "sine", 0.3), 150);
-    setTimeout(() => this.playSound(200, 0.3, "sine", 0.3), 300);
+    this.playSound(600, 0.15, "sine", 0.6);
+    setTimeout(() => this.playSound(400, 0.15, "sine", 0.6), 150);
+    setTimeout(() => this.playSound(200, 0.3, "sine", 0.6), 300);
   }
 
   toggle() {
