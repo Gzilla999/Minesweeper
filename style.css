@@ -111,6 +111,10 @@ button {
     margin-bottom: 6px;
 }
 
+#customDifficultyBtn {
+    margin-left: 10px;
+}
+
 .leaderboard-entry {
     cursor: pointer;
     font-size: 13px;
@@ -153,7 +157,7 @@ footer {
     border: 2px solid #0078d7;
     padding: 10px;
     margin: 15px;
-    background-color: #c0c0c0; /* Light gray matching the Windows 95 theme */
+    background-color: #c0c0c0;
 }
 
 #hintButton {
@@ -277,6 +281,42 @@ footer {
     background-color: #7cdc7c;
 }
 
+/* Custom Difficulty Modal Styles */
+.custom-difficulty-form {
+    text-align: left;
+    margin: 15px 0;
+}
+
+.custom-difficulty-form label {
+    display: block;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.custom-difficulty-form input[type="number"] {
+    margin-left: 10px;
+    padding: 5px;
+    width: 80px;
+    font-size: 14px;
+    border: 1px solid var(--ui-border);
+}
+
+#customDifficultyError {
+    color: #cc0000;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+#customDifficultyInfo {
+    color: #0066cc;
+    margin: 10px 0;
+    font-size: 13px;
+    background: #ffffcc;
+    padding: 8px;
+    border: 1px solid #cccc00;
+    border-radius: 3px;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     body {
@@ -338,6 +378,11 @@ footer {
     .modal-buttons {
         flex-direction: column;
         gap: 8px;
+    }
+
+    #customDifficultyBtn {
+        margin-left: 5px;
+        padding: 6px 10px;
     }
 }
 
@@ -402,6 +447,12 @@ footer {
     
     .leaderboard-entry {
         font-size: 10px;
+    }
+
+    #customDifficultyBtn {
+        display: block;
+        width: 100%;
+        margin-top: 5px;
     }
 }
 
