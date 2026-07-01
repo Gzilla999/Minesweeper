@@ -169,9 +169,107 @@ let difficulties = {
 /* --- DOM ELEMENTS & STATE VARIABLES --- */
 let currentDifficulty = "easy";
 const difficultySelect = document.getElementById("difficulty");
+const customDifficultyBtn = document.getElementById("customDifficultyBtn");
+const customModal = document.getElementById("customDifficultyModal");
+const closeDifficultyBtn = document.getElementById("closeDifficultyBtn");
+const applyDifficultyBtn = document.getElementById("applyDifficultyBtn");
+const customRowsInput = document.getElementById("customRows");
+const customColsInput = document.getElementById("customCols");
+const customMinesInput = document.getElementById("customMines");
+const customErrorDiv = document.getElementById("customDifficultyError");
+const customInfoDiv = document.getElementById("customDifficultyInfo");
+
+let customDifficultySettings = null;
+
+function generateCustomDifficultyKey(rows, cols, mines) {
+  return `${rows}x${cols}_${mines}`;
+}
+
+function validateCustomDifficulty(rows, cols, mines) {
+  const totalCells = rows * cols;
+  const errors = [];
+  
+  if (rows < 2 || rows > 100) errors.push("Rows must be between 2 and 100");
+  if (cols < 2 || cols > 100) errors.push("Columns must be between 2 and 100");
+  if (mines < 1) errors.push("Must have at least 1 mine");
+  if (mines > totalCells - 2) errors.push("Too many mines for board size");
+  
+  return { valid: errors.length === 0, errors };
+}
+
+function updateCustomDifficultyInfo() {
+  const rows = parseInt(customRowsInput.value) || 9;
+  const cols = parseInt(customColsInput.value) || 9;
+  const mines = parseInt(customMinesInput.value) || 10;
+  
+  const totalCells = rows * cols;
+  const mineRatio = ((mines / totalCells) * 100).toFixed(1);
+  
+  const validation = validateCustomDifficulty(rows, cols, mines);
+  
+  if (validation.valid) {
+    customErrorDiv.textContent = "";
+    customInfoDiv.textContent = `Board: ${rows}×${cols} (${totalCells} cells) | Mines: ${mines} | Density: ${mineRatio}%`;
+  } else {
+    customErrorDiv.textContent = validation.errors.join(", ");
+    customInfoDiv.textContent = "";
+  }
+}
+
+function setCustomDifficulty(rows, cols, mines) {
+  customRowsInput.value = rows;
+  customColsInput.value = cols;
+  customMinesInput.value = mines;
+  updateCustomDifficultyInfo();
+}
+
+function openCustomDifficultyModal() {
+  customModal.classList.add("active");
+  updateCustomDifficultyInfo();
+}
+
+function closeCustomDifficultyModal() {
+  customModal.classList.remove("active");
+}
+
+function applyCustomDifficulty() {
+  const rows = parseInt(customRowsInput.value);
+  const cols = parseInt(customColsInput.value);
+  const mines = parseInt(customMinesInput.value);
+  
+  const validation = validateCustomDifficulty(rows, cols, mines);
+  if (!validation.valid) {
+    customErrorDiv.textContent = validation.errors.join(", ");
+    return;
+  }
+  
+  customDifficultySettings = { rows, cols, mines };
+  currentDifficulty = generateCustomDifficultyKey(rows, cols, mines);
+  difficultySelect.value = "custom";
+  closeCustomDifficultyModal();
+  setDifficulty();
+}
+
+customDifficultyBtn.addEventListener("click", openCustomDifficultyModal);
+closeDifficultyBtn.addEventListener("click", closeCustomDifficultyModal);
+applyDifficultyBtn.addEventListener("click", applyCustomDifficulty);
+
+customRowsInput.addEventListener("input", updateCustomDifficultyInfo);
+customColsInput.addEventListener("input", updateCustomDifficultyInfo);
+customMinesInput.addEventListener("input", updateCustomDifficultyInfo);
+
+window.addEventListener("click", (e) => {
+  if (e.target === customModal) {
+    closeCustomDifficultyModal();
+  }
+});
 
 difficultySelect.addEventListener("change",()=> { 
-    currentDifficulty=difficultySelect.value; 
+    const selectedValue = difficultySelect.value;
+    if (selectedValue !== "custom") {
+      currentDifficulty = selectedValue;
+      customDifficultySettings = null;
+    }
     setDifficulty(); 
 });
 
@@ -557,7 +655,19 @@ if (volumeSlider) {
 /* --- INITIALIZATION --- */
 
 function setDifficulty(){
-  let d = difficulties[currentDifficulty];
+  let d;
+  if (currentDifficulty.startsWith("custom") || currentDifficulty.includes("x")) {
+    if (customDifficultySettings) {
+      d = customDifficultySettings;
+    } else {
+      // Fallback to easy if custom settings not available
+      d = difficulties.easy;
+      currentDifficulty = "easy";
+    }
+  } else {
+    d = difficulties[currentDifficulty] || difficulties.easy;
+  }
+  
   ROWS = d.rows; COLS = d.cols; MINES = d.mines;
   
   let screenWidth = window.innerWidth - 40;
@@ -1073,7 +1183,7 @@ function updateLeaderboard(){
           if(showDeleteButton) {
             const safeDifficulty = escapeForSingleQuotedJsString(currentDifficulty);
             const safeSortBy = escapeForSingleQuotedJsString(leaderboardSortBy);
-            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', '${safeSortBy}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; padding: 2px 6px; cursor: pointer; font-size: 12px;">Delete</button></td>`;
+            actionCell = `<td style="padding: 5px; border: 1px solid #ddd; text-align: center;"><button onclick="showDeleteConfirmation('${safeDifficulty}', '${safeSortBy}', ${i})" style="background-color: #ff6b6b; color: white; border: 1px solid #cc0000; cursor: pointer; padding: 3px 8px; font-size: 12px;">Delete</button></td>`;
           }
           return `
             <tr style="border-bottom: 1px solid #ddd; cursor: pointer;" onmouseover="this.style.backgroundColor='#eee'" onmouseout="this.style.backgroundColor=''">
@@ -1205,7 +1315,7 @@ function draw(){
     if(revealed[r][c]){
       ctx.fillStyle="#ddd"; ctx.fillRect(x,y,TILE,TILE); ctx.strokeRect(x,y,TILE,TILE);
       if(grid[r][c]>0){
-        ctx.fillStyle=["","blue","green","red","purple","orange","turquoise","black","gray"][grid[r][c]];
+        ctx.fillStyle=[":","blue","green","red","purple","orange","turquoise","black","gray"][grid[r][c]];
         ctx.font="bold 18px Arial";
         ctx.fillText(grid[r][c],x+TILE/2-4,y+TILE/2+6);
       }
