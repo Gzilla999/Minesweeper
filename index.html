@@ -19,6 +19,7 @@
             <option value="intermediate">Intermediate</option>
             <option value="hard">Hard</option>
         </select>
+        <button id="customDifficultyBtn">⚙️ Custom</button>
     </div>
 
     <div id="wrapper">
@@ -56,6 +57,33 @@
             <input type="range" id="volumeSlider" min="0" max="100" value="100">
             <span id="volumeValue">100%</span>
         </label><br>
+    </div>
+
+    <!-- Custom Difficulty Modal -->
+    <div id="customDifficultyModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Custom Difficulty</h2>
+            <div class="custom-difficulty-form">
+                <label>
+                    Rows:
+                    <input type="number" id="customRows" min="2" max="100" value="9">
+                </label>
+                <label>
+                    Columns:
+                    <input type="number" id="customCols" min="2" max="100" value="9">
+                </label>
+                <label>
+                    Mines:
+                    <input type="number" id="customMines" min="1" max="10000" value="10">
+                </label>
+                <div id="customDifficultyError" style="color: #cc0000; margin: 10px 0;"></div>
+                <div id="customDifficultyInfo" style="color: #0066cc; margin: 10px 0; font-size: 13px;"></div>
+                <div class="modal-buttons">
+                    <button class="cancel-btn" id="closeDifficultyBtn">Cancel</button>
+                    <button class="confirm-btn" id="applyDifficultyBtn">Play</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
